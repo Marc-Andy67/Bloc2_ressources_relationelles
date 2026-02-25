@@ -23,6 +23,12 @@ jobs:
       - name: Check for security vulnerabilities
         run: composer audit
 
+      - name: Create database
+        run: php bin/console doctrine:database:create --env=test --if-not-exists
+
+      - name: Run migrations
+        run: php bin/console doctrine:migrations:migrate --no-interaction --env=test
+  
       - name: PHPStan Static Analysis
         run: vendor/bin/phpstan analyse --no-progress --memory-limit=256M
         continue-on-error: true
