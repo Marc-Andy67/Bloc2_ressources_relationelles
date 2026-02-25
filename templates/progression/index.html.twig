@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Progression index{% endblock %}
+
+{% block body %}
+    <h1>Progression index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for progression in progressions %}
+            <tr>
+                <td>{{ progression.id }}</td>
+                <td>{{ progression.description }}</td>
+                <td>{{ progression.date ? progression.date|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_progression_show', {'id': progression.id}) }}">show</a>
+                    <a href="{{ path('app_progression_edit', {'id': progression.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_progression_new') }}">Create new</a>
+{% endblock %}

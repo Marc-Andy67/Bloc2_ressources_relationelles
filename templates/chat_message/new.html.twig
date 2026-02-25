@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ChatMessage{% endblock %}
+
+{% block body %}
+    <h1>Create new ChatMessage</h1>
+
+    {{ include('chat_message/_form.html.twig') }}
+
+    <a href="{{ path('app_chat_message_index') }}">back to list</a>
+{% endblock %}

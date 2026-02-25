@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\ChatRoom;
+use App\Entity\Ressource;
+use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class ChatRoomType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('name')
+            ->add('Ressource', EntityType::class, [
+                'class' => Ressource::class,
+                'choice_label' => 'id',
+            ])
+            ->add('members', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'id',
+                'multiple' => true,
+            ])
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => ChatRoom::class,
+        ]);
+    }
+}
