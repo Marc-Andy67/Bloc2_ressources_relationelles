@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}(RE)Sources Relationnelles{% endblock %}
+
+{% block body %}
+<div style="font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 40px 20px;">
+    
+    <h1 style="color: #2c3e50; text-align: center;">(RE)Sources Relationnelles</h1>
+    <p style="text-align: center; color: #7f8c8d; font-size: 18px;">
+        Plateforme de ressources pour améliorer la qualité de vos relations
+    </p>
+
+    <hr style="margin: 30px 0;">
+
+    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+        
+        <div style="background: #ecf0f1; padding: 30px; border-radius: 10px; width: 250px; text-align: center;">
+            <h3>📚 Ressources</h3>
+            <p>Accédez à des ressources sur les relations humaines</p>
+            <a href="{{ path('app_ressource_index') }}" style="background: #3498db; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Découvrir</a>
+        </div>
+
+        <div style="background: #ecf0f1; padding: 30px; border-radius: 10px; width: 250px; text-align: center;">
+            <h3>👤 Mon compte</h3>
+            {% if app.user %}
+                <p>Bienvenue, {{ app.user.email }}</p>
+                <a href="{{ path('app_logout') }}" style="background: #e74c3c; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Déconnexion</a>
+            {% else %}
+                <p>Connectez-vous pour accéder à toutes les fonctionnalités</p>
+                <a href="{{ path('app_login') }}" style="background: #2ecc71; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Se connecter</a>
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
