@@ -39,12 +39,12 @@ jobs:
       - name: Create database
         run: php bin/console doctrine:database:create --env=test --if-not-exists
         env:
-          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/symfony_test"
+          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/symfony"
 
       - name: Run migrations
         run: php bin/console doctrine:migrations:migrate --no-interaction --env=test
         env:
-          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/symfony_test"
+          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/symfony"
 
       - name: PHPStan Static Analysis
         run: vendor/bin/phpstan analyse --no-progress --memory-limit=256M
@@ -53,4 +53,4 @@ jobs:
       - name: Run tests
         run: php bin/phpunit
         env:
-          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/symfony_test"
+          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/symfony"
