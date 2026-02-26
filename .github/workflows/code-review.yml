@@ -1,17 +1,14 @@
 name: AI Code Review
-
 on:
 #  push:
   pull_request:
     types: [opened, synchronize]
-
 jobs:
   ai-review:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
       contents: read
-
     steps:
       - uses: actions/checkout@v4
         with:
@@ -29,30 +26,46 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           DIFF=$(cat pr_diff.txt | head -c 8000)
-          
+
+          # Construire le JSON proprement avec jq pour éviter les problèmes
+          # d'échappement liés aux guillemets, apostrophes, backslashes, etc.
+          PAYLOAD=$(jq -n \
+            --arg diff "$DIFF" \
+            '{
+              model: "claude-opus-4-6",
+              max_tokens: 1024,
+              messages: [{
+                role: "user",
+                content: ("Tu es un expert Symfony/PHP. Fais une revue de code concise de ce diff GitHub. Identifie : bugs potentiels, mauvaises pratiques, améliorations de sécurité, suggestions de performance. Sois direct et constructif. Réponds en français.\n\nDiff:\n" + $diff)
+              }]
+            }')
+
           RESPONSE=$(curl -s https://api.anthropic.com/v1/messages \
             -H "x-api-key: $ANTHROPIC_API_KEY" \
             -H "anthropic-version: 2023-06-01" \
             -H "content-type: application/json" \
-            -d "{
-              \"model\": \"claude-opus-4-6\",
-              \"max_tokens\": 1024,
-              \"messages\": [{
-                \"role\": \"user\",
-                \"content\": \"Tu es un expert Symfony/PHP. Fais une revue de code concise de ce diff GitHub. Identifie : bugs potentiels, mauvaises pratiques, améliorations de sécurité, suggestions de performance. Sois direct et constructif. Réponds en français.\n\nDiff:\n$DIFF\"
-              }]
-            }")
-          
-          COMMENT=$(echo $RESPONSE | python3 -c "
+            -d "$PAYLOAD")
+
+          echo "API Response: $RESPONSE"
+
+          # Vérifier si l'API a retourné une erreur
+          if echo "$RESPONSE" | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if 'content' in d else 1)"; then
+            COMMENT=$(echo "$RESPONSE" | python3 -c "
           import sys, json
           data = json.load(sys.stdin)
           print(data['content'][0]['text'])
           ")
-          
+          else
+            ERROR=$(echo "$RESPONSE" | python3 -c "
+          import sys, json
+          data = json.load(sys.stdin)
+          print(data.get('error', {}).get('message', 'Erreur inconnue'))
+          ")
+            COMMENT="❌ Erreur lors de l'appel à l'API Claude : $ERROR"
+          fi
+
           gh pr comment ${{ github.event.pull_request.number }} \
             --body "## 🤖 Revue de code par Claude AI
-
           $COMMENT
-
           ---
           *Revue automatique générée par Claude (Anthropic)*"
