@@ -1,7 +1,12 @@
 name: CI Symfony
+
 on:
   push:
   pull_request:
+
+env:
+  DATABASE_URL: "mysql://root:root@127.0.0.1:3306/symfony_test"
+  APP_ENV: test
 
 jobs:
   symfony-tests:
@@ -11,8 +16,8 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-         MYSQL_ROOT_PASSWORD: root
-         MYSQL_DATABASE: symfony_test  # sera ignoré, Symfony créera symfony_test_test
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: symfony_test
         ports:
           - 3306:3306
         options: >-
@@ -29,28 +34,40 @@ jobs:
         with:
           php-version: '8.4'
           extensions: pdo, pdo_mysql, intl
+          coverage: xdebug  # nécessaire si tu veux la couverture de code
+
+      # Cache Composer pour accélérer les prochains builds
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
+        run: composer install --prefer-dist --no-progress --no-scripts
 
       - name: Check for security vulnerabilities
         run: composer audit
 
-      - name: Create database
-        run: php bin/console doctrine:database:create --env=test --if-not-exists
-        env:
-          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/symfony"
+      # Linting Symfony — détecte les erreurs de config/twig/yaml sans lancer les tests
+      - name: Lint YAML files
+        run: php bin/console lint:yaml config --parse-tags
 
-      - name: Run migrations
-        run: php bin/console doctrine:migrations:migrate --no-interaction --env=test
-        env:
-          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/symfony"
+      - name: Lint Twig templates
+        run: php bin/console lint:twig templates
+
+      - name: Lint DI Container
+        run: php bin/console lint:container
 
       - name: PHPStan Static Analysis
         run: vendor/bin/phpstan analyse --no-progress --memory-limit=256M
-        continue-on-error: true
+        # retire le continue-on-error si tu veux que ça bloque vraiment le pipeline
 
-#      - name: Run tests
-#        run: php bin/phpunit
-#        env:
-#          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/symfony"
+      - name: Create database & run migrations
+        run: |
+          php bin/console doctrine:database:create --if-not-exists
+          php bin/console doctrine:migrations:migrate --no-interaction
+
+      - name: Run tests
+        run: php bin/phpunit --coverage-text
