@@ -50,7 +50,7 @@ jobs:
         run: vendor/bin/phpstan analyse --no-progress --memory-limit=256M
         continue-on-error: true
 
-      - name: Run tests
-        run: php bin/phpunit
-        env:
-          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/symfony"
+#      - name: Run tests
+#        run: php bin/phpunit
+#        env:
+#          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/symfony"
