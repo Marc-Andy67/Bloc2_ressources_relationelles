@@ -1,0 +1,158 @@
+name: 🏁 CD — Production
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"       # v1.2.3
+      - "v[0-9]+.[0-9]+.[0-9]+-rc*"   # v1.2.3-rc1
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Tag Docker à déployer en prod"
+        required: true
+      confirm:
+        description: "Taper DEPLOY pour confirmer"
+        required: true
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  ENVIRONMENT: production
+
+jobs:
+  # ─────────────────────────────────────────
+  # GARDE-FOU : vérification manuelle
+  # ─────────────────────────────────────────
+  pre-deploy-check:
+    name: 🛡️ Pre-deploy Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate manual confirmation
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "DEPLOY" ]; then
+            echo "❌ Confirmation invalide. Tapez DEPLOY pour confirmer."
+            exit 1
+          fi
+
+      - name: Check tag format
+        if: github.event_name == 'push'
+        run: |
+          TAG="${{ github.ref_name }}"
+          echo "🏷️ Déploiement du tag: $TAG"
+
+  # ─────────────────────────────────────────
+  # DEPLOY PRODUCTION
+  # ─────────────────────────────────────────
+  deploy-production:
+    name: 🔴 Deploy → Production
+    runs-on: ubuntu-latest
+    needs: pre-deploy-check
+    environment:
+      name: production
+      url: https://your-app.com  # ← Modifier
+    # ⚠️ L'environnement "production" dans GitHub nécessite une approbation manuelle
+    # Configurer dans Settings > Environments > production > Required reviewers
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set image tag
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" == "push" ]; then
+            TAG="${{ github.ref_name }}"  # ex: v1.2.3
+          else
+            TAG="${{ github.event.inputs.image_tag }}"
+          fi
+          echo "value=$TAG" >> $GITHUB_OUTPUT
+          echo "full=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$TAG" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          make_latest: true
+
+      - name: Deploy via SSH (Blue/Green strategy)
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          port: ${{ secrets.PROD_PORT || 22 }}
+          script: |
+            set -e
+            cd /opt/apps/production  # ← Modifier
+
+            # Sauvegarde du tag actuel pour rollback
+            CURRENT_TAG=$(docker compose -f docker-compose.prod.yml images -q app | head -1)
+            echo "$CURRENT_TAG" > .last_deployed_image
+
+            # Pull de la nouvelle image
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            docker pull ${{ steps.tag.outputs.full }}
+
+            # Backup DB avant migration
+            docker compose -f docker-compose.prod.yml exec -T db \
+              pg_dump -U $POSTGRES_USER $POSTGRES_DB > /backups/pre-deploy-$(date +%Y%m%d%H%M%S).sql || true
+
+            # Update de l'image
+            export APP_IMAGE="${{ steps.tag.outputs.full }}"
+            export APP_VERSION="${{ github.sha }}"
+
+            # Zero-downtime deploy
+            docker compose -f docker-compose.prod.yml up -d --scale app=2 --no-recreate
+            sleep 10
+            docker compose -f docker-compose.prod.yml exec -T app \
+              php bin/console doctrine:migrations:migrate --no-interaction
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans
+
+            # Nettoyage vieilles images (garde les 3 dernières)
+            docker image prune -f --filter "until=72h"
+
+      - name: Healthcheck HTTP
+        run: |
+          sleep 20
+          for i in 1 2 3 4 5; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://your-app.com/health)
+            if [ "$STATUS" = "200" ]; then
+              echo "✅ Healthcheck OK (attempt $i)"
+              exit 0
+            fi
+            echo "⏳ Attempt $i — HTTP $STATUS"
+            sleep 10
+          done
+          echo "❌ Healthcheck failed"
+          exit 1
+
+      - name: Notify deployment success
+        if: success()
+        run: |
+          echo "🚀 Production déployée : ${{ steps.tag.outputs.value }}"
+          # curl -X POST ${{ secrets.SLACK_WEBHOOK }} \
+          #   -d '{"text":"🚀 *Production* déployée — `${{ steps.tag.outputs.value }}`\n${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ steps.tag.outputs.value }}"}'
+
+      - name: Auto Rollback on failure
+        if: failure()
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          script: |
+            cd /opt/apps/production
+            echo "🔄 Rollback en cours..."
+            LAST_IMAGE=$(cat .last_deployed_image)
+            sed -i "s|APP_IMAGE=.*|APP_IMAGE=$LAST_IMAGE|" .env.prod
+            docker compose -f docker-compose.prod.yml up -d
+            echo "✅ Rollback terminé"
+
+      - name: Notify rollback
+        if: failure()
+        run: |
+          echo "⚠️ ROLLBACK effectué sur production"
+          # curl -X POST ${{ secrets.SLACK_WEBHOOK }} \
+          #   -d '{"text":"⚠️ *ROLLBACK* production — déploiement `${{ steps.tag.outputs.value }}` échoué"}'

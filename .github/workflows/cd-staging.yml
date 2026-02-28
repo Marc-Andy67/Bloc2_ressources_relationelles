@@ -1,0 +1,96 @@
+name: 🚀 CD — Staging
+
+on:
+  push:
+    branches: [ "develop" ]
+  workflow_dispatch:
+ #   inputs:
+ #     image_tag:
+ #       description: "Tag Docker à déployer (ex: sha-abc1234)"
+ #       required: false
+ #       default: ""
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  ENVIRONMENT: staging
+
+jobs:
+  deploy-staging:
+    name: 🟡 Deploy → Staging
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: https://staging.your-app.com  # ← Modifier
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set image tag
+        id: tag
+        run: |
+          TAG="${{ github.event.inputs.image_tag }}"
+          if [ -z "$TAG" ]; then
+            TAG="sha-$(echo ${{ github.sha }} | cut -c1-7)"
+          fi
+          echo "value=$TAG" >> $GITHUB_OUTPUT
+          echo "full=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$TAG" >> $GITHUB_OUTPUT
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.STAGING_HOST }}
+          username: ${{ secrets.STAGING_USER }}
+          key: ${{ secrets.STAGING_SSH_KEY }}
+          port: ${{ secrets.STAGING_PORT || 22 }}
+          script: |
+            set -e
+            cd /opt/apps/staging  # ← Modifier selon votre setup
+
+            # Pull de la nouvelle image
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            docker pull ${{ steps.tag.outputs.full }}
+
+            # Mise à jour du .env
+            export APP_IMAGE="${{ steps.tag.outputs.full }}"
+            export APP_ENV=staging
+            export APP_VERSION="${{ github.sha }}"
+
+            # Rolling update avec docker compose
+            docker compose -f docker-compose.staging.yml pull
+            docker compose -f docker-compose.staging.yml up -d --remove-orphans
+
+            # Migrations auto
+            docker compose -f docker-compose.staging.yml exec -T app \
+              php bin/console doctrine:migrations:migrate --no-interaction
+
+            # Healthcheck
+            sleep 10
+            docker compose -f docker-compose.staging.yml ps | grep -v "Exit" | grep app
+
+      - name: Healthcheck HTTP
+        run: |
+          sleep 15
+          curl --fail --retry 5 --retry-delay 5 \
+            https://staging.your-app.com/health || exit 1
+
+      - name: Notify on success
+        if: success()
+        run: |
+          echo "✅ Déployé sur staging : ${{ steps.tag.outputs.value }}"
+          # Décommenter pour Slack :
+          # curl -X POST ${{ secrets.SLACK_WEBHOOK }} \
+          #   -d '{"text":"✅ *Staging* déployé — `${{ steps.tag.outputs.value }}`"}'
+
+      - name: Rollback on failure
+        if: failure()
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.STAGING_HOST }}
+          username: ${{ secrets.STAGING_USER }}
+          key: ${{ secrets.STAGING_SSH_KEY }}
+          script: |
+            cd /opt/apps/staging
+            docker compose -f docker-compose.staging.yml rollout app || \
+            docker compose -f docker-compose.staging.yml up -d --scale app=1
