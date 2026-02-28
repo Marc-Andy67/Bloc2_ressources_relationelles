@@ -57,7 +57,7 @@ jobs:
         run: vendor/bin/phpstan analyse --no-progress --memory-limit=256M
 
 # ─────────────────────────────────────────────────────────────────
-# JOB 2 — TESTs
+# JOB 2 — TESTS
 # ─────────────────────────────────────────────────────────────────
   tests:
     name: 🧪 Tests
@@ -69,7 +69,7 @@ jobs:
       pull-requests: write
 
     env:
-        DATABASE_URL: "mysql://root:root@127.0.0.1:3306/resources_relationnelles?serverVersion=8.0&charset=utf8mb4"
+      DATABASE_URL: "mysql://root:root@127.0.0.1:3306/resources_relationnelles?serverVersion=8.0&charset=utf8mb4"
       APP_ENV: test
 
     services:
