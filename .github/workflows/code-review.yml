@@ -1,6 +1,6 @@
 name: AI Code Review
 on:
-  push:
+#  push:
 #  pull_request:
 #    types: [opened, synchronize]
 jobs:
