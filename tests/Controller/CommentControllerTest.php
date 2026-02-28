@@ -48,7 +48,7 @@ final class CommentControllerTest extends WebTestCase
 
         $this->client->submitForm('Save', [
             'comment[content]' => 'Testing',
-            'comment[creationDate]' => 'Testing',
+            'comment[creationDate]' => new \DateTime(),
             'comment[parent]' => 'Testing',
             'comment[ressource]' => 'Testing',
             'comment[author]' => 'Testing',
@@ -134,7 +134,7 @@ final class CommentControllerTest extends WebTestCase
 
         $this->client->submitForm('Update', [
             'comment[content]' => 'Something New',
-            'comment[creationDate]' => 'Something New',
+            'comment[creationDate]' => new \DateTime(),
             'comment[parent]' => 'Something New',
             'comment[ressource]' => 'Something New',
             'comment[author]' => 'Something New',

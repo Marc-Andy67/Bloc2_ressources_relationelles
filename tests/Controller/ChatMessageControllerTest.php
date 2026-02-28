@@ -47,10 +47,10 @@ final class ChatMessageControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(200);
 
         $this->client->submitForm('Save', [
-            'chat_message[Content]' => 'Testing',
-            'chat_message[creationDate]' => 'Testing',
-            'chat_message[chatRoom]' => 'Testing',
-            'chat_message[author]' => 'Testing',
+            'chat_message[Content]' => 'Testing content ',
+            'chat_message[creationDate]' => new \DateTime(),
+            'chat_message[chatRoom]' => 1,
+            'chat_message[author]' => 'Testing author',
         ]);
 
         self::assertResponseRedirects('/chat/message');
@@ -143,7 +143,7 @@ final class ChatMessageControllerTest extends WebTestCase
 
         $this->client->submitForm('Update', [
             'chat_message[Content]' => 'Something New',
-            'chat_message[creationDate]' => 'Something New',
+            'chat_message[creationDate]' => new \DateTime(),
             'chat_message[chatRoom]' => 'Something New',
             'chat_message[author]' => 'Something New',
         ]);
