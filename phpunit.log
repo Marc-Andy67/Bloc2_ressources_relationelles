@@ -1,0 +1,1889 @@
+PHPUnit 13.0.5 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.17
+Configuration: C:\Users\marca\resources_relationnelles\phpunit.dist.xml
+
+EEEEEEEEEEEEEEEEEEEEFEEEEEEEEEEEE                                 33 / 33 (100%)
+
+Time: 00:06.011, Memory: 70.00 MB
+
+There were 32 errors:
+
+1) App\Tests\Controller\CategoryControllerTest::testIndex
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CategoryControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CategoryControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CategoryControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+2) App\Tests\Controller\CategoryControllerTest::testNew
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CategoryControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CategoryControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CategoryControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+3) App\Tests\Controller\CategoryControllerTest::testShow
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CategoryControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CategoryControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CategoryControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+4) App\Tests\Controller\CategoryControllerTest::testEdit
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CategoryControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CategoryControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CategoryControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+5) App\Tests\Controller\CategoryControllerTest::testRemove
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CategoryControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CategoryControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CategoryControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+6) App\Tests\Controller\ChatMessageControllerTest::testIndex
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatMessageControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatMessageControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatMessageControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+7) App\Tests\Controller\ChatMessageControllerTest::testNew
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatMessageControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatMessageControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatMessageControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+8) App\Tests\Controller\ChatMessageControllerTest::testShow
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatMessageControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatMessageControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatMessageControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+9) App\Tests\Controller\ChatMessageControllerTest::testEdit
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatMessageControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatMessageControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatMessageControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+10) App\Tests\Controller\ChatMessageControllerTest::testRemove
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatMessageControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatMessageControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatMessageControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+11) App\Tests\Controller\ChatRoomControllerTest::testIndex
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatRoomControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatRoomControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatRoomControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+12) App\Tests\Controller\ChatRoomControllerTest::testNew
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatRoomControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatRoomControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatRoomControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+13) App\Tests\Controller\ChatRoomControllerTest::testShow
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatRoomControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatRoomControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatRoomControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+14) App\Tests\Controller\ChatRoomControllerTest::testEdit
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatRoomControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatRoomControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatRoomControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+15) App\Tests\Controller\ChatRoomControllerTest::testRemove
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatRoomControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatRoomControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ChatRoomControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+16) App\Tests\Controller\CommentControllerTest::testIndex
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CommentControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CommentControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CommentControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+17) App\Tests\Controller\CommentControllerTest::testNew
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CommentControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CommentControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CommentControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+18) App\Tests\Controller\CommentControllerTest::testShow
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CommentControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CommentControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CommentControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+19) App\Tests\Controller\CommentControllerTest::testEdit
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CommentControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CommentControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CommentControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+20) App\Tests\Controller\CommentControllerTest::testRemove
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CommentControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CommentControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\CommentControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+21) App\Tests\Controller\ProgressionControllerTest::testIndex
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ProgressionControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ProgressionControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ProgressionControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+22) App\Tests\Controller\ProgressionControllerTest::testNew
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ProgressionControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ProgressionControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ProgressionControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+23) App\Tests\Controller\ProgressionControllerTest::testShow
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ProgressionControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ProgressionControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ProgressionControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+24) App\Tests\Controller\ProgressionControllerTest::testEdit
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ProgressionControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ProgressionControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ProgressionControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+25) App\Tests\Controller\ProgressionControllerTest::testRemove
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ProgressionControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ProgressionControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\ProgressionControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+26) App\Tests\Controller\RessourceControllerTest::testIndex
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\RessourceControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\RessourceControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\RessourceControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+27) App\Tests\Controller\RessourceControllerTest::testNew
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\RessourceControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\RessourceControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\RessourceControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+28) App\Tests\Controller\RessourceControllerTest::testShow
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\RessourceControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\RessourceControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\RessourceControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+29) App\Tests\Controller\RessourceControllerTest::testEdit
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\RessourceControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\RessourceControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\RessourceControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+30) App\Tests\Controller\RessourceControllerTest::testRemove
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\RessourceControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\RessourceControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\Controller\RessourceControllerTest.php:24
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+31) App\Tests\LoginControllerTest::testLogin
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\LoginControllerTest.php:22
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\LoginControllerTest.php:22
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\LoginControllerTest.php:22
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+32) App\Tests\RegistrationControllerTest::testRegister
+Doctrine\DBAL\Exception\ConnectionException: An exception occurred in the driver: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php:91
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1460
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:1402
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:224
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\RegistrationControllerTest.php:26
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+Doctrine\DBAL\Driver\PDO\Exception: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\Exception.php:24
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:52
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\RegistrationControllerTest.php:26
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+PDOException: SQLSTATE[HY000] [1049] Unknown database 'resources_relationnelles_test'
+
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\PDOConnect.php:28
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\PDO\MySQL\Driver.php:45
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Logging\Driver.php:30
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\Debug\Driver.php:37
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Driver\Middleware\AbstractDriverMiddleware.php:27
+C:\Users\marca\resources_relationnelles\vendor\symfony\doctrine-bridge\Middleware\IdleConnection\Driver.php:35
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:222
+C:\Users\marca\resources_relationnelles\vendor\doctrine\dbal\src\Connection.php:792
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\Persisters\Entity\BasicEntityPersister.php:963
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:110
+C:\Users\marca\resources_relationnelles\vendor\doctrine\doctrine-bundle\src\Repository\ServiceEntityRepository.php:78
+C:\Users\marca\resources_relationnelles\vendor\doctrine\orm\src\EntityRepository.php:96
+C:\Users\marca\resources_relationnelles\tests\RegistrationControllerTest.php:26
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+--
+
+There was 1 failure:
+
+1) App\Tests\Controller\HomeControllerTest::testIndex
+Failed asserting that the Response is successful.
+HTTP/1.1 404 Not Found
+Cache-Control:          no-cache, private
+Content-Type:           text/html; charset=UTF-8
+Date:                   Sat, 28 Feb 2026 14:25:53 GMT
+Vary:                   Accept
+X-Debug-Exception:      No%20route%20found%20for%20%22GET%20http%3A%2F%2Flocalhost%2Fhome%22
+X-Debug-Exception-File: C%3A%5CUsers%5Cmarca%5Cresources_relationnelles%5Cvendor%5Csymfony%5Chttp-kernel%5CEventListener%5CRouterListener.php:156
+X-Robots-Tag:           noindex
+
+Symfony\Component\HttpKernel\Exception\NotFoundHttpException {#12424
+  #message: "No route found for "GET http://localhost/home""
+  #code: 0
+  #file: "C:\Users\marca\resources_relationnelles\vendor\symfony\http-kernel\EventListener\RouterListener.php"
+  #line: 156
+  -previous: Symfony\Component\Routing\Exception\ResourceNotFoundException {#12446
+    #message: "No routes found for "/home/"."
+    #code: 0
+    #file: "C:\Users\marca\resources_relationnelles\vendor\symfony\routing\Matcher\Dumper\CompiledUrlMatcherTrait.php"
+    #line: 70
+    trace: {
+      C:\Users\marca\resources_relationnelles\vendor\symfony\routing\Matcher\Dumper\CompiledUrlMatcherTrait.php:70 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\symfony\routing\Matcher\UrlMatcher.php:90 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\symfony\routing\Router.php:188 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\symfony\http-kernel\EventListener\RouterListener.php:101 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\symfony\event-dispatcher\Debug\WrappedListener.php:115 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\symfony\event-dispatcher\EventDispatcher.php:206 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\symfony\event-dispatcher\EventDispatcher.php:56 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\symfony\event-dispatcher\Debug\TraceableEventDispatcher.php:126 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\symfony\http-kernel\HttpKernel.php:159 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\symfony\http-kernel\HttpKernel.php:76 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\symfony\http-kernel\Kernel.php:191 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\symfony\http-kernel\HttpKernelBrowser.php:62 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\symfony\framework-bundle\KernelBrowser.php:180 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\symfony\browser-kit\AbstractBrowser.php:378 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\tests\Controller\HomeControllerTest.php:12 {
+        App\Tests\Controller\HomeControllerTest->testIndex(): void
+        ÔÇ║ $client = static::createClient();
+        ÔÇ║ $client->request('GET', '/home');
+        ÔÇ║ 
+        arguments: {
+          $method: "GET"
+          $uri: "http://localhost/home"
+        }
+      }
+      C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\Framework\TestCase.php:1312 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\Framework\TestCase.php:1346 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\Framework\TestCase.php:519 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\Framework\TestRunner\TestRunner.php:99 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\Framework\TestCase.php:360 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\Framework\TestSuite.php:375 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\Framework\TestSuite.php:375 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\Framework\TestSuite.php:375 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\TextUI\TestRunner.php:64 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\TextUI\Application.php:229 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104 { ÔÇª}
+      C:\Users\marca\resources_relationnelles\bin\phpunit:4 { ÔÇª}
+    }
+  }
+  -statusCode: 404
+  -headers: []
+  trace: {
+    C:\Users\marca\resources_relationnelles\vendor\symfony\http-kernel\EventListener\RouterListener.php:156 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\symfony\event-dispatcher\Debug\WrappedListener.php:115 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\symfony\event-dispatcher\EventDispatcher.php:206 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\symfony\event-dispatcher\EventDispatcher.php:56 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\symfony\event-dispatcher\Debug\TraceableEventDispatcher.php:126 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\symfony\http-kernel\HttpKernel.php:159 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\symfony\http-kernel\HttpKernel.php:76 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\symfony\http-kernel\Kernel.php:191 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\symfony\http-kernel\HttpKernelBrowser.php:62 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\symfony\framework-bundle\KernelBrowser.php:180 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\symfony\browser-kit\AbstractBrowser.php:378 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\tests\Controller\HomeControllerTest.php:12 {
+      App\Tests\Controller\HomeControllerTest->testIndex(): void
+      ÔÇ║ $client = static::createClient();
+      ÔÇ║ $client->request('GET', '/home');
+      ÔÇ║ 
+      arguments: {
+        $method: "GET"
+        $uri: "http://localhost/home"
+      }
+    }
+    C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\Framework\TestCase.php:1312 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\Framework\TestCase.php:1346 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\Framework\TestCase.php:519 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\Framework\TestRunner\TestRunner.php:99 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\Framework\TestCase.php:360 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\Framework\TestSuite.php:375 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\Framework\TestSuite.php:375 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\Framework\TestSuite.php:375 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\TextUI\TestRunner.php:64 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\src\TextUI\Application.php:229 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104 { ÔÇª}
+    C:\Users\marca\resources_relationnelles\bin\phpunit:4 { ÔÇª}
+  }
+}
+
+C:\Users\marca\resources_relationnelles\vendor\symfony\framework-bundle\Test\BrowserKitAssertionsTrait.php:184
+C:\Users\marca\resources_relationnelles\vendor\symfony\framework-bundle\Test\BrowserKitAssertionsTrait.php:41
+C:\Users\marca\resources_relationnelles\tests\Controller\HomeControllerTest.php:14
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+Caused by
+ErrorException: No route found for "GET http://localhost/home"
+
+C:\Users\marca\resources_relationnelles\vendor\symfony\http-kernel\EventListener\RouterListener.php:156
+C:\Users\marca\resources_relationnelles\vendor\symfony\framework-bundle\Test\BrowserKitAssertionsTrait.php:41
+C:\Users\marca\resources_relationnelles\tests\Controller\HomeControllerTest.php:14
+C:\Users\marca\resources_relationnelles\vendor\phpunit\phpunit\phpunit:104
+
+ERRORS!
+Tests: 33, Assertions: 1, Errors: 32, Failures: 1.

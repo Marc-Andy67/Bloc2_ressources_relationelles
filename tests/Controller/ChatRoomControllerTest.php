@@ -61,10 +61,28 @@ final class ChatRoomControllerTest extends WebTestCase
 
     public function testShow(): void
     {
+        $user = new \App\Entity\User();
+        $user->setEmail('test' . uniqid() . '@test.com');
+        $user->setPassword('password');
+        $this->manager->persist($user);
+
+        $category = new \App\Entity\Category();
+        $category->setName('Test Category');
+        $this->manager->persist($category);
+
+        $ressource = new \App\Entity\Ressource();
+        $ressource->setTitle('My Title');
+        $ressource->setContent('My Title');
+        $ressource->setType('My Title');
+        $ressource->setCreationDate(new \DateTime());
+        $ressource->setStatus(true);
+        $ressource->setAuthor($user);
+        $ressource->setCategory($category);
+        $this->manager->persist($ressource);
+
         $fixture = new ChatRoom();
         $fixture->setName('My Title');
-        $fixture->setRessource('My Title');
-        $fixture->setMembers('My Title');
+        $fixture->setRessource($ressource);
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -80,10 +98,28 @@ final class ChatRoomControllerTest extends WebTestCase
 
     public function testEdit(): void
     {
+        $user = new \App\Entity\User();
+        $user->setEmail('test' . uniqid() . '@test.com');
+        $user->setPassword('password');
+        $this->manager->persist($user);
+
+        $category = new \App\Entity\Category();
+        $category->setName('Test Category');
+        $this->manager->persist($category);
+
+        $ressource = new \App\Entity\Ressource();
+        $ressource->setTitle('Value');
+        $ressource->setContent('Value');
+        $ressource->setType('Value');
+        $ressource->setCreationDate(new \DateTime());
+        $ressource->setStatus(true);
+        $ressource->setAuthor($user);
+        $ressource->setCategory($category);
+        $this->manager->persist($ressource);
+
         $fixture = new ChatRoom();
         $fixture->setName('Value');
-        $fixture->setRessource('Value');
-        $fixture->setMembers('Value');
+        $fixture->setRessource($ressource);
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -101,18 +137,34 @@ final class ChatRoomControllerTest extends WebTestCase
         $fixture = $this->chatRoomRepository->findAll();
 
         self::assertSame('Something New', $fixture[0]->getName());
-        self::assertSame('Something New', $fixture[0]->getRessource());
-        self::assertSame('Something New', $fixture[0]->getMembers());
 
         $this->markTestIncomplete('This test was generated');
     }
 
     public function testRemove(): void
     {
+        $user = new \App\Entity\User();
+        $user->setEmail('test' . uniqid() . '@test.com');
+        $user->setPassword('password');
+        $this->manager->persist($user);
+
+        $category = new \App\Entity\Category();
+        $category->setName('Test Category');
+        $this->manager->persist($category);
+
+        $ressource = new \App\Entity\Ressource();
+        $ressource->setTitle('Value');
+        $ressource->setContent('Value');
+        $ressource->setType('Value');
+        $ressource->setCreationDate(new \DateTime());
+        $ressource->setStatus(true);
+        $ressource->setAuthor($user);
+        $ressource->setCategory($category);
+        $this->manager->persist($ressource);
+
         $fixture = new ChatRoom();
         $fixture->setName('Value');
-        $fixture->setRessource('Value');
-        $fixture->setMembers('Value');
+        $fixture->setRessource($ressource);
 
         $this->manager->persist($fixture);
         $this->manager->flush();
