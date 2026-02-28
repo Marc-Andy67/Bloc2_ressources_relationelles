@@ -1,8 +1,8 @@
 name: AI Code Review
 on:
-#  push:
-  pull_request:
-    types: [opened, synchronize]
+  push:
+#  pull_request:
+#    types: [opened, synchronize]
 jobs:
   ai-review:
     runs-on: ubuntu-latest
