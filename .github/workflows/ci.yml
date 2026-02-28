@@ -111,6 +111,9 @@ jobs:
           php bin/console doctrine:database:create --if-not-exists
           php bin/console doctrine:migrations:migrate --no-interaction
 
+      - name: Install importmap assets
+        run: php bin/console importmap:install
+
       - name: Run tests
         run: |
           php bin/phpunit \
