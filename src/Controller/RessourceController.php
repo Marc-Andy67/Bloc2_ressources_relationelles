@@ -23,13 +23,50 @@ final class RessourceController extends AbstractController
     }
 
     #[Route('/new', name: 'app_ressource_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, \Symfony\Component\String\Slugger\SluggerInterface $slugger): Response
     {
         $ressource = new Ressource();
         $form = $this->createForm(RessourceType::class, $ressource);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            /** @var \App\Entity\User $user */
+            $user = $this->getUser();
+            $ressource->setAuthor($user);
+            $ressource->setStatus(false);
+            $ressource->setCreationDate(null);
+
+            $multimediaFile = $form->get('multimedia')->getData();
+
+            if ($multimediaFile) {
+                // Type & size from the uploaded file
+                $ressource->setType($multimediaFile->getMimeType());
+                $ressource->setSize($multimediaFile->getSize());
+
+                $originalFilename = pathinfo($multimediaFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $multimediaFile->guessExtension();
+
+                try {
+                    $multimediaFile->move(
+                        $this->getParameter('kernel.project_dir') . '/public/uploads/multimedia',
+                        $newFilename
+                    );
+                    // In the absence of a dedicated db column, we append a reference to the content 
+                    // or simply let it be uploaded. Appending to content ensures it's retrievable.
+                    $currentContent = $ressource->getContent() ?? '';
+                    $ressource->setContent($currentContent . "\n\n[Fichier multimédia attaché : /uploads/multimedia/" . $newFilename . "]");
+                } catch (\Exception $e) {
+                    // Handle exception quietly or flash a message
+                }
+            } else {
+                // No file -> text/post type and size is length of string
+                $ressource->setType('text/post');
+                $content = $ressource->getContent() ?? '';
+                $ressource->setSize(strlen($content));
+            }
+
             $entityManager->persist($ressource);
             $entityManager->flush();
 
@@ -71,7 +108,7 @@ final class RessourceController extends AbstractController
     #[Route('/{id}', name: 'app_ressource_delete', methods: ['POST'])]
     public function delete(Request $request, Ressource $ressource, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$ressource->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $ressource->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($ressource);
             $entityManager->flush();
         }

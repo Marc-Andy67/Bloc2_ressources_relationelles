@@ -8,6 +8,8 @@ use App\Entity\Ressource;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,36 +20,23 @@ class RessourceType extends AbstractType
         $builder
             ->add('title')
             ->add('content')
-            ->add('type')
-            ->add('creationDate')
-            ->add('status')
-            ->add('size')
+            ->add('multimedia', FileType::class, [
+                'label' => 'Fichier multimédia (Max 10Mo)',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File(
+                        maxSize: '10M'
+                    )
+                ],
+            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'id',
-            ])
-            ->add('author', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
             ->add('relationTypes', EntityType::class, [
                 'class' => RelationType::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
-            ->add('favoritedBy', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
-            ->add('setAsideBy', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
-            ->add('LikedBy', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
                 'multiple' => true,
             ])
         ;
