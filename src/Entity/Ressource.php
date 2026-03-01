@@ -25,7 +25,7 @@ class Ressource
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $creationDate = null;
 
     #[ORM\Column]
@@ -123,7 +123,7 @@ class Ressource
         return $this->creationDate;
     }
 
-    public function setCreationDate(\DateTime $creationDate): static
+    public function setCreationDate(?\DateTime $creationDate): static
     {
         $this->creationDate = $creationDate;
 

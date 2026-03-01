@@ -1,0 +1,125 @@
+CREATE TABLE Category(
+   IdCategory INT,
+   Name VARCHAR(255) ,
+   PRIMARY KEY(IdCategory)
+);
+
+CREATE TABLE RelationType(
+   IdRelationType INT,
+   Name VARCHAR(255) ,
+   PRIMARY KEY(IdRelationType)
+);
+
+CREATE TABLE Role(
+   IdRole INT,
+   Name VARCHAR(255) ,
+   PRIMARY KEY(IdRole)
+);
+
+CREATE TABLE User_(
+   IdUser INT,
+   Nickname VARCHAR(255) ,
+   Password VARCHAR(255) ,
+   CreationDate DATETIME,
+   IdRole INT NOT NULL,
+   PRIMARY KEY(IdUser),
+   FOREIGN KEY(IdRole) REFERENCES Role(IdRole)
+);
+
+CREATE TABLE Ressource(
+   IdRessource INT,
+   Title VARCHAR(255) ,
+   Content TEXT,
+   Type VARCHAR(255) ,
+   CreationDate DATETIME,
+   Status BOOLEAN,
+   Size INT,
+   IdCategory INT NOT NULL,
+   IdUser INT NOT NULL,
+   PRIMARY KEY(IdRessource),
+   FOREIGN KEY(IdCategory) REFERENCES Category(IdCategory),
+   FOREIGN KEY(IdUser) REFERENCES User_(IdUser)
+);
+
+CREATE TABLE Progression(
+   IdProgression INT,
+   Description VARCHAR(255) ,
+   Date_ DATE,
+   IdRessource INT NOT NULL,
+   IdUser INT NOT NULL,
+   PRIMARY KEY(IdProgression),
+   FOREIGN KEY(IdRessource) REFERENCES Ressource(IdRessource),
+   FOREIGN KEY(IdUser) REFERENCES User_(IdUser)
+);
+
+CREATE TABLE Comment(
+   IdComment INT,
+   Content VARCHAR(255) ,
+   CreationDate DATETIME,
+   IdComment_1 INT,
+   IdRessource INT NOT NULL,
+   IdUser INT NOT NULL,
+   PRIMARY KEY(IdComment),
+   FOREIGN KEY(IdComment_1) REFERENCES Comment(IdComment),
+   FOREIGN KEY(IdRessource) REFERENCES Ressource(IdRessource),
+   FOREIGN KEY(IdUser) REFERENCES User_(IdUser)
+);
+
+CREATE TABLE ChatRoom(
+   IdChatRoom INT,
+   Name VARCHAR(255) ,
+   IdRessource INT,
+   PRIMARY KEY(IdChatRoom),
+   FOREIGN KEY(IdRessource) REFERENCES Ressource(IdRessource)
+);
+
+CREATE TABLE ChatMessage(
+   Id INT,
+   Content TEXT,
+   CreationDate DATETIME,
+   IdChatRoom INT NOT NULL,
+   IdUser INT NOT NULL,
+   PRIMARY KEY(Id),
+   FOREIGN KEY(IdChatRoom) REFERENCES ChatRoom(IdChatRoom),
+   FOREIGN KEY(IdUser) REFERENCES User_(IdUser)
+);
+
+CREATE TABLE Belong_to_(
+   IdRessource INT,
+   IdRelationType INT,
+   PRIMARY KEY(IdRessource, IdRelationType),
+   FOREIGN KEY(IdRessource) REFERENCES Ressource(IdRessource),
+   FOREIGN KEY(IdRelationType) REFERENCES RelationType(IdRelationType)
+);
+
+CREATE TABLE Add_to_favorite(
+   IdRessource INT,
+   IdUser INT,
+   PRIMARY KEY(IdRessource, IdUser),
+   FOREIGN KEY(IdRessource) REFERENCES Ressource(IdRessource),
+   FOREIGN KEY(IdUser) REFERENCES User_(IdUser)
+);
+
+CREATE TABLE Set_Aside(
+   IdRessource INT,
+   IdUser INT,
+   PRIMARY KEY(IdRessource, IdUser),
+   FOREIGN KEY(IdRessource) REFERENCES Ressource(IdRessource),
+   FOREIGN KEY(IdUser) REFERENCES User_(IdUser)
+);
+
+CREATE TABLE ChatRoomMember(
+   IdUser INT,
+   IdChatRoom INT,
+   PRIMARY KEY(IdUser, IdChatRoom),
+   FOREIGN KEY(IdUser) REFERENCES User_(IdUser),
+   FOREIGN KEY(IdChatRoom) REFERENCES ChatRoom(IdChatRoom)
+);
+
+CREATE TABLE Like_(
+   IdRessource INT,
+   IdUser INT,
+   PRIMARY KEY(IdRessource, IdUser),
+   FOREIGN KEY(IdRessource) REFERENCES Ressource(IdRessource),
+   FOREIGN KEY(IdUser) REFERENCES User_(IdUser)
+);

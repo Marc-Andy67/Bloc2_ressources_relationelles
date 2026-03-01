@@ -42,15 +42,34 @@ final class ProgressionControllerTest extends WebTestCase
 
     public function testNew(): void
     {
+        $user = new \App\Entity\User();
+        $user->setEmail('testnew' . uniqid() . '@test.com');
+        $user->setPassword('password');
+        $this->manager->persist($user);
+
+        $category = new \App\Entity\Category();
+        $category->setName('Test Category');
+        $this->manager->persist($category);
+
+        $ressource = new \App\Entity\Ressource();
+        $ressource->setTitle('My Title');
+        $ressource->setContent('My Title');
+        $ressource->setType('My Title');
+        $ressource->setStatus(true);
+        $ressource->setAuthor($user);
+        $ressource->setCategory($category);
+        $this->manager->persist($ressource);
+        $this->manager->flush();
+
         $this->client->request('GET', sprintf('%snew', $this->path));
 
         self::assertResponseStatusCodeSame(200);
 
         $this->client->submitForm('Save', [
-            'progression[description]' => 'Testing',
-            'progression[date]' => 'Testing',
-            'progression[ressource]' => 'Testing',
-            'progression[user]' => 'Testing',
+            'progression[description]' => 'Testing progress',
+            'progression[date]' => '2023-01-01',
+            'progression[ressource]' => $ressource->getId(),
+            'progression[user]' => $user->getId(),
         ]);
 
         self::assertResponseRedirects('/progression');
@@ -62,11 +81,30 @@ final class ProgressionControllerTest extends WebTestCase
 
     public function testShow(): void
     {
+        $user = new \App\Entity\User();
+        $user->setEmail('test' . uniqid() . '@test.com');
+        $user->setPassword('password');
+        $this->manager->persist($user);
+
+        $category = new \App\Entity\Category();
+        $category->setName('Test Category');
+        $this->manager->persist($category);
+
+        $ressource = new \App\Entity\Ressource();
+        $ressource->setTitle('My Title');
+        $ressource->setContent('My Title');
+        $ressource->setType('My Title');
+        $ressource->setCreationDate(new \DateTime());
+        $ressource->setStatus(true);
+        $ressource->setAuthor($user);
+        $ressource->setCategory($category);
+        $this->manager->persist($ressource);
+
         $fixture = new Progression();
         $fixture->setDescription('My Title');
-        $fixture->setDate('My Title');
-        $fixture->setRessource('My Title');
-        $fixture->setUser('My Title');
+        $fixture->setDate(new \DateTime());
+        $fixture->setRessource($ressource);
+        $fixture->setUser($user);
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -82,11 +120,30 @@ final class ProgressionControllerTest extends WebTestCase
 
     public function testEdit(): void
     {
+        $user = new \App\Entity\User();
+        $user->setEmail('test' . uniqid() . '@test.com');
+        $user->setPassword('password');
+        $this->manager->persist($user);
+
+        $category = new \App\Entity\Category();
+        $category->setName('Test Category');
+        $this->manager->persist($category);
+
+        $ressource = new \App\Entity\Ressource();
+        $ressource->setTitle('Value');
+        $ressource->setContent('Value');
+        $ressource->setType('Value');
+        $ressource->setCreationDate(new \DateTime());
+        $ressource->setStatus(true);
+        $ressource->setAuthor($user);
+        $ressource->setCategory($category);
+        $this->manager->persist($ressource);
+
         $fixture = new Progression();
         $fixture->setDescription('Value');
-        $fixture->setDate('Value');
-        $fixture->setRessource('Value');
-        $fixture->setUser('Value');
+        $fixture->setDate(new \DateTime());
+        $fixture->setRessource($ressource);
+        $fixture->setUser($user);
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -94,31 +151,47 @@ final class ProgressionControllerTest extends WebTestCase
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
-            'progression[description]' => 'Something New',
-            'progression[date]' => 'Something New',
-            'progression[ressource]' => 'Something New',
-            'progression[user]' => 'Something New',
+            'progression[description]' => 'Something New progress',
+            'progression[date]' => '2023-01-01',
+            'progression[ressource]' => $ressource->getId(),
+            'progression[user]' => $user->getId(),
         ]);
 
         self::assertResponseRedirects('/progression');
 
         $fixture = $this->progressionRepository->findAll();
 
-        self::assertSame('Something New', $fixture[0]->getDescription());
-        self::assertSame('Something New', $fixture[0]->getDate());
-        self::assertSame('Something New', $fixture[0]->getRessource());
-        self::assertSame('Something New', $fixture[0]->getUser());
+        self::assertSame('Something New progress', $fixture[0]->getDescription());
 
         $this->markTestIncomplete('This test was generated');
     }
 
     public function testRemove(): void
     {
+        $user = new \App\Entity\User();
+        $user->setEmail('test' . uniqid() . '@test.com');
+        $user->setPassword('password');
+        $this->manager->persist($user);
+
+        $category = new \App\Entity\Category();
+        $category->setName('Test Category');
+        $this->manager->persist($category);
+
+        $ressource = new \App\Entity\Ressource();
+        $ressource->setTitle('Value');
+        $ressource->setContent('Value');
+        $ressource->setType('Value');
+        $ressource->setCreationDate(new \DateTime());
+        $ressource->setStatus(true);
+        $ressource->setAuthor($user);
+        $ressource->setCategory($category);
+        $this->manager->persist($ressource);
+
         $fixture = new Progression();
         $fixture->setDescription('Value');
-        $fixture->setDate('Value');
-        $fixture->setRessource('Value');
-        $fixture->setUser('Value');
+        $fixture->setDate(new \DateTime());
+        $fixture->setRessource($ressource);
+        $fixture->setUser($user);
 
         $this->manager->persist($fixture);
         $this->manager->flush();

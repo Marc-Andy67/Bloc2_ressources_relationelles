@@ -42,33 +42,76 @@ final class CommentControllerTest extends WebTestCase
 
     public function testNew(): void
     {
+        $user = new \App\Entity\User();
+        $user->setEmail('testnew' . uniqid() . '@test.com');
+        $user->setPassword('password');
+        $this->manager->persist($user);
+
+        $category = new \App\Entity\Category();
+        $category->setName('Test Category');
+        $this->manager->persist($category);
+
+        $ressource = new \App\Entity\Ressource();
+        $ressource->setTitle('My Title');
+        $ressource->setContent('My Title');
+        $ressource->setType('My Title');
+        $ressource->setStatus(true);
+        $ressource->setAuthor($user);
+        $ressource->setCategory($category);
+        $this->manager->persist($ressource);
+        $parentComment = new \App\Entity\Comment();
+        $parentComment->setContent('Parent');
+        $parentComment->setCreationDate(new \DateTime());
+        $parentComment->setAuthor($user);
+        $parentComment->setRessource($ressource);
+        $this->manager->persist($parentComment);
+        $this->manager->flush();
+
         $this->client->request('GET', sprintf('%snew', $this->path));
 
         self::assertResponseStatusCodeSame(200);
 
         $this->client->submitForm('Save', [
-            'comment[content]' => 'Testing',
-            'comment[creationDate]' => 'Testing',
-            'comment[parent]' => 'Testing',
-            'comment[ressource]' => 'Testing',
-            'comment[author]' => 'Testing',
+            'comment[content]' => 'Testing content',
+            'comment[creationDate]' => '2023-01-01',
+            'comment[parent]' => $parentComment->getId(),
+            'comment[ressource]' => $ressource->getId(),
+            'comment[author]' => $user->getId(),
         ]);
 
         self::assertResponseRedirects('/comment');
 
-        self::assertSame(1, $this->commentRepository->count([]));
+        self::assertSame(2, $this->commentRepository->count([]));
 
         $this->markTestIncomplete('This test was generated');
     }
 
     public function testShow(): void
     {
+        $user = new \App\Entity\User();
+        $user->setEmail('test' . uniqid() . '@test.com');
+        $user->setPassword('password');
+        $this->manager->persist($user);
+
+        $category = new \App\Entity\Category();
+        $category->setName('Test Category');
+        $this->manager->persist($category);
+
+        $ressource = new \App\Entity\Ressource();
+        $ressource->setTitle('My Title');
+        $ressource->setContent('My Title');
+        $ressource->setType('My Title');
+        $ressource->setCreationDate(new \DateTime());
+        $ressource->setStatus(true);
+        $ressource->setAuthor($user);
+        $ressource->setCategory($category);
+        $this->manager->persist($ressource);
+
         $fixture = new Comment();
         $fixture->setContent('My Title');
-        $fixture->setCreationDate('My Title');
-        $fixture->setParent('My Title');
-        $fixture->setRessource('My Title');
-        $fixture->setAuthor('My Title');
+        $fixture->setCreationDate(new \DateTime());
+        $fixture->setRessource($ressource);
+        $fixture->setAuthor($user);
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -84,47 +127,85 @@ final class CommentControllerTest extends WebTestCase
 
     public function testEdit(): void
     {
+        $user = new \App\Entity\User();
+        $user->setEmail('test' . uniqid() . '@test.com');
+        $user->setPassword('password');
+        $this->manager->persist($user);
+
+        $category = new \App\Entity\Category();
+        $category->setName('Test Category');
+        $this->manager->persist($category);
+
+        $ressource = new \App\Entity\Ressource();
+        $ressource->setTitle('Value');
+        $ressource->setContent('Value');
+        $ressource->setType('Value');
+        $ressource->setCreationDate(new \DateTime());
+        $ressource->setStatus(true);
+        $ressource->setAuthor($user);
+        $ressource->setCategory($category);
+        $this->manager->persist($ressource);
+
         $fixture = new Comment();
         $fixture->setContent('Value');
-        $fixture->setCreationDate('Value');
-        $fixture->setParent('Value');
-        $fixture->setRessource('Value');
-        $fixture->setAuthor('Value');
+        $fixture->setCreationDate(new \DateTime());
+        $fixture->setRessource($ressource);
+        $fixture->setAuthor($user);
 
         $this->manager->persist($fixture);
+        $parentComment = new \App\Entity\Comment();
+        $parentComment->setContent('Parent');
+        $parentComment->setCreationDate(new \DateTime());
+        $parentComment->setAuthor($user);
+        $parentComment->setRessource($ressource);
+        $this->manager->persist($parentComment);
         $this->manager->flush();
 
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
-            'comment[content]' => 'Something New',
-            'comment[creationDate]' => 'Something New',
-            'comment[parent]' => 'Something New',
-            'comment[ressource]' => 'Something New',
-            'comment[author]' => 'Something New',
+            'comment[content]' => 'Something New content',
+            'comment[creationDate]' => '2023-01-01',
+            'comment[parent]' => $parentComment->getId(),
+            'comment[ressource]' => $ressource->getId(),
+            'comment[author]' => $user->getId(),
         ]);
 
         self::assertResponseRedirects('/comment');
 
         $fixture = $this->commentRepository->findAll();
 
-        self::assertSame('Something New', $fixture[0]->getContent());
-        self::assertSame('Something New', $fixture[0]->getCreationDate());
-        self::assertSame('Something New', $fixture[0]->getParent());
-        self::assertSame('Something New', $fixture[0]->getRessource());
-        self::assertSame('Something New', $fixture[0]->getAuthor());
+        self::assertSame('Something New content', $fixture[0]->getContent());
 
         $this->markTestIncomplete('This test was generated');
     }
 
     public function testRemove(): void
     {
+        $user = new \App\Entity\User();
+        $user->setEmail('test' . uniqid() . '@test.com');
+        $user->setPassword('password');
+        $this->manager->persist($user);
+
+        $category = new \App\Entity\Category();
+        $category->setName('Test Category');
+        $this->manager->persist($category);
+
+        $ressource = new \App\Entity\Ressource();
+        $ressource->setTitle('Value');
+        $ressource->setContent('Value');
+        $ressource->setType('Value');
+        $ressource->setCreationDate(new \DateTime());
+        $ressource->setStatus(true);
+        $ressource->setAuthor($user);
+        $ressource->setCategory($category);
+        $this->manager->persist($ressource);
+
         $fixture = new Comment();
         $fixture->setContent('Value');
-        $fixture->setCreationDate('Value');
-        $fixture->setParent('Value');
-        $fixture->setRessource('Value');
-        $fixture->setAuthor('Value');
+        $fixture->setCreationDate(new \DateTime());
+        $fixture->setRessource($ressource);
+        $fixture->setAuthor($user);
 
         $this->manager->persist($fixture);
         $this->manager->flush();

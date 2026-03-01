@@ -1,0 +1,76 @@
+Justification Technique – Conception de l’Application Web
+Introduction
+Dans le cadre de notre projet d’ingénierie, nous avons défini une architecture web répondant aux critères suivants :
+Robustesse et maintenabilité
+Sécurité
+Scalabilité
+Cohérence avec un travail collaboratif
+Alignement avec les standards industriels
+Chaque décision technologique a fait l’objet d’une analyse comparative.
+Les sections suivantes détaillent les solutions étudiées ainsi que le choix retenu.
+ 
+1. Framework Backend
+Le framework backend constitue le socle technique de l’application. Il structure la gestion des requêtes HTTP, l’organisation du code et l’implémentation de la logique métier.
+Laravel présente l’avantage d’une prise en main rapide et d’une syntaxe expressive qui favorise la productivité immédiate. Toutefois, son cadre architectural reste plus souple, ce qui peut conduire à des implémentations moins structurées si aucune discipline supplémentaire n’est appliquée.
+Express.js offre une grande liberté architecturale grâce à sa légèreté. Cependant, cette flexibilité implique que l’ensemble de la structuration logicielle doit être défini manuellement. Cette absence de cadre strict peut devenir un facteur de risque en matière de maintenabilité.
+Tandis que Symfony se distingue par une architecture MVC rigoureuse, une modularité avancée fondée sur des composants indépendants et une gestion native de la sécurité. Son écosystème favorise une séparation claire des responsabilités et encourage l’application des bonnes pratiques.
+Choix sélectionné : Symfony, pour une solution structurée et conforme aux standards industriels
+2. Gestion des dépendances
+La gestion des dépendances est un élément essentiel garantissant la cohérence du projet dans le temps.
+Une gestion manuelle des bibliothèques aurait introduit un risque important d’incohérence entre environnements, ainsi qu’une absence de traçabilité des versions utilisées. Ce type d’approche est inadapté à un projet collaboratif.
+L’utilisation de Composer permet au contraire une gestion centralisée, versionnée et reproductible des dépendances. Chaque bibliothèque est définie explicitement, ce qui garantit la stabilité des environnements de développement et de production.
+ De plus, Composer s’intègre naturellement à l’écosystème Symfony, notamment via son système d’autoloading conforme aux standards PSR.
+ 
+3. Accès aux données
+L’accès aux données représente un point critique en matière de sécurité et de maintenabilité.
+Le recours direct à des requêtes SQL natives offre certes un contrôle fin et des performances optimales, mais complexifie fortement la maintenance du code et augmente le risque d’erreurs ou de vulnérabilités telles que les injections SQL.
+L’ORM Eloquent, bien que performant, est intrinsèquement lié à Laravel, ce qui limite sa pertinence dans un environnement Symfony.
+Doctrine ORM apporte une abstraction maîtrisée entre la logique métier et la base de données. Il permet un mapping objet-relationnel structuré, facilite les migrations de schéma et renforce la sécurité via la paramétrisation automatique des requêtes. Il maintient un équilibre entre abstraction et performance.
+ 
+4. Base de données
+Le choix du système de gestion de base de données doit correspondre au modèle métier.
+MongoDB, en tant que base NoSQL, est particulièrement adaptée aux données non structurées ou massivement distribuées. Toutefois, notre modèle repose sur des relations clairement définies entre entités, rendant une base relationnelle plus pertinente.
+PostgreSQL offre des fonctionnalités avancées et une stricte conformité SQL. Cependant, sa configuration et son administration peuvent être légèrement plus complexes dans certains environnements.
+MySQL constitue une solution stable, largement documentée et simple à déployer. Son intégration avec Doctrine est naturelle et son administration est bien maîtrisée.
+Choix sélectionné : MySQL, pour sa stabilité, sa simplicité de déploiement et son adéquation avec notre modèle relationnel.
+ 
+5. Architecture logicielle
+Une architecture non structurée peut accélérer le développement initial, mais entraîne rapidement des difficultés de maintenance et d’évolution.
+À l’inverse, une architecture micro-services offre une grande scalabilité mais introduit une complexité importante en matière de déploiement, de communication interservices et de gestion des environnements.
+L’architecture MVC en couches permet une séparation claire des responsabilités entre contrôleurs, services et repositories. Cette structuration améliore la testabilité et facilite l’évolution du code.
+Choix sélectionné : MVC en couches, pour son équilibre entre structuration et complexité maîtrisée.
+ 
+6. Sécurité applicative
+La sécurité applicative constitue un axe fondamental de la conception du système, dans la mesure où l’application manipule des données utilisateurs et expose des services via une interface web accessible publiquement.
+L’implémentation manuelle présente un risque élevé d’erreurs, notamment en matière de gestion des failles de sécurité telles que les attaques CSRF, les injections ou les problèmes liés au stockage des mots de passe. Elle aurait également impliqué un temps de développement plus important et une responsabilité accrue en cas de vulnérabilité.
+L’intégration d’un service externe basé sur OAuth est particulièrement pertinente dans des architectures distribuées ou lorsque l’authentification via des fournisseurs tiers constitue un besoin central. Cependant, cette solution aurait introduit une complexité supplémentaire non nécessaire.
+Le composant Security intégré à Symfony propose une gestion complète et centralisée de l’authentification, du contrôle d’accès basé sur les rôles et de la protection contre les attaques courantes. Son intégration native garantit une cohérence architecturale et limite les risques d’erreurs d’implémentation.
+ 
+7. Interface utilisateur
+L’interface utilisateur représente la couche de présentation du système et doit garantir clarté, cohérence visuelle et adaptabilité aux différents supports.
+Les frameworks front-end modernes tels que React ou Vue permettent la création d’interfaces fortement interactives et dynamiques. Toutefois, leur adoption nécessite la mise en place d’une API complète, une gestion avancée des états côté client et une complexité accrue dans l’organisation du projet. Dans le cadre de notre application, le niveau d’interactivité requis ne justifiait pas la mise en place d’une architecture SPA complète.
+L’utilisation de Twig, moteur de templates intégré à Symfony, permet de maintenir une séparation stricte entre logique métier et affichage. L’ajout de Bootstrap garantit un design responsive, homogène et compatible avec les standards actuels du web. Cette combinaison permet d’obtenir une interface fonctionnelle, maintenable et rapide à développer, tout en conservant une intégration naturelle avec le backend Symfony.
+ 
+8. Gestion de version
+Dans un contexte de développement collaboratif, la gestion de version constitue un élément structurant garantissant la traçabilité des modifications et la coordination de l’équipe.
+Une gestion locale aurait limité la collaboration et rendu difficile le suivi précis des modifications, notamment dans un projet impliquant plusieurs contributeurs.
+GitLab propose des fonctionnalités similaires à GitHub, notamment en matière d’intégration continue et de gestion des dépôts. Toutefois, GitHub bénéficie d’une adoption plus large dans le monde académique et professionnel, ainsi que d’une interface particulièrement intuitive favorisant la collaboration.
+L’utilisation de Git combinée à GitHub permet la mise en place de branches dédiées, de Pull Requests pour la revue de code, ainsi qu’un historique complet des modifications. Ce fonctionnement encourage la qualité du code, la validation collective et la structuration du travail.
+Choix sélectionné : Git associé à GitHub, pour assurer collaboration efficace, traçabilité et intégration continue adaptée à notre environnement.
+
+9. Conteneurisation
+La gestion des environnements de développement et de production représente un enjeu majeur en matière de cohérence et de reproductibilité.
+L’installation manuelle des dépendances sur chaque environnement introduit un risque d’incohérence entre postes de développement et serveur de production. Les différences de versions logicielles ou de configuration peuvent générer des erreurs difficiles à diagnostiquer.
+Vagrant permet la virtualisation d’environnements complets, mais reste plus lourd en termes de ressources et moins flexible pour une intégration moderne dans des pipelines CI/CD.
+Docker propose une approche basée sur la conteneurisation, permettant d’isoler les services tout en garantissant une configuration identique quel que soit l’environnement. Cette solution favorise la portabilité, simplifie le déploiement et réduit les écarts entre développement et production.
+Choix sélectionné : Docker, pour garantir reproductibilité, isolation des services et cohérence des environnements.
+ 
+ 
+Conclusion Générale
+Chaque choix technologique a été effectué après analyse comparative selon ces critères :
+Cohérence architecturale
+Maintenabilité
+Sécurité
+Adaptation au contexte académique
+Pertinence industrielle
+L’écosystème Symfony a été retenu pour sa robustesse, sa structuration et sa conformité aux standards professionnels.

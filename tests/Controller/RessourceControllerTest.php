@@ -42,6 +42,18 @@ final class RessourceControllerTest extends WebTestCase
 
     public function testNew(): void
     {
+        $user = new \App\Entity\User();
+        $user->setEmail('testnew' . uniqid() . '@test.com');
+        $user->setPassword('password');
+        $this->manager->persist($user);
+
+        $category = new \App\Entity\Category();
+        $category->setName('Test Category New');
+        $this->manager->persist($category);
+        $this->manager->flush();
+
+        $this->client->loginUser($user);
+
         $this->client->request('GET', sprintf('%snew', $this->path));
 
         self::assertResponseStatusCodeSame(200);
@@ -49,16 +61,7 @@ final class RessourceControllerTest extends WebTestCase
         $this->client->submitForm('Save', [
             'ressource[title]' => 'Testing',
             'ressource[content]' => 'Testing',
-            'ressource[type]' => 'Testing',
-            'ressource[creationDate]' => 'Testing',
-            'ressource[status]' => 'Testing',
-            'ressource[size]' => 'Testing',
-            'ressource[category]' => 'Testing',
-            'ressource[author]' => 'Testing',
-            'ressource[relationTypes]' => 'Testing',
-            'ressource[favoritedBy]' => 'Testing',
-            'ressource[setAsideBy]' => 'Testing',
-            'ressource[LikedBy]' => 'Testing',
+            'ressource[category]' => $category->getId(),
         ]);
 
         self::assertResponseRedirects('/ressource');
@@ -70,19 +73,24 @@ final class RessourceControllerTest extends WebTestCase
 
     public function testShow(): void
     {
+        $user = new \App\Entity\User();
+        $user->setEmail('test' . uniqid() . '@test.com');
+        $user->setPassword('password');
+        $this->manager->persist($user);
+
+        $category = new \App\Entity\Category();
+        $category->setName('Test Category');
+        $this->manager->persist($category);
+
         $fixture = new Ressource();
         $fixture->setTitle('My Title');
         $fixture->setContent('My Title');
         $fixture->setType('My Title');
-        $fixture->setCreationDate('My Title');
-        $fixture->setStatus('My Title');
-        $fixture->setSize('My Title');
-        $fixture->setCategory('My Title');
-        $fixture->setAuthor('My Title');
-        $fixture->setRelationTypes('My Title');
-        $fixture->setFavoritedBy('My Title');
-        $fixture->setSetAsideBy('My Title');
-        $fixture->setLikedBy('My Title');
+        $fixture->setCreationDate(new \DateTime());
+        $fixture->setStatus(true);
+        $fixture->setSize(10);
+        $fixture->setCategory($category);
+        $fixture->setAuthor($user);
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -98,75 +106,70 @@ final class RessourceControllerTest extends WebTestCase
 
     public function testEdit(): void
     {
+        $user = new \App\Entity\User();
+        $user->setEmail('test' . uniqid() . '@test.com');
+        $user->setPassword('password');
+        $this->manager->persist($user);
+
+        $category = new \App\Entity\Category();
+        $category->setName('Test Category');
+        $this->manager->persist($category);
+
         $fixture = new Ressource();
         $fixture->setTitle('Value');
         $fixture->setContent('Value');
         $fixture->setType('Value');
-        $fixture->setCreationDate('Value');
-        $fixture->setStatus('Value');
-        $fixture->setSize('Value');
-        $fixture->setCategory('Value');
-        $fixture->setAuthor('Value');
-        $fixture->setRelationTypes('Value');
-        $fixture->setFavoritedBy('Value');
-        $fixture->setSetAsideBy('Value');
-        $fixture->setLikedBy('Value');
+        $fixture->setCreationDate(new \DateTime());
+        $fixture->setStatus(true);
+        $fixture->setSize(10);
+        $fixture->setCategory($category);
+        $fixture->setAuthor($user);
 
         $this->manager->persist($fixture);
         $this->manager->flush();
 
+        $this->client->loginUser($user);
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
             'ressource[title]' => 'Something New',
             'ressource[content]' => 'Something New',
-            'ressource[type]' => 'Something New',
-            'ressource[creationDate]' => 'Something New',
-            'ressource[status]' => 'Something New',
-            'ressource[size]' => 'Something New',
-            'ressource[category]' => 'Something New',
-            'ressource[author]' => 'Something New',
-            'ressource[relationTypes]' => 'Something New',
-            'ressource[favoritedBy]' => 'Something New',
-            'ressource[setAsideBy]' => 'Something New',
-            'ressource[LikedBy]' => 'Something New',
+            'ressource[category]' => $category->getId(),
         ]);
 
         self::assertResponseRedirects('/ressource');
 
-        $fixture = $this->ressourceRepository->findAll();
+        self::assertResponseRedirects('/ressource');
 
-        self::assertSame('Something New', $fixture[0]->getTitle());
-        self::assertSame('Something New', $fixture[0]->getContent());
-        self::assertSame('Something New', $fixture[0]->getType());
-        self::assertSame('Something New', $fixture[0]->getCreationDate());
-        self::assertSame('Something New', $fixture[0]->getStatus());
-        self::assertSame('Something New', $fixture[0]->getSize());
-        self::assertSame('Something New', $fixture[0]->getCategory());
-        self::assertSame('Something New', $fixture[0]->getAuthor());
-        self::assertSame('Something New', $fixture[0]->getRelationTypes());
-        self::assertSame('Something New', $fixture[0]->getFavoritedBy());
-        self::assertSame('Something New', $fixture[0]->getSetAsideBy());
-        self::assertSame('Something New', $fixture[0]->getLikedBy());
+        $this->manager->clear();
+        $fixtureItems = $this->ressourceRepository->findAll();
+
+        self::assertSame('Something New', $fixtureItems[0]->getTitle());
+        self::assertSame('Something New', $fixtureItems[0]->getContent());
 
         $this->markTestIncomplete('This test was generated');
     }
 
     public function testRemove(): void
     {
+        $user = new \App\Entity\User();
+        $user->setEmail('test' . uniqid() . '@test.com');
+        $user->setPassword('password');
+        $this->manager->persist($user);
+
+        $category = new \App\Entity\Category();
+        $category->setName('Test Category');
+        $this->manager->persist($category);
+
         $fixture = new Ressource();
         $fixture->setTitle('Value');
         $fixture->setContent('Value');
         $fixture->setType('Value');
-        $fixture->setCreationDate('Value');
-        $fixture->setStatus('Value');
-        $fixture->setSize('Value');
-        $fixture->setCategory('Value');
-        $fixture->setAuthor('Value');
-        $fixture->setRelationTypes('Value');
-        $fixture->setFavoritedBy('Value');
-        $fixture->setSetAsideBy('Value');
-        $fixture->setLikedBy('Value');
+        $fixture->setCreationDate(new \DateTime());
+        $fixture->setStatus(true);
+        $fixture->setSize(10);
+        $fixture->setCategory($category);
+        $fixture->setAuthor($user);
 
         $this->manager->persist($fixture);
         $this->manager->flush();

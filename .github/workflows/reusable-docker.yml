@@ -1,0 +1,81 @@
+name: ♻️ Reusable — Docker Build & Push
+
+# Workflow réutilisable — À appeler depuis d'autres projets ou workflows
+# Usage:
+#   jobs:
+#     build:
+#       uses: your-org/your-repo/.github/workflows/reusable-docker.yml@main
+#       with:
+#         image-name: my-app
+#       secrets: inherit
+
+on:
+  workflow_call:
+    inputs:
+      image-name:
+        description: "Nom de l'image (sans registry)"
+        type: string
+        required: false
+        default: ${{ github.repository }}
+      dockerfile:
+        type: string
+        required: false
+        default: Dockerfile
+      target:
+        description: "Docker build target stage"
+        type: string
+        required: false
+        default: production
+      push:
+        type: boolean
+        required: false
+        default: true
+    outputs:
+      image-tag:
+        description: "Tag de l'image construite"
+        value: ${{ jobs.build.outputs.image-tag }}
+      version:
+        value: ${{ jobs.build.outputs.version }}
+
+jobs:
+  build:
+    name: Build & Push
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+      version: ${{ steps.meta.outputs.version }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ inputs.image-name }}
+          tags: |
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+            type=sha,prefix=sha-,format=short
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+
+      - uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ${{ inputs.dockerfile }}
+          target: ${{ inputs.target }}
+          push: ${{ inputs.push }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
