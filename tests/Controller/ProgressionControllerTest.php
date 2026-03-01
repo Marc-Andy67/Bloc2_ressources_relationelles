@@ -42,15 +42,34 @@ final class ProgressionControllerTest extends WebTestCase
 
     public function testNew(): void
     {
+        $user = new \App\Entity\User();
+        $user->setEmail('testnew' . uniqid() . '@test.com');
+        $user->setPassword('password');
+        $this->manager->persist($user);
+
+        $category = new \App\Entity\Category();
+        $category->setName('Test Category');
+        $this->manager->persist($category);
+
+        $ressource = new \App\Entity\Ressource();
+        $ressource->setTitle('My Title');
+        $ressource->setContent('My Title');
+        $ressource->setType('My Title');
+        $ressource->setStatus(true);
+        $ressource->setAuthor($user);
+        $ressource->setCategory($category);
+        $this->manager->persist($ressource);
+        $this->manager->flush();
+
         $this->client->request('GET', sprintf('%snew', $this->path));
 
         self::assertResponseStatusCodeSame(200);
 
         $this->client->submitForm('Save', [
-            'progression[description]' => 'Testing',
-            'progression[date]' => 'Testing',
-            'progression[ressource]' => 'Testing',
-            'progression[user]' => 'Testing',
+            'progression[description]' => 'Testing progress',
+            'progression[date]' => '2023-01-01',
+            'progression[ressource]' => $ressource->getId(),
+            'progression[user]' => $user->getId(),
         ]);
 
         self::assertResponseRedirects('/progression');
@@ -132,17 +151,17 @@ final class ProgressionControllerTest extends WebTestCase
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
-            'progression[description]' => 'Something New',
-            'progression[date]' => 'Something New',
-            'progression[ressource]' => 'Something New',
-            'progression[user]' => 'Something New',
+            'progression[description]' => 'Something New progress',
+            'progression[date]' => '2023-01-01',
+            'progression[ressource]' => $ressource->getId(),
+            'progression[user]' => $user->getId(),
         ]);
 
         self::assertResponseRedirects('/progression');
 
         $fixture = $this->progressionRepository->findAll();
 
-        self::assertSame('Something New', $fixture[0]->getDescription());
+        self::assertSame('Something New progress', $fixture[0]->getDescription());
 
         $this->markTestIncomplete('This test was generated');
     }

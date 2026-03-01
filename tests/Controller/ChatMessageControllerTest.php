@@ -42,15 +42,39 @@ final class ChatMessageControllerTest extends WebTestCase
 
     public function testNew(): void
     {
+        $user = new \App\Entity\User();
+        $user->setEmail('testnew' . uniqid() . '@test.com');
+        $user->setPassword('password');
+        $this->manager->persist($user);
+
+        $category = new \App\Entity\Category();
+        $category->setName('Test Category');
+        $this->manager->persist($category);
+
+        $ressource = new \App\Entity\Ressource();
+        $ressource->setTitle('My Title');
+        $ressource->setContent('My Title');
+        $ressource->setType('My Title');
+        $ressource->setStatus(true);
+        $ressource->setAuthor($user);
+        $ressource->setCategory($category);
+        $this->manager->persist($ressource);
+
+        $chatRoom = new \App\Entity\ChatRoom();
+        $chatRoom->setName('RoomNew');
+        $chatRoom->setRessource($ressource);
+        $this->manager->persist($chatRoom);
+        $this->manager->flush();
+
         $this->client->request('GET', sprintf('%snew', $this->path));
 
         self::assertResponseStatusCodeSame(200);
 
         $this->client->submitForm('Save', [
             'chat_message[Content]' => 'Testing content ',
-            'chat_message[creationDate]' => new \DateTime(),
-            'chat_message[chatRoom]' => 1,
-            'chat_message[author]' => 'Testing author',
+            'chat_message[creationDate]' => '2023-01-01',
+            'chat_message[chatRoom]' => $chatRoom->getId(),
+            'chat_message[author]' => $user->getId(),
         ]);
 
         self::assertResponseRedirects('/chat/message');
@@ -143,9 +167,9 @@ final class ChatMessageControllerTest extends WebTestCase
 
         $this->client->submitForm('Update', [
             'chat_message[Content]' => 'Something New',
-            'chat_message[creationDate]' => new \DateTime(),
-            'chat_message[chatRoom]' => 'Something New',
-            'chat_message[author]' => 'Something New',
+            'chat_message[creationDate]' => '2023-01-01',
+            'chat_message[chatRoom]' => $chatRoom->getId(),
+            'chat_message[author]' => $user->getId(),
         ]);
 
         self::assertResponseRedirects('/chat/message');
