@@ -12,8 +12,50 @@
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
+
+        <div id="password-rules" class="mt-2 text-sm">
+            <p>Le mot de passe doit contenir :</p>
+            <ul class="list-unstyled" style="list-style-type: none; padding-left: 0;">
+                <li id="rule-length" style="color: red;">✖ Au moins 12 caractères</li>
+                <li id="rule-uppercase" style="color: red;">✖ Au moins une majuscule</li>
+                <li id="rule-lowercase" style="color: red;">✖ Au moins une minuscule</li>
+                <li id="rule-number" style="color: red;">✖ Au moins un chiffre</li>
+                <li id="rule-special" style="color: red;">✖ Au moins un caractère spécial</li>
+            </ul>
+        </div>
         {{ form_row(registrationForm.agreeTerms) }}
 
         <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordField = document.getElementById('registration_form_plainPassword');
+            if (passwordField) {
+                const rules = {
+                    length: /.{12,}/,
+                    uppercase: /[A-Z]/,
+                    lowercase: /[a-z]/,
+                    number: /\d/,
+                    special: /[\W_]/
+                };
+
+                passwordField.addEventListener('input', function() {
+                    const val = this.value;
+                    for (const [key, regex] of Object.entries(rules)) {
+                        const el = document.getElementById('rule-' + key);
+                        if (el) {
+                            if (regex.test(val)) {
+                                el.style.color = 'green';
+                                el.textContent = el.textContent.replace('✖', '✔');
+                            } else {
+                                el.style.color = 'red';
+                                el.textContent = el.textContent.replace('✔', '✖');
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 {% endblock %}
