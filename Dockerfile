@@ -1,7 +1,7 @@
 # ─────────────────────────────────────────────────────────────
 # Stage 1 — Base PHP
 # ─────────────────────────────────────────────────────────────
-FROM php:8.3-fpm-alpine AS base
+FROM php:8.4-fpm-alpine AS base
 
 ARG APP_ENV=prod
 ARG APP_VERSION=dev
