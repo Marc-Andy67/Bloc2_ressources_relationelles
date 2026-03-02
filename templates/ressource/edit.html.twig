@@ -1,13 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Ressource{% endblock %}
+{% block title %}Modifier la Ressource - (RE)Sources Relationnelles{% endblock %}
 
 {% block body %}
-    <h1>Edit Ressource</h1>
+<div class="flex-grow flex items-center justify-center p-4">
+    <div class="glass-card w-full max-w-2xl p-8 md:p-10 relative overflow-hidden">
+        
+        <div class="absolute -top-24 -right-24 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-    {{ include('ressource/_form.html.twig', {'button_label': 'Update'}) }}
+        <div class="mb-8 relative z-10 flex flex-col sm:flex-row justify-between items-start gap-4">
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">Modifier la Ressource</h1>
+                <p class="text-slate-500 mt-2">Mettez à jour les informations de votre publication.</p>
+            </div>
+            <div class="sm:pt-2">
+                {{ include('ressource/_delete_form.html.twig') }}
+            </div>
+        </div>
 
-    <a href="{{ path('app_ressource_index') }}">back to list</a>
+        {{ include('ressource/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    {{ include('ressource/_delete_form.html.twig') }}
+        <div class="mt-6 pt-6 border-t border-slate-100 relative z-10">
+            <a href="{{ path('app_ressource_index') }}" class="text-slate-500 hover:text-primary transition-colors flex items-center gap-2 text-sm font-medium">
+                {{ ux_icon('heroicons:arrow-small-left', {class: 'w-5 h-5'}) }}
+                Retour à l'explorateur
+            </a>
+        </div>
+    </div>
+</div>
 {% endblock %}

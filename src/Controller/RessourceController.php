@@ -22,6 +22,32 @@ final class RessourceController extends AbstractController
         ]);
     }
 
+    #[Route('/favorites', name: 'app_ressource_favorites', methods: ['GET'])]
+    public function favorites(RessourceRepository $ressourceRepository): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('ressource/favorites.html.twig', [
+            'ressources' => $ressourceRepository->findFavoritedByUser($user),
+        ]);
+    }
+
+    #[Route('/saved', name: 'app_ressource_saved', methods: ['GET'])]
+    public function saved(RessourceRepository $ressourceRepository): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('ressource/saved.html.twig', [
+            'ressources' => $ressourceRepository->findSetAsideByUser($user),
+        ]);
+    }
+
     #[Route('/new', name: 'app_ressource_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, \Symfony\Component\String\Slugger\SluggerInterface $slugger): Response
     {
