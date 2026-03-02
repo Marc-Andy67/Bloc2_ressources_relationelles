@@ -34,7 +34,7 @@ final class RessourceControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->path);
 
         self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('Ressource index');
+        self::assertPageTitleContains('Explorer les Ressources');
 
         // Use the $crawler to perform additional assertions e.g.
         // self::assertSame('Some text on the page', $crawler->filter('.p')->first()->text());
@@ -58,7 +58,7 @@ final class RessourceControllerTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(200);
 
-        $this->client->submitForm('Save', [
+        $this->client->submitForm('Publier la ressource', [
             'ressource[title]' => 'Testing',
             'ressource[content]' => 'Testing',
             'ressource[category]' => $category->getId(),
@@ -131,7 +131,7 @@ final class RessourceControllerTest extends WebTestCase
         $this->client->loginUser($user);
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
-        $this->client->submitForm('Update', [
+        $this->client->submitForm('Mettre à jour', [
             'ressource[title]' => 'Something New',
             'ressource[content]' => 'Something New',
             'ressource[category]' => $category->getId(),
