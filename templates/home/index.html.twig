@@ -1,35 +1,81 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}(RE)Sources Relationnelles{% endblock %}
+{% block title %}(RE)Sources Relationnelles - Accueil{% endblock %}
 
 {% block body %}
-<div style="font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 40px 20px;">
+<div class="flex flex-col gap-16 pb-12">
     
-    <h1 style="color: #2c3e50; text-align: center;">(RE)Sources Relationnelles</h1>
-    <p style="text-align: center; color: #7f8c8d; font-size: 18px;">
-        Plateforme de ressources pour améliorer la qualité de vos relations
-    </p>
-
-    <hr style="margin: 30px 0;">
-
-    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-        
-        <div style="background: #ecf0f1; padding: 30px; border-radius: 10px; width: 250px; text-align: center;">
-            <h3>📚 Ressources</h3>
-            <p>Accédez à des ressources sur les relations humaines</p>
-            <a href="{{ path('app_ressource_index') }}" style="background: #3498db; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Découvrir</a>
+    {# Hero Section #}
+    <div class="relative py-12 md:py-24 max-w-4xl mx-auto text-center space-y-8">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4 mx-auto border border-primary/20 shadow-sm">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            Nouvelle version disponible
         </div>
-
-        <div style="background: #ecf0f1; padding: 30px; border-radius: 10px; width: 250px; text-align: center;">
-            <h3>👤 Mon compte</h3>
-            {% if app.user %}
-                <p>Bienvenue, {{ app.user.email }}</p>
-                <a href="{{ path('app_logout') }}" style="background: #e74c3c; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Déconnexion</a>
-            {% else %}
-                <p>Connectez-vous pour accéder à toutes les fonctionnalités</p>
-                <a href="{{ path('app_login') }}" style="background: #2ecc71; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Se connecter</a>
+        
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight">
+            Cultivez des relations <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">riches et durables</span>
+        </h1>
+        
+        <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            Une plateforme moderne et intuitive pour partager, découvrir et échanger autour des ressources qui améliorent la qualité de nos interactions humaines.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+            <a href="{{ path('app_ressource_index') }}" class="btn-primary w-full sm:w-auto text-lg px-8 flex justify-center items-center gap-2">
+                Explorer les contenus
+                {{ ux_icon('heroicons:arrow-right', {class: 'w-5 h-5'}) }}
+            </a>
+            {% if not app.user %}
+                <a href="{{ path('app_register') }}" class="btn-secondary w-full sm:w-auto text-lg px-8 bg-white/50 backdrop-blur-sm">
+                    Rejoindre la communauté
+                </a>
             {% endif %}
         </div>
+    </div>
+
+    {# Features Cards #}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto w-full px-4">
+        
+        <a href="{{ path('app_ressource_index') }}" class="glass-card group flex flex-col items-center text-center gap-4">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center shadow-inner mb-2 group-hover:scale-110 transition-transform duration-300">
+                {{ ux_icon('heroicons:book-open', {class: 'w-8 h-8 text-primary'}) }}
+            </div>
+            <h3 class="text-xl font-bold text-slate-800">Catalogue de Ressources</h3>
+            <p class="text-slate-600 leading-relaxed">
+                Plongez dans un espace riche en articles, vidéos et outils pratiques pour nourrir votre réflexion relationnelle.
+            </p>
+        </a>
+
+        {% if app.user %}
+            <div class="glass-card flex flex-col items-center text-center gap-4 relative overflow-hidden">
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center shadow-inner mb-2">
+                    {{ ux_icon('heroicons:user-circle', {class: 'w-8 h-8 text-emerald-600'}) }}
+                </div>
+                <h3 class="text-xl font-bold text-slate-800">Espace Personnel</h3>
+                <p class="text-slate-600 leading-relaxed mb-4">
+                    Gérez vos favoris, participez aux conversations et contribuez à l'intelligence collective.
+                </p>
+                <div class="flex gap-3 mt-auto w-full pt-4 border-t border-slate-100">
+                    <a href="{{ path('app_logout') }}" class="text-sm font-semibold text-red-500 hover:text-red-700 hover:bg-red-50 px-4 py-2 rounded-lg transition-colors w-full">Déconnexion</a>
+                </div>
+            </div>
+        {% else %}
+            <a href="{{ path('app_login') }}" class="glass-card group flex flex-col items-center text-center gap-4 border-2 border-transparent hover:border-cta/20">
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center shadow-inner mb-2 group-hover:scale-110 transition-transform duration-300">
+                    {{ ux_icon('heroicons:users', {class: 'w-8 h-8 text-cta'}) }}
+                </div>
+                <h3 class="text-xl font-bold text-slate-800">Mon Compte</h3>
+                <p class="text-slate-600 leading-relaxed">
+                    Connectez-vous pour débloquer toutes les fonctionnalités sociales, les commentaires et la création de ressources.
+                </p>
+                <div class="mt-4 font-semibold text-cta flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Se connecter {{ ux_icon('heroicons:arrow-small-right', {class: 'w-5 h-5'}) }}
+                </div>
+            </a>
+        {% endif %}
 
     </div>
 

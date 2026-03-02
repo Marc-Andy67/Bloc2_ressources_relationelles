@@ -40,4 +40,34 @@ class RessourceRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * @return Ressource[] Returns an array of favorited Ressource objects
+     */
+    public function findFavoritedByUser(\App\Entity\User $user): array
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.favoritedBy', 'u')
+            ->andWhere('u = :user')
+            ->setParameter('user', $user)
+            ->orderBy('r.creationDate', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Ressource[] Returns an array of saved Ressource objects
+     */
+    public function findSetAsideByUser(\App\Entity\User $user): array
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.setAsideBy', 'u')
+            ->andWhere('u = :user')
+            ->setParameter('user', $user)
+            ->orderBy('r.creationDate', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

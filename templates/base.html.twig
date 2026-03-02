@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" class="dark">
+<html lang="fr" class="light">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,39 +16,54 @@
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
-        <style>
-            body { font-family: 'Inter', sans-serif; }
-        </style>
     </head>
-    <body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col antialiased selection:bg-indigo-500/30">
-        <nav class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
+    <body class="bg-background text-text min-h-screen flex flex-col antialiased selection:bg-primary/30">
+        <!-- Decoration background glow -->
+        <div class="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-100/50 via-background to-background"></div>
+
+        <nav class="sticky top-0 z-50 w-full border-b border-white/20 bg-white/70 backdrop-blur-lg shadow-sm">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between h-16">
-                    <div class="flex items-center gap-8">
-                        <a href="{{ path('app_home') }}" class="flex items-center gap-2 font-bold text-xl tracking-tight text-indigo-600 dark:text-indigo-400">
-                            {{ ux_icon('lucide:shapes') }}
-                            Ressources
+                <div class="flex items-center justify-between h-20">
+                    <div class="flex items-center gap-10">
+                        <a href="{{ path('app_home') }}" class="flex items-center gap-3 font-bold text-2xl tracking-tight text-primary transition-transform hover:scale-105">
+                            {{ ux_icon('heroicons:cube-transparent', {class: 'w-8 h-8 text-secondary'}) }}
+                            (RE)Sources
                         </a>
                         <div class="hidden md:block">
-                            <div class="flex items-baseline space-x-4">
-                                <a href="{{ path('app_ressource_index') }}" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors {{ app.request.attributes.get('_route') starts with 'app_ressource' ? 'bg-slate-100 dark:bg-slate-800' : '' }}">Explorer</a>
-                                <a href="{{ path('app_chat_room_index') }}" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors {{ app.request.attributes.get('_route') starts with 'app_chat' ? 'bg-slate-100 dark:bg-slate-800' : '' }}">Conversations</a>
+                            <div class="flex items-baseline space-x-2">
+                                <a href="{{ path('app_ressource_index') }}" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer {{ app.request.attributes.get('_route') starts with 'app_ressource' ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900' }}">
+                                    <div class="flex items-center gap-2">
+                                        {{ ux_icon('heroicons:magnifying-glass', {class: 'w-4 h-4'}) }}
+                                        Explorer
+                                    </div>
+                                </a>
+                                <a href="{{ path('app_chat_room_index') }}" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer {{ app.request.attributes.get('_route') starts with 'app_chat' ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900' }}">
+                                    <div class="flex items-center gap-2">
+                                        {{ ux_icon('heroicons:chat-bubble-left-right', {class: 'w-4 h-4'}) }}
+                                        Conversations
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </div>
                     <div class="hidden md:block">
                         <div class="flex items-center gap-4">
                             {% if app.user %}
-                                <div class="flex items-center gap-2 px-3 py-2">
-                                    <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold text-xs">
+                                <div class="flex items-center gap-3 px-4 py-2 bg-white/50 border border-slate-100 rounded-lg shadow-sm backdrop-blur-sm">
+                                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xs shadow-md">
                                         {{ app.user.email|slice(0,2)|upper }}
                                     </div>
-                                    <span class="text-sm font-medium">{{ app.user.nickname ?: 'Utilisateur' }}</span>
+                                    <span class="text-sm font-semibold text-slate-800">{{ app.user.email|split('@')[0]|capitalize }}</span>
                                 </div>
-                                <a href="{{ path('app_logout') }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-slate-900 dark:bg-white dark:text-slate-900 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors">Déconnexion</a>
+                                <a href="{{ path('app_logout') }}" class="text-sm font-semibold text-slate-600 hover:text-red-500 transition-colors cursor-pointer flex items-center gap-1 px-2">
+                                    {{ ux_icon('heroicons:arrow-right-on-rectangle', {class: 'w-5 h-5'}) }}
+                                </a>
                             {% else %}
-                                <a href="{{ path('app_login') }}" class="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Connexion</a>
-                                <a href="{{ path('app_register') }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors shadow-sm shadow-indigo-500/30">S'inscrire</a>
+                                <a href="{{ path('app_login') }}" class="text-sm font-semibold text-slate-600 hover:text-primary transition-colors cursor-pointer px-4">Connexion</a>
+                                <a href="{{ path('app_register') }}" class="btn-primary flex items-center gap-2 py-2.5">
+                                    S'inscrire
+                                    {{ ux_icon('heroicons:arrow-right', {class: 'w-4 h-4'}) }}
+                                </a>
                             {% endif %}
                         </div>
                     </div>
@@ -56,12 +71,15 @@
             </div>
         </nav>
 
-        <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col">
+        <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col relative">
             {# Flash Messages #}
             {% for label, messages in app.flashes %}
                 {% for message in messages %}
-                    <div class="mb-4 p-4 rounded-lg border {{ label == 'success' ? 'bg-green-50 border-green-200 text-green-800 dark:bg-green-900/30 dark:border-green-800 dark:text-green-400' : 'bg-red-50 border-red-200 text-red-800 dark:bg-red-900/30 dark:border-red-800 dark:text-red-400' }}">
-                        {{ message }}
+                    <div class="mb-6 p-4 rounded-xl border glass-card {{ label == 'success' ? 'bg-green-50/80 border-green-200 text-green-800' : 'bg-red-50/80 border-red-200 text-red-800' }}">
+                        <div class="flex items-center gap-3 font-medium">
+                            {{ ux_icon(label == 'success' ? 'heroicons:check-circle' : 'heroicons:exclamation-circle', {class: 'w-6 h-6'}) }}
+                            {{ message }}
+                        </div>
                     </div>
                 {% endfor %}
             {% endfor %}
@@ -69,14 +87,16 @@
             {% block body %}{% endblock %}
         </main>
         
-        <footer class="border-t border-slate-200 dark:border-slate-800 py-8 mt-auto">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold">
-                    {{ ux_icon('lucide:shapes', {height: 20, width: 20}) }}
-                    Ressources Relationnelles
+        <footer class="mt-auto border-t border-slate-200/60 bg-white/40 backdrop-blur-sm py-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center gap-3 text-primary font-bold text-lg">
+                    {{ ux_icon('heroicons:cube-transparent', {class: 'w-6 h-6 text-secondary'}) }}
+                    (RE)Sources Relationnelles
                 </div>
-                <div class="text-sm text-slate-500 dark:text-slate-400">
+                <div class="text-sm font-medium text-slate-500 flex items-center gap-2">
                     &copy; {{ 'now'|date('Y') }} Tous droits réservés.
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                    <span>Créé avec Symfony & Tailwind</span>
                 </div>
             </div>
         </footer>
