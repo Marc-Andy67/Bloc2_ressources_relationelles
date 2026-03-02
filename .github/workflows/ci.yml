@@ -233,9 +233,11 @@ jobs:
         if: always()
         with:
           sarif_file: trivy-image.sarif
+          category: trivy-image
 
       - name: Upload FS scan
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
           sarif_file: trivy-fs.sarif
+          category: trivy-fs
