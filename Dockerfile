@@ -104,6 +104,7 @@ ENTRYPOINT ["/entrypoint.sh"]
 CMD ["php-fpm"]
 
 # Métadonnées OCI
-LABEL org.opencontainers.image.source="https://github.com/${{ github.repository }}" \
+ARG REPOSITORY
+LABEL org.opencontainers.image.source="https://github.com/${REPOSITORY}" \
     org.opencontainers.image.version="${APP_VERSION}" \
     org.opencontainers.image.licenses="MIT"
