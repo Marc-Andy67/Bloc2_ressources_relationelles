@@ -1,26 +1,83 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ChatRoom{% endblock %}
+{% block title %}{{ chat_room.name }} — Discussion — (RE)Sources Relationnelles{% endblock %}
 
 {% block body %}
-    <h1>ChatRoom</h1>
+<div class="max-w-4xl mx-auto flex flex-col gap-6 pb-12">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ chat_room.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ chat_room.name }}</td>
-            </tr>
-        </tbody>
-    </table>
+    {# Salon header #}
+    <div class="flex items-center justify-between border-b border-slate-200 pb-5">
+        <div>
+            <h1 class="text-2xl font-extrabold text-slate-800 flex items-center gap-3">
+                {{ ux_icon('heroicons:chat-bubble-left-right', {class: 'w-7 h-7 text-primary'}) }}
+                {{ chat_room.name }}
+            </h1>
+            {% if chat_room.ressource %}
+            <p class="text-slate-500 mt-1 text-sm">
+                Discussion liée à la ressource :
+                <a href="{{ path('app_ressource_show', {'id': chat_room.ressource.id}) }}" class="font-semibold text-primary hover:underline">
+                    {{ chat_room.ressource.title }}
+                </a>
+            </p>
+            {% endif %}
+        </div>
+        <div class="flex items-center gap-3 text-xs text-slate-500 font-medium">
+            {{ ux_icon('heroicons:users', {class: 'w-4 h-4'}) }}
+            {{ chat_room.members|length }} membre{{ chat_room.members|length != 1 ? 's' }}
+        </div>
+    </div>
 
-    <a href="{{ path('app_chat_room_index') }}">back to list</a>
+    {# Messages thread #}
+    <div class="glass-card border border-slate-200/60 flex flex-col" style="min-height: 400px;">
+        <div class="p-5 flex-grow flex flex-col gap-4 overflow-y-auto" id="messages-list">
+            {% if chat_room.chatMessages is defined and chat_room.chatMessages|length > 0 %}
+                {% for message in chat_room.chatMessages %}
+                <div class="flex items-start gap-3 {% if app.user and message.author.id == app.user.id %}flex-row-reverse{% endif %}">
+                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-sm">
+                        {{ message.author.email|slice(0,2)|upper }}
+                    </div>
+                    <div class="max-w-[75%] {% if app.user and message.author.id == app.user.id %}items-end{% endif %} flex flex-col gap-1">
+                        <div class="{% if app.user and message.author.id == app.user.id %}bg-primary text-white{% else %}bg-white border border-slate-200{% endif %} rounded-2xl px-4 py-2.5 shadow-sm">
+                            <p class="text-sm leading-relaxed">{{ message.content }}</p>
+                        </div>
+                        <p class="text-xs text-slate-400 px-1">
+                            {{ message.author.email|split('@')[0]|capitalize }} · {{ message.creationDate ? message.creationDate|date('d/m H:i') : '' }}
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="flex-grow flex flex-col items-center justify-center text-center py-10 text-slate-400">
+                    {{ ux_icon('heroicons:chat-bubble-left-ellipsis', {class: 'w-12 h-12 mb-3 opacity-50'}) }}
+                    <p class="font-medium">Aucun message pour l'instant.</p>
+                    <p class="text-sm">Soyez le premier à contribuer à cette discussion !</p>
+                </div>
+            {% endif %}
+        </div>
 
-    <a href="{{ path('app_chat_room_edit', {'id': chat_room.id}) }}">edit</a>
+        {# Message form #}
+        {% if app.user %}
+        <div class="border-t border-slate-100 p-4 bg-white/50 rounded-b-xl">
+            <form method="post" action="{{ path('app_chat_message_new') }}" class="flex items-end gap-3">
+                <input type="hidden" name="chatRoom" value="{{ chat_room.id }}">
+                <div class="flex-grow">
+                    <textarea name="chat_message[content]" rows="2" placeholder="Écrivez un message..." class="w-full px-4 py-3 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all resize-none"></textarea>
+                </div>
+                <button type="submit" class="btn-primary py-3 px-4 shrink-0 flex items-center gap-2">
+                    {{ ux_icon('heroicons:paper-airplane', {class: 'w-5 h-5'}) }}
+                </button>
+            </form>
+        </div>
+        {% else %}
+        <div class="border-t border-slate-100 p-4 text-center text-sm text-slate-500">
+            <a href="{{ path('app_login') }}" class="font-semibold text-primary hover:underline">Connectez-vous</a> pour participer à la discussion.
+        </div>
+        {% endif %}
+    </div>
 
-    {{ include('chat_room/_delete_form.html.twig') }}
+    <a href="{{ path('app_chat_room_index') }}" class="text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1 self-start">
+        {{ ux_icon('heroicons:arrow-left', {class: 'w-4 h-4'}) }}
+        Retour aux discussions
+    </a>
+</div>
 {% endblock %}

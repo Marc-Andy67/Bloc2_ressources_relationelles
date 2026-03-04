@@ -16,30 +16,41 @@ class RessourceRepository extends ServiceEntityRepository
         parent::__construct($registry, Ressource::class);
     }
 
-    //    /**
-    //     * @return Ressource[] Returns an array of Ressource objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('r.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * @param array $filters
+     * @return Ressource[]
+     */
+    public function findByFilters(array $filters): array
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->leftJoin('r.author', 'u')
+            ->leftJoin('r.category', 'c')
+            ->leftJoin('r.relationTypes', 'rt');
 
-    //    public function findOneBySomeField($value): ?Ressource
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        if (!empty($filters['author'])) {
+            $qb->andWhere('u.email LIKE :author')
+                ->setParameter('author', '%' . $filters['author'] . '%');
+        }
+
+        if (!empty($filters['type'])) {
+            $qb->andWhere('r.type = :type')
+                ->setParameter('type', $filters['type']);
+        }
+
+        if (!empty($filters['category'])) {
+            $qb->andWhere('c.id = :category')
+                ->setParameter('category', $filters['category']);
+        }
+
+        if (!empty($filters['relation'])) {
+            $qb->andWhere('rt.id = :relation')
+                ->setParameter('relation', $filters['relation']);
+        }
+
+        return $qb->orderBy('r.creationDate', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 
     /**
      * @return Ressource[] Returns an array of favorited Ressource objects
@@ -63,6 +74,21 @@ class RessourceRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('r')
             ->join('r.setAsideBy', 'u')
+            ->andWhere('u = :user')
+            ->setParameter('user', $user)
+            ->orderBy('r.creationDate', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Ressource[] Returns an array of liked Ressource objects
+     */
+    public function findLikedByUser(\App\Entity\User $user): array
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.LikedBy', 'u')
             ->andWhere('u = :user')
             ->setParameter('user', $user)
             ->orderBy('r.creationDate', 'DESC')

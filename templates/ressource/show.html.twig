@@ -1,46 +1,281 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ressource{% endblock %}
+{% block title %}{{ ressource.title }} — (RE)Sources Relationnelles{% endblock %}
 
 {% block body %}
-    <h1>Ressource</h1>
+<div class="max-w-4xl mx-auto flex flex-col gap-8 pb-12">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ ressource.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ ressource.title }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ ressource.content }}</td>
-            </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ ressource.type }}</td>
-            </tr>
-            <tr>
-                <th>CreationDate</th>
-                <td>{{ ressource.creationDate ? ressource.creationDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ ressource.status ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Size</th>
-                <td>{{ ressource.size }}</td>
-            </tr>
-        </tbody>
-    </table>
+    {# Fil d'Ariane #}
+    <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">
+        <a href="{{ path('app_ressource_index') }}" class="hover:text-primary transition-colors">Explorer</a>
+        {{ ux_icon('heroicons:chevron-right', {class: 'w-4 h-4'}) }}
+        <span class="text-slate-800 truncate max-w-xs">{{ ressource.title }}</span>
+    </div>
 
-    <a href="{{ path('app_ressource_index') }}">back to list</a>
+    {# Contenu Principal #}
+    <div class="glass-card p-8 border border-slate-200/60">
+        <div class="flex items-start justify-between gap-4 mb-6">
+            <div class="flex items-center gap-3 flex-wrap">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100">
+                    {{ ux_icon('heroicons:tag', {class: 'w-3.5 h-3.5'}) }}
+                    {{ ressource.category ? ressource.category.name : 'Général' }}
+                </span>
+                <span class="inline-flex items-center gap-1.5 text-xs font-medium {{ ressource.status ? 'text-emerald-600' : 'text-amber-500' }}">
+                    <span class="w-2 h-2 rounded-full {{ ressource.status ? 'bg-emerald-500' : 'bg-amber-400' }}"></span>
+                    {{ ressource.status ? 'Publié' : 'Brouillon' }}
+                </span>
+            </div>
+            {% if app.user and app.user.id == ressource.author.id %}
+            <a href="{{ path('app_ressource_edit', {'id': ressource.id}) }}" class="p-2 text-slate-400 hover:text-amber-500 hover:bg-amber-50 rounded-lg transition-colors" title="Éditer">
+                {{ ux_icon('heroicons:pencil-square', {class: 'w-5 h-5'}) }}
+            </a>
+            {% endif %}
+        </div>
 
-    <a href="{{ path('app_ressource_edit', {'id': ressource.id}) }}">edit</a>
+        <h1 class="text-3xl font-extrabold text-slate-800 mb-4 leading-tight">{{ ressource.title }}</h1>
 
-    {{ include('ressource/_delete_form.html.twig') }}
+        <div class="flex items-center gap-4 text-sm text-slate-500 mb-8 pb-6 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xs">
+                    {{ ressource.author.email|slice(0,2)|upper }}
+                </div>
+                <span class="font-medium text-slate-700">{{ ressource.author.email|split('@')[0]|capitalize }}</span>
+            </div>
+            {% if ressource.creationDate %}
+            <span class="flex items-center gap-1">
+                {{ ux_icon('heroicons:calendar', {class: 'w-4 h-4'}) }}
+                {{ ressource.creationDate|date('d/m/Y') }}
+            </span>
+            {% endif %}
+            <span class="flex items-center gap-1">
+                {{ ux_icon('heroicons:document-text', {class: 'w-4 h-4'}) }}
+                {{ ressource.type }}
+            </span>
+        </div>
+
+        <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed">
+            {# Extraction de l'URL du média si elle a été ajoutée à la fin du contenu #}
+            {% set content_text = ressource.content %}
+            {% set media_url = null %}
+            
+            {% if '[Fichier multimédia attaché : ' in content_text %}
+                {% set parts = content_text|split('[Fichier multimédia attaché : ') %}
+                {% set content_text = parts[0]|trim %}
+                {% set media_url = parts[1]|replace({']': ''})|trim %}
+            {% endif %}
+            
+            {{ content_text|nl2br }}
+            
+            {% if media_url %}
+                <div class="mt-8 pt-6 border-t border-slate-100">
+                    <h3 class="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        {{ ux_icon('heroicons:paper-clip', {class: 'w-4 h-4'}) }}
+                        Document joint
+                    </h3>
+                    
+                    <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-50">
+                        {% if 'image/' in ressource.type %}
+                            <img src="{{ media_url }}" alt="Image attachée" class="w-full h-auto max-h-[600px] object-contain">
+                        {% elseif 'video/' in ressource.type %}
+                            <video controls class="w-full h-auto max-h-[600px] bg-black">
+                                <source src="{{ media_url }}" type="{{ ressource.type }}">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        {% elseif 'application/pdf' in ressource.type %}
+                            <iframe src="{{ media_url }}" class="w-full h-[600px]" title="Document PDF"></iframe>
+                        {% else %}
+                            <div class="p-8 flex flex-col items-center justify-center text-center">
+                                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm border border-slate-100 mb-4 text-primary">
+                                    {{ ux_icon('heroicons:document', {class: 'w-8 h-8'}) }}
+                                </div>
+                                <p class="text-slate-800 font-medium mb-1">Fichier de type {{ ressource.type }}</p>
+                                <p class="text-slate-500 text-sm mb-4">Ce format de fichier nécessite un logiciel externe ou ne peut pas être prévisualisé directement.</p>
+                                <a href="{{ media_url }}" target="_blank" class="btn-primary flex items-center gap-2" download>
+                                    {{ ux_icon('heroicons:arrow-down-tray', {class: 'w-4 h-4'}) }}
+                                    Télécharger le document
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {# Boutons d'action #}
+    {% if app.user %}
+    <div class="glass-card p-4 border border-slate-200/60 flex items-center justify-between">
+        <p class="text-sm font-semibold text-slate-600">Votre avis sur cette ressource :</p>
+        <div class="flex items-center gap-3">
+            <button
+                class="interaction-btn flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all border border-slate-200 hover:border-red-200 hover:bg-red-50 hover:text-red-600 [&>svg]:transition-all"
+                data-action="favorite"
+                data-url="{{ path('app_ressource_toggle_favorite', {'id': ressource.id}) }}"
+                data-active="{{ ressource.favoritedBy.contains(app.user) ? 'true' : 'false' }}"
+                id="btn-favorite-{{ ressource.id }}">
+                {{ ux_icon('heroicons:heart', {class: 'w-5 h-5 transition-all text-current icon-svg'}) }}
+                Favori
+            </button>
+            <button
+                class="interaction-btn flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all border border-slate-200 hover:border-amber-200 hover:bg-amber-50 hover:text-amber-600 [&>svg]:transition-all"
+                data-action="save"
+                data-url="{{ path('app_ressource_toggle_save', {'id': ressource.id}) }}"
+                data-active="{{ ressource.setAsideBy.contains(app.user) ? 'true' : 'false' }}"
+                id="btn-save-{{ ressource.id }}">
+                {{ ux_icon('heroicons:bookmark', {class: 'w-5 h-5 transition-all text-current icon-svg'}) }}
+                Sauvegarder
+            </button>
+            <button
+                class="interaction-btn flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all border border-slate-200 hover:border-violet-200 hover:bg-violet-50 hover:text-violet-600 [&>svg]:transition-all"
+                data-action="like"
+                data-url="{{ path('app_ressource_toggle_like', {'id': ressource.id}) }}"
+                data-active="{{ ressource.likedBy.contains(app.user) ? 'true' : 'false' }}"
+                id="btn-like-{{ ressource.id }}">
+                {{ ux_icon('heroicons:hand-thumb-up', {class: 'w-5 h-5 transition-all text-current icon-svg'}) }}
+                J'aime
+            </button>
+        </div>
+    </div>
+    {% endif %}
+
+    {# Section Commentaires #}
+    <div class="mt-8">
+        <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+            {{ ux_icon('heroicons:chat-bubble-bottom-center-text', {class: 'w-6 h-6 text-primary'}) }}
+            Commentaires ({{ comments|length }})
+        </h3>
+
+        {% if app.user %}
+            <div class="glass-card p-6 border border-slate-200/60 mb-8" id="comment-form-container">
+                <div id="reply-indicator" class="hidden mb-3 text-sm font-semibold text-primary flex items-center gap-2 bg-primary/5 px-3 py-1.5 rounded-md inline-flex">
+                    {{ ux_icon('heroicons:arrow-uturn-left', {class: 'w-4 h-4'}) }}
+                    <span>En réponse à un commentaire</span>
+                    <button type="button" class="ml-2 text-slate-400 hover:text-slate-600" onclick="cancelReply()">
+                        {{ ux_icon('heroicons:x-mark', {class: 'w-4 h-4'}) }}
+                    </button>
+                </div>
+                {{ form_start(commentForm, {'attr': {'class': 'space-y-4'}}) }}
+                    <input type="hidden" name="parent_id" id="comment_parent_id" value="">
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 rounded-full bg-primary flex-shrink-0 flex items-center justify-center text-white font-bold text-sm mt-1">
+                            {{ app.user.email|slice(0,2)|upper }}
+                        </div>
+                        <div class="flex-grow">
+                            {{ form_widget(commentForm.content) }}
+                            <div class="text-red-500 text-xs mt-1">{{ form_errors(commentForm.content) }}</div>
+                            <div class="flex justify-end mt-2">
+                                <button type="submit" class="btn-primary py-2 px-6 text-sm flex items-center gap-2">
+                                    {{ ux_icon('heroicons:paper-airplane', {class: 'w-4 h-4'}) }}
+                                    Publier
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {{ form_end(commentForm) }}
+            </div>
+        {% else %}
+            <div class="glass-card p-5 border border-slate-200/60 flex items-center gap-4 text-sm text-slate-600 mb-8">
+                {{ ux_icon('heroicons:lock-closed', {class: 'w-5 h-5 text-slate-400 shrink-0'}) }}
+                <p>
+                    <a href="{{ path('app_login') }}" class="font-semibold text-primary hover:underline">Connectez-vous</a>
+                    ou <a href="{{ path('app_register') }}" class="font-semibold text-primary hover:underline">créez un compte</a>
+                    pour participer à la discussion.
+                </p>
+            </div>
+        {% endif %}
+
+        {# Macro d'affichage récursif des commentaires #}
+        {% import _self as macros %}
+        {% macro display_comment(comment, is_child = false) %}
+            {% import _self as macros %}
+            <div class="flex gap-4 {% if is_child %}mt-4 ml-6 sm:ml-12 border-l-2 border-slate-100 pl-4{% else %}p-4 rounded-xl hover:bg-slate-50 transition-colors{% endif %} relative group/comment">
+                <div class="w-10 h-10 rounded-full bg-slate-200 text-slate-600 flex-shrink-0 flex items-center justify-center font-bold text-sm">
+                    {{ comment.author.email|slice(0,2)|upper }}
+                </div>
+                <div class="flex-grow">
+                    <div class="flex items-baseline gap-2 mb-1">
+                        <span class="font-bold text-slate-800">{{ comment.author.email|split('@')[0]|capitalize }}</span>
+                        <span class="text-xs text-slate-400">{{ comment.creationDate|date('d/m/Y à H:i') }}</span>
+                    </div>
+                    <p class="text-slate-700 text-sm leading-relaxed mb-2">{{ comment.content|nl2br }}</p>
+                    
+                    {% if app.user %}
+                    <button class="text-xs font-semibold text-slate-400 hover:text-primary transition-colors flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover/comment:opacity-100" onclick="replyTo({{ comment.id }})">
+                        <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                        </svg>
+                        Répondre
+                    </button>
+                    {% endif %}
+                    
+                    {# Boucle enfants #}
+                    {% if comment.children|length > 0 %}
+                        <div class="mt-2 space-y-4">
+                            {% for child in comment.children %}
+                                {{ macros.display_comment(child, true) }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endmacro %}
+
+        {# Liste des commentaires #}
+        <div class="space-y-6">
+            {% for comment in comments %}
+                {{ macros.display_comment(comment) }}
+            {% else %}
+                <div class="text-center py-8 text-slate-500 text-sm">
+                    Aucun commentaire pour le moment. Soyez le premier à partager votre avis !
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <a href="{{ path('app_ressource_index') }}" class="text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1 self-start">
+        {{ ux_icon('heroicons:arrow-left', {class: 'w-4 h-4'}) }}
+        Retour à l'explorateur
+    </a>
+</div>
+
+{% if app.user %}
+<script>
+const activeClasses = {
+    favorite: ['bg-red-50', 'text-red-600', 'border-red-200', 'ring-2', 'ring-red-100', 'ring-offset-1', '[&_svg]:fill-red-600', '[&_path]:fill-red-600'],
+    save: ['bg-amber-50', 'text-amber-600', 'border-amber-200', 'ring-2', 'ring-amber-100', 'ring-offset-1', '[&_svg]:fill-amber-600', '[&_path]:fill-amber-600'],
+    like: ['bg-violet-50', 'text-violet-600', 'border-violet-200', 'ring-2', 'ring-violet-100', 'ring-offset-1', '[&_svg]:fill-violet-600', '[&_path]:fill-violet-600']
+};
+
+document.querySelectorAll('.interaction-btn').forEach(btn => {
+    const action = btn.dataset.action;
+    const isActive = btn.dataset.active === 'true';
+    if (isActive) btn.classList.add(...activeClasses[action]);
+
+    btn.addEventListener('click', async () => {
+        const url = btn.dataset.url;
+        try {
+            const res = await fetch(url, { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+            const data = await res.json();
+            if (data.active) {
+                btn.classList.add(...activeClasses[action]);
+            } else {
+                btn.classList.remove(...activeClasses[action]);
+            }
+        } catch(e) { console.error(e); }
+    });
+});
+
+function replyTo(commentId) {
+    document.getElementById('comment_parent_id').value = commentId;
+    document.getElementById('reply-indicator').classList.remove('hidden');
+    document.getElementById('comment-form-container').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.querySelector('textarea[name="comment[content]"]').focus();
+}
+
+function cancelReply() {
+    document.getElementById('comment_parent_id').value = '';
+    document.getElementById('reply-indicator').classList.add('hidden');
+}
+</script>
+{% endif %}
 {% endblock %}
