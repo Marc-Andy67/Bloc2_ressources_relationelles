@@ -21,12 +21,21 @@ class RessourceType extends AbstractType
             ->add('title')
             ->add('content')
             ->add('multimedia', FileType::class, [
-                'label' => 'Fichier multimédia (Max 10Mo)',
+                'label' => 'Fichier multimédia (Max 10Mo, PDF/DOC/IMAGES/MP4)',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
                     new File(
-                        maxSize: '10M'
+                        maxSize: '10M',
+                        mimeTypes: [
+                            'application/pdf',
+                            'application/msword',
+                            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                            'image/jpeg',
+                            'image/png',
+                            'video/mp4',
+                        ],
+                        mimeTypesMessage: 'Veuillez uploader un document valide (PDF, Word, PNG, JPEG, MP4)'
                     )
                 ],
             ])
@@ -38,6 +47,7 @@ class RessourceType extends AbstractType
                 'class' => RelationType::class,
                 'choice_label' => 'name',
                 'multiple' => true,
+                'expanded' => true,
             ])
         ;
     }

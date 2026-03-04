@@ -24,40 +24,72 @@
         <nav class="sticky top-0 z-50 w-full border-b border-white/20 bg-white/70 backdrop-blur-lg shadow-sm">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-20">
-                    <div class="flex items-center gap-10">
+                    <div class="flex items-center gap-8">
                         <a href="{{ path('app_home') }}" class="flex items-center gap-3 font-bold text-2xl tracking-tight text-primary transition-transform hover:scale-105">
                             {{ ux_icon('heroicons:cube-transparent', {class: 'w-8 h-8 text-secondary'}) }}
                             (RE)Sources
                         </a>
                         <div class="hidden md:block">
-                            <div class="flex items-baseline space-x-2">
-                                <a href="{{ path('app_ressource_index') }}" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer {{ app.request.attributes.get('_route') starts with 'app_ressource' ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900' }}">
-                                    <div class="flex items-center gap-2">
-                                        {{ ux_icon('heroicons:magnifying-glass', {class: 'w-4 h-4'}) }}
-                                        Explorer
-                                    </div>
-                                </a>
-                                <a href="{{ path('app_chat_room_index') }}" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer {{ app.request.attributes.get('_route') starts with 'app_chat' ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900' }}">
-                                    <div class="flex items-center gap-2">
-                                        {{ ux_icon('heroicons:chat-bubble-left-right', {class: 'w-4 h-4'}) }}
-                                        Conversations
-                                    </div>
-                                </a>
+                            <div class="flex items-center space-x-1">
+                            <a href="{{ path('app_ressource_index') }}" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer {{ app.request.attributes.get('_route') starts with 'app_ressource' and not (app.request.attributes.get('_route') in ['app_ressource_favorites','app_ressource_saved','app_ressource_liked']) ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900' }}">
+                                <div class="flex items-center gap-2">
+                                    {{ ux_icon('heroicons:magnifying-glass', {class: 'w-4 h-4'}) }}
+                                    Explorer
+                                </div>
+                            </a>
+                            {% if app.user %}
+                            <a href="{{ path('app_chat_room_index') }}" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer {{ app.request.attributes.get('_route') starts with 'app_chat' ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900' }}">
+                                <div class="flex items-center gap-2">
+                                    {{ ux_icon('heroicons:chat-bubble-left-right', {class: 'w-4 h-4'}) }}
+                                    Conversations
+                                </div>
+                            </a>
+                            <a href="{{ path('app_ressource_new') }}" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ app.request.attributes.get('_route') == 'app_ressource_new' ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                                {{ ux_icon('heroicons:plus-circle', {class: 'w-4 h-4'}) }}
+                                Publier une ressource
+                            </a>
+                            {% endif %}
                             </div>
                         </div>
                     </div>
                     <div class="hidden md:block">
-                        <div class="flex items-center gap-4">
+                        <div class="flex items-center gap-3">
                             {% if app.user %}
-                                <div class="flex items-center gap-3 px-4 py-2 bg-white/50 border border-slate-100 rounded-lg shadow-sm backdrop-blur-sm">
-                                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xs shadow-md">
-                                        {{ app.user.email|slice(0,2)|upper }}
+                                {# Dropdown Profil #}
+                                <div class="relative" id="profile-menu-container">
+                                    <button type="button" onclick="document.getElementById('profile-menu-dropdown').classList.toggle('hidden')" class="flex items-center gap-3 px-3 py-2 rounded-xl border border-slate-100 bg-white/50 shadow-sm backdrop-blur-sm hover:shadow-md transition-all duration-200">
+                                        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xs shadow-md">
+                                            {{ app.user.email|slice(0,2)|upper }}
+                                        </div>
+                                        <span class="text-sm font-semibold text-slate-800">{{ app.user.email|split('@')[0]|capitalize }}</span>
+                                        {{ ux_icon('heroicons:chevron-down', {class: 'w-3.5 h-3.5 text-slate-400 transition-transform duration-200'}) }}
+                                    </button>
+                                    <div id="profile-menu-dropdown" class="absolute right-0 top-full mt-1 hidden z-50 transition-all duration-150" style="width:220px;">
+                                        <div style="background:white;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 10px 25px -5px rgba(0,0,0,.12),0 4px 10px -6px rgba(0,0,0,.08);overflow:hidden;padding:4px 0;">
+                                            <a href="{{ path('app_ressource_favorites') }}" style="display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:.875rem;font-weight:500;color:#334155;text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='#fff1f2';this.style.color='#dc2626'" onmouseout="this.style.background='transparent';this.style.color='#334155'">
+                                                {{ ux_icon('heroicons:heart', {class: 'w-4 h-4', style: 'color:#ef4444;flex-shrink:0'}) }}
+                                                Mes Favoris
+                                            </a>
+                                            <a href="{{ path('app_ressource_saved') }}" style="display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:.875rem;font-weight:500;color:#334155;text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='#fffbeb';this.style.color='#d97706'" onmouseout="this.style.background='transparent';this.style.color='#334155'">
+                                                {{ ux_icon('heroicons:bookmark', {class: 'w-4 h-4', style: 'color:#f59e0b;flex-shrink:0'}) }}
+                                                Mis de côté
+                                            </a>
+                                            <a href="{{ path('app_ressource_liked') }}" style="display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:.875rem;font-weight:500;color:#334155;text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='#f5f3ff';this.style.color='#7c3aed'" onmouseout="this.style.background='transparent';this.style.color='#334155'">
+                                                {{ ux_icon('heroicons:hand-thumb-up', {class: 'w-4 h-4', style: 'color:#8b5cf6;flex-shrink:0'}) }}
+                                                Ressources Likées
+                                            </a>
+                                            <a href="{{ path('app_progression_index') }}" style="display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:.875rem;font-weight:500;color:#334155;text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='#ecfdf5';this.style.color='#059669'" onmouseout="this.style.background='transparent';this.style.color='#334155'">
+                                                {{ ux_icon('heroicons:chart-bar', {class: 'w-4 h-4', style: 'color:#10b981;flex-shrink:0'}) }}
+                                                Ma Progression
+                                            </a>
+                                            <div style="border-top:1px solid #f1f5f9;margin:2px 0;"></div>
+                                            <a href="{{ path('app_logout') }}" style="display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:.875rem;font-weight:500;color:#334155;text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='#fff1f2';this.style.color='#dc2626'" onmouseout="this.style.background='transparent';this.style.color='#334155'">
+                                                {{ ux_icon('heroicons:arrow-right-on-rectangle', {class: 'w-4 h-4', style: 'color:#ef4444;flex-shrink:0'}) }}
+                                                Se déconnecter
+                                            </a>
+                                        </div>
                                     </div>
-                                    <span class="text-sm font-semibold text-slate-800">{{ app.user.email|split('@')[0]|capitalize }}</span>
                                 </div>
-                                <a href="{{ path('app_logout') }}" class="text-sm font-semibold text-slate-600 hover:text-red-500 transition-colors cursor-pointer flex items-center gap-1 px-2">
-                                    {{ ux_icon('heroicons:arrow-right-on-rectangle', {class: 'w-5 h-5'}) }}
-                                </a>
                             {% else %}
                                 <a href="{{ path('app_login') }}" class="text-sm font-semibold text-slate-600 hover:text-primary transition-colors cursor-pointer px-4">Connexion</a>
                                 <a href="{{ path('app_register') }}" class="btn-primary flex items-center gap-2 py-2.5">
@@ -100,5 +132,14 @@
                 </div>
             </div>
         </footer>
+        <script>
+            document.addEventListener('click', function(event) {
+                const container = document.getElementById('profile-menu-container');
+                const dropdown = document.getElementById('profile-menu-dropdown');
+                if (container && dropdown && !container.contains(event.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        </script>
     </body>
 </html>

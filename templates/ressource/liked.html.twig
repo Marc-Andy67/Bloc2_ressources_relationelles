@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ressources Mises de Côté - (RE)Sources Relationnelles{% endblock %}
+{% block title %}Ressources Likées - (RE)Sources Relationnelles{% endblock %}
 
 {% block body %}
 <div class="px-4 md:px-8 py-8 md:py-12 max-w-7xl mx-auto">
     <div class="flex justify-between items-end mb-8 border-b border-slate-200 pb-4">
         <div>
             <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight flex items-center gap-3">
-                {{ ux_icon('heroicons:bookmark', {class: 'w-8 h-8 text-amber-500'}) }}
-                Mes Ressources Sauvegardées
+                {{ ux_icon('heroicons:hand-thumb-up', {class: 'w-8 h-8 text-violet-500'}) }}
+                Ressources Likées
             </h1>
-            <p class="text-slate-500 mt-2">Les ressources que vous avez mises de côté pour les lire plus tard.</p>
+            <p class="text-slate-500 mt-2">Les ressources que vous avez appréciées et recommandées.</p>
         </div>
         <a href="{{ path('app_ressource_index') }}" class="btn-primary text-sm">Explorer d'autres contenus</a>
     </div>
@@ -18,11 +18,11 @@
     {% if ressources is empty %}
         <div class="glass-card flex flex-col items-center justify-center p-16 text-center border border-dashed border-slate-300">
             <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-4 text-slate-400">
-                {{ ux_icon('heroicons:bookmark', {class: 'w-10 h-10'}) }}
+                {{ ux_icon('heroicons:hand-thumb-up', {class: 'w-10 h-10'}) }}
             </div>
-            <h2 class="text-xl font-bold text-slate-700 mb-2">Aucune ressource sauvegardée</h2>
+            <h2 class="text-xl font-bold text-slate-700 mb-2">Aucune ressource likée pour le moment</h2>
             <p class="text-slate-500 max-w-md mx-auto mb-6">
-                Mettez des ressources de côté pour les consulter tranquillement plus tard.
+                Likez des ressources lors de votre navigation pour les retrouver ici.
             </p>
             <a href="{{ path('app_ressource_index') }}" class="btn-primary flex items-center gap-2">
                 {{ ux_icon('heroicons:magnifying-glass', {class: 'w-5 h-5'}) }}
@@ -33,19 +33,19 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for ressource in ressources %}
                 <article class="glass-card overflow-hidden group hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-slate-200/60">
-                    <div class="h-3 bg-gradient-to-r from-amber-400 to-amber-500 w-full"></div>
+                    <div class="h-3 bg-gradient-to-r from-violet-400 to-violet-600 w-full"></div>
                     <div class="p-6 flex-grow flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-violet-50 text-violet-700">
                                 {{ ux_icon('heroicons:tag', {class: 'w-3.5 h-3.5'}) }}
                                 {{ ressource.category ? ressource.category.name : 'Général' }}
                             </span>
-                            <span class="inline-flex items-center gap-1 text-amber-500 text-xs font-medium">
-                                {{ ux_icon('heroicons:bookmark', {class: 'w-4 h-4 fill-amber-500'}) }}
+                            <span class="inline-flex items-center gap-1 text-violet-500 text-xs font-medium">
+                                {{ ux_icon('heroicons:hand-thumb-up', {class: 'w-4 h-4 fill-violet-500'}) }}
                             </span>
                         </div>
                         
-                        <h2 class="text-xl font-bold text-slate-800 mb-3 group-hover:text-amber-600 transition-colors line-clamp-2">
+                        <h2 class="text-xl font-bold text-slate-800 mb-3 group-hover:text-violet-600 transition-colors line-clamp-2">
                             {{ ressource.title }}
                         </h2>
                         
@@ -59,7 +59,7 @@
                                 <span>{{ ressource.author.email|split('@')[0]|capitalize }}</span>
                             </div>
                             
-                            <a href="{{ path('app_ressource_show', {'id': ressource.id}) }}" class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-50 text-slate-400 hover:bg-amber-50 hover:text-amber-600 transition-colors" title="Voir la ressource">
+                            <a href="{{ path('app_ressource_show', {'id': ressource.id}) }}" class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-50 text-slate-400 hover:bg-violet-50 hover:text-violet-600 transition-colors" title="Voir la ressource">
                                 {{ ux_icon('heroicons:arrow-right', {class: 'w-4 h-4'}) }}
                             </a>
                         </div>

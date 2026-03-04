@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ChatRoom;
-use App\Form\ChatRoomType;
+use App\Entity\Ressource;
 use App\Repository\ChatRoomRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,24 +22,44 @@ final class ChatRoomController extends AbstractController
         ]);
     }
 
+    /**
+     * Rejoint le salon lié à une ressource (le crée s'il n'existe pas).
+     */
+    #[Route('/join/{id}', name: 'app_chat_room_join_or_create', methods: ['GET'])]
+    public function joinOrCreate(Ressource $ressource, ChatRoomRepository $chatRoomRepository, EntityManagerInterface $em): Response
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+
+        // Chercher un salon existant pour cette ressource
+        $chatRoom = $chatRoomRepository->findOneBy(['Ressource' => $ressource]);
+
+        if (!$chatRoom) {
+            // Créer le salon s'il n'existe pas
+            $chatRoom = new ChatRoom();
+            $chatRoom->setName('Discussion : ' . $ressource->getTitle());
+            $chatRoom->setRessource($ressource);
+            $chatRoom->addMember($user);
+            $em->persist($chatRoom);
+        } elseif (!$chatRoom->getMembers()->contains($user)) {
+            // Ajouter l'utilisateur comme membre s'il ne l'est pas déjà
+            $chatRoom->addMember($user);
+        }
+
+        $em->flush();
+
+        return $this->redirectToRoute('app_chat_room_show', ['id' => $chatRoom->getId()]);
+    }
+
     #[Route('/new', name: 'app_chat_room_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $chatRoom = new ChatRoom();
-        $form = $this->createForm(ChatRoomType::class, $chatRoom);
-        $form->handleRequest($request);
+        $chatRoom->setName('Nouveau salon');
+        $entityManager->persist($chatRoom);
+        $entityManager->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($chatRoom);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_chat_room_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('chat_room/new.html.twig', [
-            'chat_room' => $chatRoom,
-            'form' => $form,
-        ]);
+        return $this->redirectToRoute('app_chat_room_show', ['id' => $chatRoom->getId()]);
     }
 
     #[Route('/{id}', name: 'app_chat_room_show', methods: ['GET'])]
@@ -50,28 +70,10 @@ final class ChatRoomController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_chat_room_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, ChatRoom $chatRoom, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(ChatRoomType::class, $chatRoom);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_chat_room_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('chat_room/edit.html.twig', [
-            'chat_room' => $chatRoom,
-            'form' => $form,
-        ]);
-    }
-
     #[Route('/{id}', name: 'app_chat_room_delete', methods: ['POST'])]
     public function delete(Request $request, ChatRoom $chatRoom, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$chatRoom->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $chatRoom->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($chatRoom);
             $entityManager->flush();
         }

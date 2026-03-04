@@ -11,11 +11,58 @@
             <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">Explorateur de Ressources</h1>
             <p class="text-slate-500 mt-1">Découvrez, partagez et consultez les ressources de la communauté.</p>
         </div>
-        
-        <a href="{{ path('app_ressource_new') }}" class="btn-primary flex items-center justify-center gap-2 whitespace-nowrap">
-            {{ ux_icon('heroicons:plus-circle', {class: 'w-5 h-5'}) }}
-            Créer une ressource
-        </a>
+    </div>
+
+    {% if not app.user %}
+    <div class="flex items-center gap-4 p-4 rounded-xl bg-blue-50/80 border border-blue-200 text-sm text-blue-800 font-medium">
+        {{ ux_icon('heroicons:information-circle', {class: 'w-5 h-5 shrink-0 text-blue-500'}) }}
+        <span>Vous consultez (RE)Sources en tant que visiteur. <a href="{{ path('app_login') }}" class="underline font-semibold hover:text-blue-600">Connectez-vous</a> ou <a href="{{ path('app_register') }}" class="underline font-semibold hover:text-blue-600">inscrivez-vous</a> pour aimer, sauvegarder et publier des ressources.</span>
+    </div>
+    {% endif %}
+
+    {# Section Filtres #}
+    <div class="glass-card p-4 md:p-6 mb-2">
+        <form method="get" action="{{ path('app_ressource_index') }}" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+            <div>
+                <label for="author" class="form-label text-xs mb-1 block">Auteur</label>
+                <input type="text" name="author" id="author" value="{{ currentFilters.author|default('') }}" placeholder="Nom complet ou email" class="input-field py-2 text-sm bg-white/50">
+            </div>
+            <div>
+                <label for="category" class="form-label text-xs mb-1 block">Catégorie</label>
+                <select name="category" id="category" class="input-field py-2 text-sm bg-white/50">
+                    <option value="">Toutes</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat.id }}" {{ currentFilters.category|default('') == cat.id ? 'selected' : '' }}>{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="relation" class="form-label text-xs mb-1 block">Type de relations</label>
+                <select name="relation" id="relation" class="input-field py-2 text-sm bg-white/50">
+                    <option value="">Tous</option>
+                    {% for rel in relationTypes %}
+                        <option value="{{ rel.id }}" {{ currentFilters.relation|default('') == rel.id ? 'selected' : '' }}>{{ rel.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="type" class="form-label text-xs mb-1 block">Type de ressource</label>
+                <select name="type" id="type" class="input-field py-2 text-sm bg-white/50">
+                    <option value="">Tous</option>
+                    {% for t in types %}
+                        <option value="{{ t }}" {{ currentFilters.type|default('') == t ? 'selected' : '' }}>{{ t|split('/')|last|upper }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="flex gap-2">
+                <button type="submit" class="btn-primary w-full py-2 text-sm flex justify-center items-center gap-1">
+                    {{ ux_icon('heroicons:funnel', {class: 'w-4 h-4'}) }} Filtrer
+                </button>
+                <a href="{{ path('app_ressource_index') }}" class="btn-secondary w-full py-2 text-sm flex justify-center items-center gap-1" title="Réinitialiser">
+                    {{ ux_icon('heroicons:x-mark', {class: 'w-4 h-4'}) }}
+                </a>
+            </div>
+        </form>
     </div>
 
     {# Ressources Grid #}
@@ -24,9 +71,15 @@
             {% for ressource in ressources %}
                 <div class="glass-card flex flex-col h-full group">
                     <div class="flex justify-between items-start mb-4">
-                        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100">
-                            {{ ux_icon('heroicons:tag', {class: 'w-3.5 h-3.5'}) }}
-                            {{ ressource.type ?: 'Général' }}
+                        <div class="flex flex-wrap items-center gap-2">
+                            <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100">
+                                {{ ux_icon('heroicons:folder', {class: 'w-3.5 h-3.5'}) }}
+                                {{ ressource.category ? ressource.category.name : 'Général' }}
+                            </div>
+                            <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-slate-50 text-slate-600 border border-slate-200" title="Type de contenu">
+                                {{ ux_icon('heroicons:document-text', {class: 'w-3.5 h-3.5'}) }}
+                                {{ ressource.type ? ressource.type|split('/')|last|upper : 'TEXTE' }}
+                            </div>
                         </div>
                         <div class="flex items-center gap-1.5 text-xs font-medium {{ ressource.status ? 'text-emerald-600' : 'text-amber-500' }}">
                             <span class="relative flex h-2 w-2">
@@ -36,27 +89,44 @@
                         </div>
                     </div>
                     
-                    <h3 class="text-xl font-bold text-slate-800 mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                        {{ ressource.title }}
-                    </h3>
-                    
-                    <p class="text-sm text-slate-600 mb-6 flex-grow line-clamp-3">
-                        {{ ressource.content }}
-                    </p>
+                    <a href="{{ path('app_ressource_show', {'id': ressource.id}) }}" class="block group/link flex-grow cursor-pointer my-2">
+                        <h3 class="text-xl font-bold text-slate-800 mb-2 group-hover/link:text-primary transition-colors line-clamp-2">
+                            {{ ressource.title }}
+                        </h3>
+                        
+                        {% if ressource.relationTypes|length > 0 %}
+                            <div class="flex flex-wrap gap-1 mb-3">
+                                {% for relation in ressource.relationTypes %}
+                                    <span class="px-2 py-0.5 bg-slate-100 text-slate-600 text-[10px] font-semibold rounded-md border border-slate-200">
+                                        {{ relation.name }}
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        <p class="text-sm text-slate-600 mb-6 line-clamp-3 group-hover/link:text-slate-800 transition-colors">
+                            {{ ressource.content }}
+                        </p>
+                    </a>
                     
                     <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                        <div class="flex items-center gap-1.5">
+                        <div class="flex items-center gap-1.5 flex-wrap">
                             {{ ux_icon('heroicons:calendar', {class: 'w-4 h-4'}) }}
-                            {{ ressource.creationDate ? ressource.creationDate|date('d/m/Y') : 'Non daté' }}
+                            {{ ressource.creationDate ? ressource.creationDate|date('d/m/Y') : '-' }}
+                            <span class="text-slate-300 mx-1">&bull;</span>
+                            {{ ux_icon('heroicons:user', {class: 'w-4 h-4'}) }}
+                            <span class="truncate max-w-[100px]" title="{{ ressource.author ? ressource.author.email : 'Anonyme' }}">{{ ressource.author ? ressource.author.email|split('@')[0]|capitalize : 'Anonyme' }}</span>
                         </div>
                         
-                        <div class="flex items-center gap-2">
+                     <div class="flex items-center gap-2">
                             <a href="{{ path('app_ressource_show', {'id': ressource.id}) }}" class="p-1.5 text-slate-400 hover:text-primary hover:bg-blue-50 rounded-md transition-colors" title="Voir">
                                 {{ ux_icon('heroicons:eye', {class: 'w-5 h-5'}) }}
                             </a>
+                            {% if app.user %}
                             <a href="{{ path('app_ressource_edit', {'id': ressource.id}) }}" class="p-1.5 text-slate-400 hover:text-amber-500 hover:bg-amber-50 rounded-md transition-colors" title="Éditer">
                                 {{ ux_icon('heroicons:pencil-square', {class: 'w-5 h-5'}) }}
                             </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -69,11 +139,18 @@
                 {{ ux_icon('heroicons:folder-open', {class: 'w-10 h-10 text-slate-400'}) }}
             </div>
             <h3 class="text-xl font-bold text-slate-800 mb-2">Aucune ressource trouvée</h3>
-            <p class="text-slate-500 max-w-md mx-auto mb-6">Il n'y a pas encore de ressources disponibles sur la plateforme. Soyez le premier à partager vos connaissances !</p>
+            <p class="text-slate-500 max-w-md mx-auto mb-6">Il n'y a pas encore de ressources disponibles sur la plateforme. Soyez le premier à partager vos connaissances !</p>
+            {% if app.user %}
             <a href="{{ path('app_ressource_new') }}" class="btn-primary flex items-center gap-2">
                 {{ ux_icon('heroicons:plus', {class: 'w-5 h-5'}) }}
                 Créer la première ressource
             </a>
+            {% else %}
+            <a href="{{ path('app_register') }}" class="btn-primary flex items-center gap-2">
+                {{ ux_icon('heroicons:user-plus', {class: 'w-5 h-5'}) }}
+                Créer un compte pour publier
+            </a>
+            {% endif %}
         </div>
     {% endif %}
 

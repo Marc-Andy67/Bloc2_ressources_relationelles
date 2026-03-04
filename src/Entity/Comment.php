@@ -20,8 +20,16 @@ class Comment
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $creationDate = null;
 
-    #[ORM\ManyToOne(targetEntity: self::class)]
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'children')]
     private ?self $parent = null;
+
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class, cascade: ['remove'])]
+    private \Doctrine\Common\Collections\Collection $children;
+
+    public function __construct()
+    {
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     #[ORM\ManyToOne]
     private ?Ressource $ressource = null;
@@ -69,6 +77,14 @@ class Comment
         $this->parent = $parent;
 
         return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection<int, self>
+     */
+    public function getChildren(): \Doctrine\Common\Collections\Collection
+    {
+        return $this->children;
     }
 
     public function getRessource(): ?Ressource

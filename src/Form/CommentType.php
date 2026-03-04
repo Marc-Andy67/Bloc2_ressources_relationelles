@@ -15,19 +15,13 @@ class CommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('content')
-            ->add('creationDate')
-            ->add('parent', EntityType::class, [
-                'class' => Comment::class,
-                'choice_label' => 'id',
-            ])
-            ->add('ressource', EntityType::class, [
-                'class' => Ressource::class,
-                'choice_label' => 'id',
-            ])
-            ->add('author', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
+            ->add('content', \Symfony\Component\Form\Extension\Core\Type\TextareaType::class, [
+                'label' => 'Votre avis',
+                'attr' => [
+                    'placeholder' => 'Partagez votre avis ou posez une question...',
+                    'rows' => 3,
+                    'class' => 'input-field bg-white/50 w-full mb-2'
+                ]
             ])
         ;
     }

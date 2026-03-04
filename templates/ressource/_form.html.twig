@@ -14,26 +14,33 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-            {{ form_label(form.category, 'Catégorie', {'label_attr': {'class': 'form-label'}}) }}
-            {{ form_widget(form.category, {'attr': {'class': 'input-field min-h-[48px]'}}) }}
+            {{ form_label(form.category, 'Catégorie de la ressource', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.category, {'attr': {'class': 'input-field h-32 px-4 py-3 bg-white/50'}}) }}
             <div class="text-red-500 text-xs mt-1">{{ form_errors(form.category) }}</div>
         </div>
         
         <div>
-            {{ form_label(form.multimedia, 'Fichier multimédia', {'label_attr': {'class': 'form-label'}}) }}
-            {{ form_widget(form.multimedia, {'attr': {'class': 'input-field file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer pt-2 pb-1 bg-white/50'}}) }}
-            <div class="text-red-500 text-xs mt-1">{{ form_errors(form.multimedia) }}</div>
+            {{ form_label(form.relationTypes, 'Types de relations concernées', {'label_attr': {'class': 'form-label'}}) }}
+            <p class="text-[10px] text-slate-500 mb-2 leading-tight">Sélectionnez les relations concernées par cette ressource :</p>
+            <div class="input-field h-32 px-4 py-3 bg-white/50 overflow-y-auto custom-scrollbar flex flex-col gap-2">
+                {% for child in form.relationTypes %}
+                    <div class="flex items-center gap-2">
+                        {{ form_widget(child, {'attr': {'class': 'rounded border-slate-300 text-primary focus:ring-primary w-4 h-4 cursor-pointer'}}) }}
+                        {{ form_label(child, null, {'label_attr': {'class': 'text-sm font-medium text-slate-700 cursor-pointer select-none leading-none mt-1'}}) }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="text-red-500 text-xs mt-1">{{ form_errors(form.relationTypes) }}</div>
         </div>
     </div>
 
-    <div>
-        {{ form_label(form.relationTypes, 'Types de relations concernées', {'label_attr': {'class': 'form-label'}}) }}
-        <p class="text-xs text-slate-500 mb-2">Maintenez Ctrl (ou Cmd) pour en sélectionner plusieurs.</p>
-        {{ form_widget(form.relationTypes, {'attr': {'class': 'input-field min-h-[100px]'}}) }}
-        <div class="text-red-500 text-xs mt-1">{{ form_errors(form.relationTypes) }}</div>
+    <div class="mt-6">
+        {{ form_label(form.multimedia, 'Fichier multimédia', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.multimedia, {'attr': {'class': 'input-field file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer pt-2 pb-1 bg-white/50'}}) }}
+        <div class="text-red-500 text-xs mt-1">{{ form_errors(form.multimedia) }}</div>
     </div>
 
-    <div class="pt-4 flex justify-end">
+    <div class="pt-6 flex justify-end">
         <button class="btn-primary flex items-center gap-2">
             {{ button_label|default('Enregistrer') }}
             {{ ux_icon('heroicons:check-circle', {class: 'w-5 h-5'}) }}
