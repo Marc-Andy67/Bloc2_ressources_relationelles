@@ -11,76 +11,164 @@
     
     <!-- Main Content -->
     <div class="flex-1 min-w-0 flex flex-col gap-6">
-        <div class="header-section gsap-stagger-item">
-            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Statistiques de la plateforme</h1>
-            <p class="text-slate-900 dark:text-white mt-2">Aperçu global de l'activité, des ressources et des utilisateurs.</p>
+        <div class="header-section gsap-stagger-item flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Statistiques Détaillées</h1>
+                <p class="text-slate-900 dark:text-white mt-2">Analysez les consultations, les exploitations et la création de ressources.</p>
+            </div>
+            <a href="{{ path('app_admin_analytics_export', currentFilters) }}" class="btn-primary">
+                {{ ux_icon('heroicons:document-arrow-down', {class: 'w-5 h-5'}) }}
+                Exporter en Excel
+            </a>
+        </div>
+
+        <!-- Filter Panel -->
+        <div class="glass-card p-6 gsap-stagger-item bg-white/50 dark:bg-slate-900/50">
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+                {{ ux_icon('heroicons:funnel', {class: 'w-5 h-5 text-primary'}) }}
+                Filtrer l'activité
+            </h2>
+            <form method="GET" action="{{ path('app_admin_analytics') }}" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide">Du</label>
+                    <input type="date" name="date_debut" value="{{ currentFilters.date_debut ?? '' }}" class="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary">
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide">Au</label>
+                    <input type="date" name="date_fin" value="{{ currentFilters.date_fin ?? '' }}" class="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary">
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide">Catégorie</label>
+                    <select name="categorie" class="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary">
+                        <option value="">Toutes</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat.id }}" {% if currentFilters.categorie is defined and currentFilters.categorie == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide">T. Ressource</label>
+                    <select name="type_ressource" class="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary">
+                        <option value="">Tous</option>
+                        {% for type in types %}
+                            <option value="{{ type }}" {% if currentFilters.type_ressource is defined and currentFilters.type_ressource == type %}selected{% endif %}>{{ type }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide">T. Relation</label>
+                    <select name="type_relation" class="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary">
+                        <option value="">Tous</option>
+                        {% for rel in relationTypes %}
+                            <option value="{{ rel.id }}" {% if currentFilters.type_relation is defined and currentFilters.type_relation == rel.id %}selected{% endif %}>{{ rel.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="lg:col-span-1 flex items-end">
+                    <button type="submit" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-primary font-bold px-4 py-2 rounded-lg transition-colors shadow-md">
+                        Appliquer
+                    </button>
+                </div>
+                
+                {% set hasFilters = currentFilters.date_debut is defined or currentFilters.date_fin is defined or currentFilters.categorie is defined or currentFilters.type_ressource is defined or currentFilters.type_relation is defined %}
+                {% if hasFilters %}
+                <div class="lg:col-span-1 flex items-end">
+                    <a href="{{ path('app_admin_analytics') }}" class="w-full flex justify-center bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold px-4 py-2 rounded-lg transition-colors">
+                        Effacer
+                    </a>
+                </div>
+                {% endif %}
+
+            </form>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Création & Base -->
+        <h3 class="text-xl font-bold text-slate-900 dark:text-white mt-4 border-l-4 border-primary pl-3 gsap-stagger-item">Créations & Utilisateurs</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Total Ressources -->
-            <div class="glass-card p-6 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-2 transition-transform duration-300 md:col-span-2 lg:col-span-4 bg-primary/5 dark:bg-blue-900/10 border-primary/20">
+            <div class="glass-card p-6 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-1 transition-transform duration-300 border-b-4 border-b-blue-500">
                 <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-2xl bg-primary/10 dark:bg-blue-500/20 text-primary dark:text-blue-400 flex items-center justify-center">
-                        {{ ux_icon('heroicons:rectangle-stack', {class: 'w-6 h-6'}) }}
+                    <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                        {{ ux_icon('heroicons:document-text', {class: 'w-5 h-5'}) }}
                     </div>
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Total Ressources</h3>
+                    <h3 class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Ressources Publiées</h3>
                 </div>
-                <div class="mt-4 flex items-end justify-between">
-                    <span class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tighter">{{ total_resources }}</span>
-                </div>
-            </div>
-
-            <!-- Validated Ressources -->
-            <div class="glass-card p-6 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-2 transition-transform duration-300">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-                        {{ ux_icon('heroicons:check-badge', {class: 'w-6 h-6'}) }}
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Validées</h3>
-                </div>
-                <div class="mt-4 flex items-end justify-between">
-                    <span class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tighter">{{ validated_resources }}</span>
-                </div>
+                <div class="mt-2 text-4xl font-extrabold text-slate-900 dark:text-white">{{ total_resources }}</div>
             </div>
 
             <!-- Pending Ressources -->
-            <div class="glass-card p-6 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-2 transition-transform duration-300">
+            <div class="glass-card p-6 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-1 transition-transform duration-300 border-b-4 border-b-amber-500">
                 <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 flex items-center justify-center">
-                        {{ ux_icon('heroicons:clock', {class: 'w-6 h-6'}) }}
+                    <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                        {{ ux_icon('heroicons:clock', {class: 'w-5 h-5'}) }}
                     </div>
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">En attente</h3>
+                    <h3 class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">En attente</h3>
                 </div>
-                <div class="mt-4 flex items-end justify-between">
-                    <span class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tighter">{{ pending_resources }}</span>
-                </div>
-            </div>
-
-            <!-- Rejected Ressources -->
-            <div class="glass-card p-6 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-2 transition-transform duration-300">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 flex items-center justify-center">
-                        {{ ux_icon('heroicons:no-symbol', {class: 'w-6 h-6'}) }}
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Refusées</h3>
-                </div>
-                <div class="mt-4 flex items-end justify-between">
-                    <span class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tighter">{{ rejected_resources }}</span>
-                </div>
+                <div class="mt-2 text-4xl font-extrabold text-slate-900 dark:text-white">{{ pending_resources }}</div>
             </div>
 
             <!-- Total Users -->
-            <div class="glass-card p-6 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-2 transition-transform duration-300">
+            <div class="glass-card p-6 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-1 transition-transform duration-300 border-b-4 border-b-violet-500">
                 <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-2xl bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 flex items-center justify-center">
-                        {{ ux_icon('heroicons:users', {class: 'w-6 h-6'}) }}
+                    <div class="w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 flex items-center justify-center">
+                        {{ ux_icon('heroicons:users', {class: 'w-5 h-5'}) }}
                     </div>
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Utilisateurs Inscrits</h3>
+                    <h3 class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Utilisateurs</h3>
                 </div>
-                <div class="mt-4 flex items-end justify-between">
-                    <span class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tighter">{{ total_users }}</span>
-                </div>
+                <div class="mt-2 text-4xl font-extrabold text-slate-900 dark:text-white">{{ total_users }}</div>
             </div>
+        </div>
+
+        <!-- Consultations & Exploitations -->
+        <h3 class="text-xl font-bold text-slate-900 dark:text-white mt-4 border-l-4 border-emerald-500 pl-3 gsap-stagger-item">Consultations & Exploitations</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+            
+            <div class="glass-card p-5 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-1 transition-transform duration-300">
+                <div class="flex flex-col gap-1 mb-2">
+                    {{ ux_icon('heroicons:eye', {class: 'w-6 h-6 text-emerald-500 dark:text-emerald-400'}) }}
+                    <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">Consultations</h3>
+                </div>
+                <div class="text-3xl font-extrabold text-slate-900 dark:text-white">{{ views_count }}</div>
+            </div>
+
+            <div class="glass-card p-5 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-1 transition-transform duration-300">
+                <div class="flex flex-col gap-1 mb-2">
+                    {{ ux_icon('heroicons:heart', {class: 'w-6 h-6 text-red-500 dark:text-red-400'}) }}
+                    <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">Favoris</h3>
+                </div>
+                <div class="text-3xl font-extrabold text-slate-900 dark:text-white">{{ favorites_count }}</div>
+            </div>
+
+            <div class="glass-card p-5 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-1 transition-transform duration-300">
+                <div class="flex flex-col gap-1 mb-2">
+                    {{ ux_icon('heroicons:bookmark', {class: 'w-6 h-6 text-amber-500 dark:text-amber-400'}) }}
+                    <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">Mis de côté</h3>
+                </div>
+                <div class="text-3xl font-extrabold text-slate-900 dark:text-white">{{ saved_count }}</div>
+            </div>
+
+            <div class="glass-card p-5 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-1 transition-transform duration-300">
+                <div class="flex flex-col gap-1 mb-2">
+                    {{ ux_icon('heroicons:hand-thumb-up', {class: 'w-6 h-6 text-violet-500 dark:text-violet-400'}) }}
+                    <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">Likes</h3>
+                </div>
+                <div class="text-3xl font-extrabold text-slate-900 dark:text-white">{{ likes_count }}</div>
+            </div>
+
+            <div class="glass-card p-5 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-1 transition-transform duration-300">
+                <div class="flex flex-col gap-1 mb-2">
+                    {{ ux_icon('heroicons:chat-bubble-left', {class: 'w-6 h-6 text-fuchsia-500 dark:text-fuchsia-400'}) }}
+                    <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">Commentaires</h3>
+                </div>
+                <div class="text-3xl font-extrabold text-slate-900 dark:text-white">{{ comments_count }}</div>
+            </div>
+
         </div>
     </div>
 </div>
