@@ -10,8 +10,8 @@
         <div class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <div class="text-center mb-8">
-            <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">Bon retour</h1>
-            <p class="text-slate-500 mt-2">Connectez-vous à votre espace personnel</p>
+            <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Bon retour</h1>
+            <p class="text-slate-900 dark:text-white mt-2">Connectez-vous à votre espace personnel</p>
         </div>
 
         <form method="post" class="space-y-6">
@@ -33,7 +33,7 @@
                 <label for="username" class="form-label">Adresse Email</label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        {{ ux_icon('heroicons:envelope', {class: 'w-5 h-5 text-slate-400'}) }}
+                        {{ ux_icon('heroicons:envelope', {class: 'w-5 h-5 text-slate-700'}) }}
                     </div>
                     <input type="email" value="{{ last_username }}" name="_username" id="username" class="input-field pl-10" autocomplete="email" required autofocus placeholder="vous@exemple.com">
                 </div>
@@ -43,7 +43,7 @@
                 <label for="password" class="form-label">Mot de passe</label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        {{ ux_icon('heroicons:lock-closed', {class: 'w-5 h-5 text-slate-400'}) }}
+                        {{ ux_icon('heroicons:lock-closed', {class: 'w-5 h-5 text-slate-700'}) }}
                     </div>
                     <input type="password" name="_password" id="password" class="input-field pl-10" autocomplete="current-password" required placeholder="••••••••">
                 </div>
@@ -58,9 +58,9 @@
                 </button>
             </div>
             
-            <div class="text-center mt-6 text-sm text-slate-600">
+            <div class="text-center mt-6 text-sm text-slate-900 dark:text-white">
                 Vous n'avez pas de compte ? 
-                <a href="{{ path('app_register') }}" class="font-semibold text-primary hover:text-indigo-700 transition-colors">S'inscrire</a>
+                <a href="{{ path('app_register') }}" class="font-semibold text-primary dark:text-blue-400 hover:text-indigo-700 dark:hover:text-blue-300 transition-colors">S'inscrire</a>
             </div>
         </form>
     </div>

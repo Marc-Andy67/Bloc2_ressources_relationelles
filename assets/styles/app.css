@@ -4,74 +4,176 @@
 
 @layer base {
     :root {
-        --color-primary: #2563EB;
-        --color-secondary: #3B82F6;
-        --color-cta: #F97316;
-        --color-background: #F8FAFC;
-        --color-text: #1E293B;
+        /* Adjusted for WCAG AAA contrast ratio on light/dark backgrounds */
+        --color-primary: #1D4ED8;
+        /* Darker blue (Tailwind blue-700) for better contrast */
+        --color-secondary: #0369A1;
+        /* Tailwind sky-700 */
+        --color-cta: #C2410C;
+        /* Darker orange (Tailwind orange-700) */
 
-        --space-xs: 0.25rem;
-        --space-sm: 0.5rem;
-        --space-md: 1rem;
-        --space-lg: 1.5rem;
-        --space-xl: 2rem;
-        --space-2xl: 3rem;
-        --space-3xl: 4rem;
+        --color-background-light: #F8FAFC;
+        --color-background-dark: #0F172A;
 
-        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-        --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-        --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-        --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+        --color-text-light: #0F172A;
+        /* Slate-900 for max contrast */
+        --color-text-dark: #F8FAFC;
+
+        /* Floating drop shadows (Diffuse) */
+        --shadow-float-sm: 0 10px 20px rgba(0, 0, 0, 0.04);
+        --shadow-float-md: 0 20px 40px rgba(0, 0, 0, 0.06);
+        --shadow-float-lg: 0 30px 60px rgba(0, 0, 0, 0.08);
+        --shadow-glow: 0 0 20px rgba(29, 78, 216, 0.25);
     }
 
     body {
-        @apply bg-background text-text font-sans antialiased;
+        @apply bg-slate-50 text-slate-900 font-sans antialiased overflow-x-hidden;
+        background-color: var(--color-background-light);
+        color: var(--color-text-light);
+        transition: background-color 0.4s ease-out, color 0.4s ease-out;
+    }
+
+    .dark body {
+        background-color: var(--color-background-dark);
+        color: var(--color-text-dark);
+    }
+
+    /* Global Focus style for Accessibility (RGAA Recommandation) */
+    *:focus-visible {
+        outline: 3px solid var(--color-cta);
+        outline-offset: 3px;
+        transition: outline-color 0.15s ease-in-out;
     }
 }
 
 @layer components {
 
-    /* Glassmorphism Card Style */
+    /* Antigravity Glassmorphism Card Style */
     .glass-card {
-        @apply backdrop-blur-md shadow-md rounded-xl p-6 transition-all duration-200 cursor-pointer;
-        background-color: rgba(255, 255, 255, 0.8);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        @apply backdrop-blur-xl rounded-2xl p-6 transition-all duration-500 cursor-pointer relative overflow-hidden;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.8) 100%);
+        box-shadow: var(--shadow-float-sm), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        /* slightly visible border for structural contrast */
+        transform-style: preserve-3d;
+        will-change: transform, box-shadow;
     }
 
-    .glass-card:hover {
-        @apply shadow-lg -translate-y-[2px];
+    .dark .glass-card {
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.7) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, transparent 50%);
+        opacity: 0;
+        transition: opacity 0.5s ease-out;
+        pointer-events: none;
+    }
+
+    .dark .glass-card::before {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .glass-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-float-lg), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .dark .glass-card:hover {
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+    }
+
+    .glass-card:hover::before {
+        opacity: 1;
+    }
+
+    /* Spatial Isometric Grid modifiers */
+    .isometric-grid {
+        perspective: 1200px;
+    }
+
+    .isometric-item {
+        transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        will-change: transform;
     }
 
     /* Buttons */
     .btn-primary {
-        @apply text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 cursor-pointer shadow-md hover:shadow-lg hover:-translate-y-[1px] hover:bg-orange-600;
-        background-color: var(--color-cta);
+        @apply px-6 py-3 rounded-xl font-bold transition-all duration-300 cursor-pointer relative overflow-hidden flex items-center justify-center gap-2;
+        background: var(--color-primary);
+        /* Solid color is better for contrast than gradient */
+        color: white;
+        box-shadow: 0 10px 20px rgba(29, 78, 216, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        will-change: transform, box-shadow;
+        border: 1px solid transparent;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(29, 78, 216, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            background-color: var(--color-secondary);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+        }
     }
 
     .btn-secondary {
-        @apply bg-transparent px-6 py-3 rounded-lg font-semibold transition-all duration-200 cursor-pointer;
+        @apply bg-transparent px-6 py-3 rounded-xl font-bold transition-all duration-300 cursor-pointer backdrop-blur-sm flex items-center justify-center gap-2;
         color: var(--color-primary);
         border: 2px solid var(--color-primary);
     }
 
-    .btn-secondary:hover {
-        background-color: rgba(37, 99, 235, 0.05);
-        /* primary/5 */
+    .dark .btn-secondary {
+        color: #93C5FD;
+        /* Tailwind blue-300 */
+        border-color: #93C5FD;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .btn-secondary:hover {
+            background-color: rgba(29, 78, 216, 0.1);
+            transform: translateY(-2px);
+        }
+    }
+
+    .dark .btn-secondary:hover {
+        background-color: rgba(147, 197, 253, 0.15);
     }
 
     /* Inputs */
     .input-field {
-        @apply w-full px-4 py-3 border border-slate-200 rounded-lg text-base transition-colors duration-200 backdrop-blur-sm focus:outline-none focus:ring-4;
-        background-color: rgba(255, 255, 255, 0.8);
+        @apply w-full px-4 py-3 border-2 border-slate-300 rounded-xl text-base transition-all duration-300 backdrop-blur-md focus:outline-none bg-white font-medium text-slate-900 shadow-sm;
+    }
+
+    .dark .input-field {
+        @apply bg-slate-800 border-slate-600 text-white placeholder-slate-400;
     }
 
     .input-field:focus {
         border-color: var(--color-primary);
-        --tw-ring-color: rgba(37, 99, 235, 0.2);
-        /* primary/20 */
+        box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.3);
+    }
+
+    .dark .input-field:focus {
+        border-color: #93C5FD;
+        box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.3);
     }
 
     .form-label {
-        @apply block text-sm font-medium text-slate-700 mb-1.5;
+        @apply block text-sm font-bold text-slate-800 mb-1.5 transition-colors;
+    }
+
+    .dark .form-label {
+        @apply text-slate-200;
     }
 }

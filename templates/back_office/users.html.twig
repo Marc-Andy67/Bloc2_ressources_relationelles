@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Back Office - Utilisateurs{% endblock %}
+
+{% block body %}
+<div class="flex flex-col md:flex-row gap-8 w-full">
+    <!-- Sidebar Navigation -->
+    <aside class="w-full md:w-64 shrink-0 gsap-stagger-item">
+        {% include 'back_office/_nav.html.twig' %}
+    </aside>
+    
+    <!-- Main Content -->
+    <div class="flex-1 min-w-0 flex flex-col gap-6">
+        <div class="header-section gsap-stagger-item">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Rôles et Accès</h1>
+            <p class="text-slate-900 dark:text-white mt-2">Gérez les privilèges d'administration attribués aux utilisateurs de la plateforme.</p>
+        </div>
+
+        <div class="glass-card overflow-hidden w-full gsap-stagger-item">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-slate-900 dark:text-white text-xs font-bold uppercase tracking-wider">
+                            <th class="py-4 px-6">Utilisateur</th>
+                            <th class="py-4 px-6">Rôles Actuels</th>
+                            <th class="py-4 px-6 text-right">Contrôle des accès</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60">
+                        {% for user_item in users %}
+                        <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-100 flex items-center justify-center text-sm font-bold shadow-sm">
+                                        {{ user_item.userIdentifier|slice(0,2)|upper }}
+                                    </div>
+                                    <span class="font-bold text-slate-900 dark:text-white">{{ user_item.userIdentifier }}</span>
+                                    {% if user_item == app.user %}
+                                        <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                            Vous
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex flex-wrap gap-1.5">
+                                    {% for role in user_item.roles %}
+                                        <span class="inline-flex items-center whitespace-nowrap px-2.5 py-0.5 rounded-full text-xs font-bold {% if role == 'ROLE_SUPER_ADMIN' %}bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-300{% elseif role == 'ROLE_ADMIN' %}bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300{% elseif role == 'ROLE_MODERATOR' %}bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300{% else %}bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100{% endif %}">
+                                            {{ role|replace({'ROLE_': '- '})|replace({'_': ' '}) }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                {% if user_item != app.user %}
+                                <div class="flex flex-wrap items-center justify-end gap-2">
+                                    {% set available_roles = ['ROLE_MODERATOR', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN'] %}
+                                    {% for role in available_roles %}
+                                        <form method="post" action="{{ path('app_admin_users_toggle_role', {'id': user_item.id}) }}" class="m-0 inline-block">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('toggle-role' ~ user_item.id) }}">
+                                            <input type="hidden" name="role" value="{{ role }}">
+                                            {% if role in user_item.roles %}
+                                                <button type="submit" class="inline-flex items-center whitespace-nowrap gap-1 px-2.5 py-1.5 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-400 bg-transparent hover:bg-rose-50 dark:hover:bg-rose-900/30 rounded text-xs font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500" title="Retirer {{ role|replace({'ROLE_': ''}) }}">
+                                                    {{ ux_icon('heroicons:minus', {class: 'w-3 h-3'}) }} {{ role|replace({'ROLE_': ''})|capitalize }}
+                                                </button>
+                                            {% else %}
+                                                <button type="submit" class="inline-flex items-center whitespace-nowrap gap-1 px-2.5 py-1.5 border border-emerald-200 dark:border-emerald-900 text-emerald-700 dark:text-emerald-400 bg-transparent hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded text-xs font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500" title="Ajouter {{ role|replace({'ROLE_': ''}) }}">
+                                                    {{ ux_icon('heroicons:plus', {class: 'w-3 h-3'}) }} {{ role|replace({'ROLE_': ''})|capitalize }}
+                                                </button>
+                                            {% endif %}
+                                        </form>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                    <div class="text-right text-sm text-slate-900 dark:text-white italic">
+                                        Modification impossible
+                                    </div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof gsap !== 'undefined') {
+            gsap.from(".gsap-stagger-item", {
+                y: 30,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power3.out",
+                clearProps: "all"
+            });
+        }
+    });
+</script>
+{% endblock %}

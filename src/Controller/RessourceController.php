@@ -150,46 +150,18 @@ final class RessourceController extends AbstractController
     // ─── CRUD ────────────────────────────────────────────────────────────────
 
     #[Route('/new', name: 'app_ressource_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, \Symfony\Component\String\Slugger\SluggerInterface $slugger): Response
+    public function new(Request $request, \App\Service\RessourceManagerInterface $ressourceManager, EntityManagerInterface $entityManager): Response
     {
-        $ressource = new Ressource();
-        $form = $this->createForm(RessourceType::class, $ressource);
+        $dto = new \App\DTO\RessourceDTO();
+        $form = $this->createForm(RessourceType::class, $dto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            /** @var \App\Entity\User $user */
-            $user = $this->getUser();
-            $ressource->setAuthor($user);
-            $ressource->setStatus(true); // Publié par défaut
-            $ressource->setCreationDate(new \DateTime());
+            // Lógica métiers déplacée dans le RessourceManager (Service Pattern)
+            $ressource = $ressourceManager->createFromDTO($dto);
 
-            $multimediaFile = $form->get('multimedia')->getData();
-
-            if ($multimediaFile) {
-                $ressource->setType($multimediaFile->getMimeType());
-                $ressource->setSize($multimediaFile->getSize());
-
-                $originalFilename = pathinfo($multimediaFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $multimediaFile->guessExtension();
-
-                try {
-                    $multimediaFile->move(
-                        $this->getParameter('kernel.project_dir') . '/public/uploads/multimedia',
-                        $newFilename
-                    );
-                    $currentContent = $ressource->getContent() ?? '';
-                    $ressource->setContent($currentContent . "\n\n[Fichier multimédia attaché : /uploads/multimedia/" . $newFilename . "]");
-                } catch (\Exception $e) {
-                    // Handle exception quietly or flash a message
-                }
-            } else {
-                $ressource->setType('text/post');
-                $content = $ressource->getContent() ?? '';
-                $ressource->setSize(strlen($content));
-            }
-
+            // Doctrine's EventListener will automatically set Author, Status, and CreationDate (Observer Pattern)
             $entityManager->persist($ressource);
             $entityManager->flush();
 
@@ -197,7 +169,7 @@ final class RessourceController extends AbstractController
         }
 
         return $this->render('ressource/new.html.twig', [
-            'ressource' => $ressource,
+            'ressource' => null, // Form now expects DTO context, twig might need slight adjustment if it explicitly relied on ressource.id
             'form' => $form,
         ]);
     }
@@ -238,12 +210,22 @@ final class RessourceController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_ressource_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Ressource $ressource, EntityManagerInterface $entityManager): Response
+    #[\Symfony\Component\Security\Http\Attribute\IsGranted(\App\Security\Voter\RessourceVoter::EDIT, subject: 'ressource')]
+    public function edit(Request $request, Ressource $ressource, \App\Service\RessourceManagerInterface $ressourceManager, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(RessourceType::class, $ressource);
+        // Populate DTO from existing entity
+        $dto = new \App\DTO\RessourceDTO();
+        $dto->title = $ressource->getTitle();
+        $dto->content = $ressource->getContent();
+        $dto->category = $ressource->getCategory();
+        $dto->relationTypes = $ressource->getRelationTypes()->toArray();
+        // Multimedia cannot be cleanly prepopulated into a file input, so it stays null in DTO.
+
+        $form = $this->createForm(RessourceType::class, $dto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $ressourceManager->updateFromDTO($dto, $ressource);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_ressource_index', [], Response::HTTP_SEE_OTHER);
@@ -256,6 +238,7 @@ final class RessourceController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_ressource_delete', methods: ['POST'])]
+    #[\Symfony\Component\Security\Http\Attribute\IsGranted(\App\Security\Voter\RessourceVoter::DELETE, subject: 'ressource')]
     public function delete(Request $request, Ressource $ressource, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $ressource->getId(), $request->getPayload()->getString('_token'))) {

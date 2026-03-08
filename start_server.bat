@@ -19,10 +19,3 @@ echo.
 
 php -S 0.0.0.0:8000 -t public
 pause
-```
-
-## Accès depuis un autre appareils
-
-Une fois le serveur lancé, sur votre téléphone/tablette/autre PC connecté au **même réseau WiFi**, allez sur :
-```
-http://VOTRE_IP_LOCALE:8000

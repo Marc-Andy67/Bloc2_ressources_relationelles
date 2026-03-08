@@ -28,8 +28,8 @@ class Ressource
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $creationDate = null;
 
-    #[ORM\Column]
-    private ?bool $status = null;
+    #[ORM\Column(length: 255)]
+    private ?string $status = 'pending';
 
     #[ORM\Column(nullable: true)]
     private ?int $size = null;
@@ -130,12 +130,12 @@ class Ressource
         return $this;
     }
 
-    public function isStatus(): ?bool
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    public function setStatus(bool $status): static
+    public function setStatus(string $status): static
     {
         $this->status = $status;
 

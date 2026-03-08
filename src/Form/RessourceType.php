@@ -5,7 +5,7 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\RelationType;
 use App\Entity\Ressource;
-use App\Entity\User;
+use App\DTO\RessourceDTO;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -55,7 +55,7 @@ class RessourceType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Ressource::class,
+            'data_class' => RessourceDTO::class,
         ]);
     }
 }

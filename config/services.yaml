@@ -19,5 +19,20 @@ services:
     App\:
         resource: '../src/'
 
+    # adds FileUploader specific configuration
+    App\Service\FileUploader:
+        arguments:
+            $targetDirectory: '%kernel.project_dir%/public/uploads/multimedia'
+
+    # Proxy configuration for RessourceManager
+    App\Proxy\LoggingRessourceManagerProxy:
+        decorates: App\Service\RessourceManager
+        arguments:
+            $realManager: '@.inner'
+            $logger: '@logger'
+
+    # Bind Interface to Proxy explicitly
+    App\Service\RessourceManagerInterface: '@App\Proxy\LoggingRessourceManagerProxy'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

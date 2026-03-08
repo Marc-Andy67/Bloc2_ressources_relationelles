@@ -21,12 +21,12 @@
         
         <div>
             {{ form_label(form.relationTypes, 'Types de relations concernées', {'label_attr': {'class': 'form-label'}}) }}
-            <p class="text-[10px] text-slate-500 mb-2 leading-tight">Sélectionnez les relations concernées par cette ressource :</p>
+            <p class="text-[10px] text-slate-900 mb-2 leading-tight dark:text-white">Sélectionnez les relations concernées par cette ressource :</p>
             <div class="input-field h-32 px-4 py-3 bg-white/50 overflow-y-auto custom-scrollbar flex flex-col gap-2">
                 {% for child in form.relationTypes %}
                     <div class="flex items-center gap-2">
                         {{ form_widget(child, {'attr': {'class': 'rounded border-slate-300 text-primary focus:ring-primary w-4 h-4 cursor-pointer'}}) }}
-                        {{ form_label(child, null, {'label_attr': {'class': 'text-sm font-medium text-slate-700 cursor-pointer select-none leading-none mt-1'}}) }}
+                        {{ form_label(child, null, {'label_attr': {'class': 'text-sm font-medium text-slate-900 cursor-pointer select-none leading-none mt-1'}}) }}
                     </div>
                 {% endfor %}
             </div>

@@ -10,106 +10,139 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
         
+        <!-- GSAP for Antigravity motion -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
         {% block stylesheets %}
         {% endblock %}
 
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
+        
+        <script>
+            // Initialize Dark Mode based on preference or local storage
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        </script>
     </head>
-    <body class="bg-background text-text min-h-screen flex flex-col antialiased selection:bg-primary/30">
-        <!-- Decoration background glow -->
-        <div class="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-100/50 via-background to-background"></div>
+    <body class="min-h-screen flex flex-col text-slate-900 dark:text-white selection:bg-primary/30 antialiased overflow-x-hidden transition-colors duration-500">
+        <!-- Decoration background glow (Spatial Depth) -->
+        <div class="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/40 via-transparent to-transparent dark:from-blue-900/20 dark:via-background-dark dark:to-background-dark transition-colors duration-500" aria-hidden="true"></div>
+        <div class="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-indigo-100/30 via-transparent to-transparent dark:from-indigo-900/20 transition-colors duration-500" aria-hidden="true"></div>
 
-        <nav class="sticky top-0 z-50 w-full border-b border-white/20 bg-white/70 backdrop-blur-lg shadow-sm">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between h-20">
-                    <div class="flex items-center gap-8">
-                        <a href="{{ path('app_home') }}" class="flex items-center gap-3 font-bold text-2xl tracking-tight text-primary transition-transform hover:scale-105">
-                            {{ ux_icon('heroicons:cube-transparent', {class: 'w-8 h-8 text-secondary'}) }}
-                            (RE)Sources
-                        </a>
-                        <div class="hidden md:block">
-                            <div class="flex items-center space-x-1">
-                            <a href="{{ path('app_ressource_index') }}" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer {{ app.request.attributes.get('_route') starts with 'app_ressource' and not (app.request.attributes.get('_route') in ['app_ressource_favorites','app_ressource_saved','app_ressource_liked']) ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900' }}">
-                                <div class="flex items-center gap-2">
-                                    {{ ux_icon('heroicons:magnifying-glass', {class: 'w-4 h-4'}) }}
-                                    Explorer
-                                </div>
+        <header>
+            <nav class="sticky top-0 z-50 w-full border-b border-white/20 dark:border-slate-800 bg-white/80 dark:bg-slate-950 backdrop-blur-xl shadow-sm transition-colors duration-500" aria-label="Navigation principale">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between h-20">
+                        <div class="flex items-center gap-8">
+                            <a href="{{ path('app_home') }}" class="flex items-center gap-3 font-bold text-2xl tracking-tight text-primary dark:text-blue-400 transition-transform hover:scale-105 will-change-transform rounded-lg focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cta" aria-label="Retour à l'accueil">
+                                {{ ux_icon('heroicons:cube-transparent', {class: 'w-8 h-8 text-secondary dark:text-blue-300', 'aria-hidden': 'true'}) }}
+                                (RE)Sources
                             </a>
-                            {% if app.user %}
-                            <a href="{{ path('app_chat_room_index') }}" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer {{ app.request.attributes.get('_route') starts with 'app_chat' ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900' }}">
-                                <div class="flex items-center gap-2">
-                                    {{ ux_icon('heroicons:chat-bubble-left-right', {class: 'w-4 h-4'}) }}
-                                    Conversations
-                                </div>
-                            </a>
-                            <a href="{{ path('app_ressource_new') }}" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ app.request.attributes.get('_route') == 'app_ressource_new' ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
-                                {{ ux_icon('heroicons:plus-circle', {class: 'w-4 h-4'}) }}
-                                Publier une ressource
-                            </a>
-                            {% endif %}
+                            <div class="hidden md:block">
+                                <ul class="flex items-center space-x-1 m-0 p-0" role="menubar">
+                                    <li role="none">
+                                        <a role="menuitem" href="{{ path('app_ressource_index') }}" class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cta {{ app.request.attributes.get('_route') starts with 'app_ressource' and not (app.request.attributes.get('_route') in ['app_ressource_favorites','app_ressource_saved','app_ressource_liked']) ? 'bg-primary/10 text-primary dark:bg-blue-500/20 dark:text-blue-300' : 'text-slate-900 dark:text-white hover:bg-slate-100/80 dark:hover:bg-slate-800/80 hover:text-slate-900 dark:hover:text-white' }}" aria-current="{{ app.request.attributes.get('_route') starts with 'app_ressource' ? 'page' : 'false' }}">
+                                            {{ ux_icon('heroicons:magnifying-glass', {class: 'w-4 h-4', 'aria-hidden': 'true'}) }}
+                                            Explorer
+                                        </a>
+                                    </li>
+                                    {% if app.user %}
+                                    <li role="none">
+                                        <a role="menuitem" href="{{ path('app_chat_room_index') }}" class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cta {{ app.request.attributes.get('_route') starts with 'app_chat' ? 'bg-primary/10 text-primary dark:bg-blue-500/20 dark:text-blue-300' : 'text-slate-900 dark:text-white hover:bg-slate-100/80 dark:hover:bg-slate-800/80 hover:text-slate-900 dark:hover:text-white' }}" aria-current="{{ app.request.attributes.get('_route') starts with 'app_chat' ? 'page' : 'false' }}">
+                                            {{ ux_icon('heroicons:chat-bubble-left-right', {class: 'w-4 h-4', 'aria-hidden': 'true'}) }}
+                                            Conversations
+                                        </a>
+                                    </li>
+                                    <li role="none">
+                                        <a role="menuitem" href="{{ path('app_ressource_new') }}" class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cta {{ app.request.attributes.get('_route') == 'app_ressource_new' ? 'bg-primary/10 text-primary dark:bg-blue-500/20 dark:text-blue-300' : 'text-slate-900 dark:text-white hover:bg-slate-100/80 dark:hover:bg-slate-800/80 hover:text-slate-900 dark:hover:text-white' }}">
+                                            {{ ux_icon('heroicons:plus-circle', {class: 'w-4 h-4', 'aria-hidden': 'true'}) }}
+                                            Publier une ressource
+                                        </a>
+                                    </li>
+                                    {% if is_granted('ROLE_MODERATOR') %}
+                                    <li role="none">
+                                        <a role="menuitem" href="{{ path('app_admin_dashboard') }}" class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cta {{ app.request.attributes.get('_route') starts with 'app_admin' ? 'bg-primary/10 text-primary dark:bg-blue-500/20 dark:text-blue-300' : 'text-slate-900 dark:text-white hover:bg-slate-100/80 dark:hover:bg-slate-800/80 hover:text-slate-900 dark:hover:text-white' }}">
+                                            {{ ux_icon('heroicons:shield-check', {class: 'w-4 h-4', 'aria-hidden': 'true'}) }}
+                                            Back Office
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="hidden md:flex items-center gap-4">
+                            {# Dark Mode Toggle Button #}
+                            <button id="theme-toggle" type="button" class="p-2 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cta rounded-lg text-sm transition-colors duration-300" aria-label="Basculer le thème clair/sombre" aria-pressed="false">
+                                {{ ux_icon('heroicons:sun', {class: 'w-6 h-6 hidden dark:block', id: 'theme-toggle-light-icon', 'aria-hidden': 'true'}) }}
+                                {{ ux_icon('heroicons:moon', {class: 'w-6 h-6 block dark:hidden', id: 'theme-toggle-dark-icon', 'aria-hidden': 'true'}) }}
+                            </button>
+                            
+                            <div class="flex items-center gap-3">
+                                {% if app.user %}
+                                    {# Dropdown Profil #}
+                                    <div class="relative" id="profile-menu-container">
+                                        <button type="button" id="profile-menu-button" aria-haspopup="true" aria-expanded="false" aria-controls="profile-menu-dropdown" class="flex items-center gap-3 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white/40 dark:bg-slate-800/40 shadow-sm backdrop-blur-md hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cta">
+                                            <div class="w-8 h-8 rounded-full bg-slate-800 dark:bg-slate-200 flex items-center justify-center text-white dark:text-slate-100 font-bold text-xs shadow-md" aria-hidden="true">
+                                                {{ app.user.email|slice(0,2)|upper }}
+                                            </div>
+                                            <span class="text-sm font-bold text-slate-900 dark:text-white">{{ app.user.email|split('@')[0]|capitalize }}</span>
+                                            {{ ux_icon('heroicons:chevron-down', {class: 'w-4 h-4 text-slate-900 dark:text-white transition-transform duration-200', 'aria-hidden': 'true'}) }}
+                                        </button>
+                                        <div id="profile-menu-dropdown" role="menu" aria-orientation="vertical" aria-labelledby="profile-menu-button" class="absolute right-0 top-full mt-2 hidden z-50 transition-all duration-300 origin-top-right scale-95 opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100" style="width:240px;">
+                                            <div class="bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl overflow-hidden py-2 p-1">
+                                                <a role="menuitem" href="{{ path('app_ressource_favorites') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-slate-900 dark:text-white hover:bg-rose-50 dark:hover:bg-rose-900/40 hover:text-rose-700 dark:hover:text-rose-300 rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cta">
+                                                    {{ ux_icon('heroicons:heart', {class: 'w-5 h-5 text-rose-600 dark:text-rose-400', 'aria-hidden': 'true'}) }}
+                                                    Mes Favoris
+                                                </a>
+                                                <a role="menuitem" href="{{ path('app_ressource_saved') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-slate-900 dark:text-white hover:bg-amber-50 dark:hover:bg-amber-900/40 hover:text-amber-700 dark:hover:text-amber-300 rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cta">
+                                                    {{ ux_icon('heroicons:bookmark', {class: 'w-5 h-5 text-amber-600 dark:text-amber-400', 'aria-hidden': 'true'}) }}
+                                                    Mis de côté
+                                                </a>
+                                                <a role="menuitem" href="{{ path('app_ressource_liked') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-slate-900 dark:text-white hover:bg-violet-50 dark:hover:bg-violet-900/40 hover:text-violet-700 dark:hover:text-violet-300 rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cta">
+                                                    {{ ux_icon('heroicons:hand-thumb-up', {class: 'w-5 h-5 text-violet-600 dark:text-violet-400', 'aria-hidden': 'true'}) }}
+                                                    Ressources Likées
+                                                </a>
+                                                <a role="menuitem" href="{{ path('app_progression_index') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-slate-900 dark:text-white hover:bg-emerald-50 dark:hover:bg-emerald-900/40 hover:text-emerald-700 dark:hover:text-emerald-300 rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cta">
+                                                    {{ ux_icon('heroicons:chart-bar', {class: 'w-5 h-5 text-emerald-600 dark:text-emerald-400', 'aria-hidden': 'true'}) }}
+                                                    Ma Progression
+                                                </a>
+                                                <div class="h-px bg-slate-200 dark:bg-slate-700 my-1 mx-2" role="separator"></div>
+                                                <a role="menuitem" href="{{ path('app_logout') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-slate-900 dark:text-white hover:bg-red-50 dark:hover:bg-red-900/40 hover:text-red-700 dark:hover:text-red-300 rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cta">
+                                                    {{ ux_icon('heroicons:arrow-right-on-rectangle', {class: 'w-5 h-5 text-red-600 dark:text-red-400', 'aria-hidden': 'true'}) }}
+                                                    Se déconnecter
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <a href="{{ path('app_login') }}" class="text-sm font-bold text-slate-900 dark:text-white hover:text-primary dark:hover:text-blue-400 transition-colors cursor-pointer px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cta rounded-lg py-2">Connexion</a>
+                                    <a href="{{ path('app_register') }}" class="btn-primary flex items-center gap-2 py-2.5 cursor-pointer">
+                                        S'inscrire
+                                        {{ ux_icon('heroicons:arrow-right', {class: 'w-5 h-5', 'aria-hidden': 'true'}) }}
+                                    </a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
-                    <div class="hidden md:block">
-                        <div class="flex items-center gap-3">
-                            {% if app.user %}
-                                {# Dropdown Profil #}
-                                <div class="relative" id="profile-menu-container">
-                                    <button type="button" onclick="document.getElementById('profile-menu-dropdown').classList.toggle('hidden')" class="flex items-center gap-3 px-3 py-2 rounded-xl border border-slate-100 bg-white/50 shadow-sm backdrop-blur-sm hover:shadow-md transition-all duration-200">
-                                        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xs shadow-md">
-                                            {{ app.user.email|slice(0,2)|upper }}
-                                        </div>
-                                        <span class="text-sm font-semibold text-slate-800">{{ app.user.email|split('@')[0]|capitalize }}</span>
-                                        {{ ux_icon('heroicons:chevron-down', {class: 'w-3.5 h-3.5 text-slate-400 transition-transform duration-200'}) }}
-                                    </button>
-                                    <div id="profile-menu-dropdown" class="absolute right-0 top-full mt-1 hidden z-50 transition-all duration-150" style="width:220px;">
-                                        <div style="background:white;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 10px 25px -5px rgba(0,0,0,.12),0 4px 10px -6px rgba(0,0,0,.08);overflow:hidden;padding:4px 0;">
-                                            <a href="{{ path('app_ressource_favorites') }}" style="display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:.875rem;font-weight:500;color:#334155;text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='#fff1f2';this.style.color='#dc2626'" onmouseout="this.style.background='transparent';this.style.color='#334155'">
-                                                {{ ux_icon('heroicons:heart', {class: 'w-4 h-4', style: 'color:#ef4444;flex-shrink:0'}) }}
-                                                Mes Favoris
-                                            </a>
-                                            <a href="{{ path('app_ressource_saved') }}" style="display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:.875rem;font-weight:500;color:#334155;text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='#fffbeb';this.style.color='#d97706'" onmouseout="this.style.background='transparent';this.style.color='#334155'">
-                                                {{ ux_icon('heroicons:bookmark', {class: 'w-4 h-4', style: 'color:#f59e0b;flex-shrink:0'}) }}
-                                                Mis de côté
-                                            </a>
-                                            <a href="{{ path('app_ressource_liked') }}" style="display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:.875rem;font-weight:500;color:#334155;text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='#f5f3ff';this.style.color='#7c3aed'" onmouseout="this.style.background='transparent';this.style.color='#334155'">
-                                                {{ ux_icon('heroicons:hand-thumb-up', {class: 'w-4 h-4', style: 'color:#8b5cf6;flex-shrink:0'}) }}
-                                                Ressources Likées
-                                            </a>
-                                            <a href="{{ path('app_progression_index') }}" style="display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:.875rem;font-weight:500;color:#334155;text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='#ecfdf5';this.style.color='#059669'" onmouseout="this.style.background='transparent';this.style.color='#334155'">
-                                                {{ ux_icon('heroicons:chart-bar', {class: 'w-4 h-4', style: 'color:#10b981;flex-shrink:0'}) }}
-                                                Ma Progression
-                                            </a>
-                                            <div style="border-top:1px solid #f1f5f9;margin:2px 0;"></div>
-                                            <a href="{{ path('app_logout') }}" style="display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:.875rem;font-weight:500;color:#334155;text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='#fff1f2';this.style.color='#dc2626'" onmouseout="this.style.background='transparent';this.style.color='#334155'">
-                                                {{ ux_icon('heroicons:arrow-right-on-rectangle', {class: 'w-4 h-4', style: 'color:#ef4444;flex-shrink:0'}) }}
-                                                Se déconnecter
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% else %}
-                                <a href="{{ path('app_login') }}" class="text-sm font-semibold text-slate-600 hover:text-primary transition-colors cursor-pointer px-4">Connexion</a>
-                                <a href="{{ path('app_register') }}" class="btn-primary flex items-center gap-2 py-2.5">
-                                    S'inscrire
-                                    {{ ux_icon('heroicons:arrow-right', {class: 'w-4 h-4'}) }}
-                                </a>
-                            {% endif %}
-                        </div>
-                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </header>
 
-        <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col relative">
+        <main id="main-content" class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col relative z-10" role="main">
             {# Flash Messages #}
             {% for label, messages in app.flashes %}
                 {% for message in messages %}
-                    <div class="mb-6 p-4 rounded-xl border glass-card {{ label == 'success' ? 'bg-green-50/80 border-green-200 text-green-800' : 'bg-red-50/80 border-red-200 text-red-800' }}">
-                        <div class="flex items-center gap-3 font-medium">
-                            {{ ux_icon(label == 'success' ? 'heroicons:check-circle' : 'heroicons:exclamation-circle', {class: 'w-6 h-6'}) }}
+                    <div role="alert" aria-live="polite" class="gsap-flash-message mb-6 p-4 rounded-xl border glass-card {{ label == 'success' ? 'bg-emerald-50/90 dark:bg-emerald-900/40 border-emerald-300 dark:border-emerald-700 text-emerald-900 dark:text-emerald-100' : 'bg-red-50/90 dark:bg-red-900/40 border-red-300 dark:border-red-700 text-red-900 dark:text-red-100' }}">
+                        <div class="flex items-center gap-3 font-bold">
+                            {{ ux_icon(label == 'success' ? 'heroicons:check-circle' : 'heroicons:exclamation-circle', {class: 'w-6 h-6', 'aria-hidden': 'true'}) }}
                             {{ message }}
                         </div>
                     </div>
@@ -119,27 +152,114 @@
             {% block body %}{% endblock %}
         </main>
         
-        <footer class="mt-auto border-t border-slate-200/60 bg-white/40 backdrop-blur-sm py-10">
+        <footer class="mt-auto border-t border-slate-300/40 dark:border-slate-800 bg-white/80 dark:bg-slate-950/90 backdrop-blur-xl py-10 relative z-10" role="contentinfo">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="flex items-center gap-3 text-primary font-bold text-lg">
-                    {{ ux_icon('heroicons:cube-transparent', {class: 'w-6 h-6 text-secondary'}) }}
+                <div class="flex items-center gap-3 text-primary dark:text-blue-400 font-bold text-lg">
+                    {{ ux_icon('heroicons:cube-transparent', {class: 'w-6 h-6 text-secondary dark:text-blue-300', 'aria-hidden': 'true'}) }}
                     (RE)Sources Relationnelles
                 </div>
-                <div class="text-sm font-medium text-slate-500 flex items-center gap-2">
+                <div class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     &copy; {{ 'now'|date('Y') }} Tous droits réservés.
-                    <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-600" aria-hidden="true"></span>
                     <span>Créé avec Symfony & Tailwind</span>
                 </div>
             </div>
         </footer>
+
         <script>
-            document.addEventListener('click', function(event) {
-                const container = document.getElementById('profile-menu-container');
-                const dropdown = document.getElementById('profile-menu-dropdown');
-                if (container && dropdown && !container.contains(event.target)) {
-                    dropdown.classList.add('hidden');
+            // Profile menu logic with Accessibility (Supporte l'exécution répétée via Symfony UX Turbo)
+            if (!window.profileMenuInitialized) {
+                window.profileMenuInitialized = true;
+
+                document.addEventListener('click', function(event) {
+                    const button = document.getElementById('profile-menu-button');
+                    const container = document.getElementById('profile-menu-container');
+                    const dropdown = document.getElementById('profile-menu-dropdown');
+                    
+                    if (button && container && dropdown) {
+                        const isClickInside = container.contains(event.target);
+                        const isButton = button.contains(event.target);
+                        
+                        if (!isClickInside) {
+                            closeMenu(dropdown, button);
+                        } else if (isButton) {
+                            if (dropdown.classList.contains('hidden')) {
+                                openMenu(dropdown, button);
+                            } else {
+                                closeMenu(dropdown, button);
+                            }
+                        }
+                    }
+                });
+                
+                function openMenu(dropdown, button) {
+                    dropdown.classList.remove('hidden');
+                    button.setAttribute('aria-expanded', 'true');
+                    setTimeout(() => {
+                        dropdown.setAttribute('data-state', 'open');
+                        // Focus first item for keyboard users
+                        const firstItem = dropdown.querySelector('[role="menuitem"]');
+                        if (firstItem) firstItem.focus({ preventScroll: true });
+                    }, 10);
                 }
-            });
+                
+                function closeMenu(dropdown, button) {
+                    dropdown.removeAttribute('data-state');
+                    button.setAttribute('aria-expanded', 'false');
+                    setTimeout(() => dropdown.classList.add('hidden'), 300);
+                }
+            }
+
+            // Dark mode toggle logic with ARIA sync (Supporte Turbo)
+            if (!window.themeToggleInitialized) {
+                window.themeToggleInitialized = true;
+                
+                document.addEventListener('click', function(e) {
+                    const themeToggleBtn = e.target.closest('#theme-toggle');
+                    if (!themeToggleBtn) return;
+                    
+                    const willBeDark = !document.documentElement.classList.contains('dark');
+                    if (!willBeDark) {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.theme = 'light';
+                        themeToggleBtn.setAttribute('aria-pressed', 'false');
+                    } else {
+                        document.documentElement.classList.add('dark');
+                        localStorage.theme = 'dark';
+                        themeToggleBtn.setAttribute('aria-pressed', 'true');
+                    }
+                });
+            }
+
+            // GSAP Base animations (Respecting reduced motion and Turbo)
+            const initAnimations = () => {
+                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (prefersReducedMotion) return; // RGAA / WCAG compliance
+            
+                gsap.registerPlugin(ScrollTrigger);
+                
+                // Flash messages entrance
+                gsap.from(".gsap-flash-message", {
+                    y: -20,
+                    opacity: 0,
+                    duration: 0.6,
+                    ease: "back.out(1.5)",
+                    stagger: 0.1
+                });
+                
+                // Navbar slide down
+                gsap.from("nav", {
+                    y: -100,
+                    opacity: 0,
+                    duration: 0.8,
+                    ease: "power3.out",
+                    clearProps: "all"
+                });
+            };
+
+            // Support both standard load and Turbo load
+            document.addEventListener("DOMContentLoaded", initAnimations);
+            document.addEventListener("turbo:load", initAnimations);
         </script>
     </body>
 </html>
