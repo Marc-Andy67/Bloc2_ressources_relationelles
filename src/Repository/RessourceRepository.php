@@ -56,6 +56,20 @@ class RessourceRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return Ressource[] Returns an array of Ressource objects created by the user
+     */
+    public function findAuthoredByUser(\App\Entity\User $user): array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.author = :user')
+            ->setParameter('user', $user)
+            ->orderBy('r.creationDate', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
      * @return Ressource[] Returns an array of favorited Ressource objects
      */
     public function findFavoritedByUser(\App\Entity\User $user): array
@@ -104,5 +118,43 @@ class RessourceRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    /**
+     * Compte le nombre de ressources selon des filtres pour les statistiques
+     */
+    public function countFilteredResources(array $filters, string $status = 'validated'): int
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->select('count(r.id)')
+            ->leftJoin('r.category', 'c')
+            ->leftJoin('r.relationTypes', 'rt')
+            ->andWhere('r.status = :status')
+            ->setParameter('status', $status);
+
+        // Filtre par dates
+        if (!empty($filters['date_debut'])) {
+            $qb->andWhere('r.creationDate >= :date_debut')
+               ->setParameter('date_debut', new \DateTime($filters['date_debut']));
+        }
+        if (!empty($filters['date_fin'])) {
+            $qb->andWhere('r.creationDate <= :date_fin')
+               ->setParameter('date_fin', new \DateTime($filters['date_fin'] . ' 23:59:59'));
+        }
+
+        if (!empty($filters['categorie'])) {
+            $qb->andWhere('c.id = :categorie')
+               ->setParameter('categorie', $filters['categorie']);
+        }
+        if (!empty($filters['type_ressource'])) {
+            $qb->andWhere('r.type = :type_ressource')
+               ->setParameter('type_ressource', $filters['type_ressource']);
+        }
+        if (!empty($filters['type_relation'])) {
+            $qb->andWhere('rt.id = :type_relation')
+               ->setParameter('type_relation', $filters['type_relation']);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
     }
 }

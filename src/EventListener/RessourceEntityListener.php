@@ -31,8 +31,13 @@ class RessourceEntityListener
             }
         }
 
-        if ($ressource->getStatus() === null) {
-            $ressource->setStatus('pending');
+        if ($ressource->getStatus() === null || $ressource->getStatus() === 'pending') {
+            $user = $this->security->getUser();
+            if ($user && $this->security->isGranted('ROLE_MODERATOR')) {
+                $ressource->setStatus('validated');
+            } else {
+                $ressource->setStatus('pending');
+            }
         }
     }
 }

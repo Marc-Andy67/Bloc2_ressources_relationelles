@@ -200,12 +200,23 @@
                     <p class="text-slate-900 text-sm leading-relaxed mb-2 dark:text-white">{{ comment.content|nl2br }}</p>
                     
                     {% if app.user %}
-                    <button class="text-xs font-semibold text-slate-900 hover:text-primary transition-colors flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover/comment:opacity-100 dark:text-white" onclick="replyTo({{ comment.id }})">
-                        <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
-                        </svg>
-                        Répondre
-                    </button>
+                    <div class="flex items-center gap-4 mt-2 mb-2">
+                        <button class="text-xs font-semibold text-slate-900 hover:text-primary transition-colors flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover/comment:opacity-100 dark:text-white" onclick="replyTo({{ comment.id }})">
+                            <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                            </svg>
+                            Répondre
+                        </button>
+                        {% if is_granted('ROLE_MODERATOR') and comment.content != '[Commentaire supprimé par la modération]' %}
+                            <form method="post" action="{{ path('app_comment_delete', {'id': comment.id}) }}" class="m-0" onsubmit="return confirm('Voulez-vous vraiment modérer ce commentaire ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
+                                <button type="submit" class="text-xs font-semibold text-rose-500 hover:text-rose-700 transition-colors flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover/comment:opacity-100 dark:text-rose-400">
+                                    {{ ux_icon('heroicons:trash', {class: 'w-3.5 h-3.5'}) }}
+                                    Supprimer
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
                     {% endif %}
                     
                     {# Boucle enfants #}
@@ -240,22 +251,22 @@
 
 {% if app.user %}
 <script>
-const activeClasses = {
+var activeClasses = {
     favorite: ['bg-red-50', 'text-red-600', 'border-red-200', 'ring-2', 'ring-red-100', 'ring-offset-1', '[&_svg]:fill-red-600', '[&_path]:fill-red-600'],
     save: ['bg-amber-50', 'text-amber-600', 'border-amber-200', 'ring-2', 'ring-amber-100', 'ring-offset-1', '[&_svg]:fill-amber-600', '[&_path]:fill-amber-600'],
     like: ['bg-violet-50', 'text-violet-600', 'border-violet-200', 'ring-2', 'ring-violet-100', 'ring-offset-1', '[&_svg]:fill-violet-600', '[&_path]:fill-violet-600']
 };
 
-document.querySelectorAll('.interaction-btn').forEach(btn => {
-    const action = btn.dataset.action;
-    const isActive = btn.dataset.active === 'true';
+document.querySelectorAll('.interaction-btn').forEach(function(btn) {
+    var action = btn.dataset.action;
+    var isActive = btn.dataset.active === 'true';
     if (isActive) btn.classList.add(...activeClasses[action]);
 
-    btn.addEventListener('click', async () => {
-        const url = btn.dataset.url;
+    btn.addEventListener('click', async function() {
+        var url = btn.dataset.url;
         try {
-            const res = await fetch(url, { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' } });
-            const data = await res.json();
+            var res = await fetch(url, { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+            var data = await res.json();
             if (data.active) {
                 btn.classList.add(...activeClasses[action]);
             } else {

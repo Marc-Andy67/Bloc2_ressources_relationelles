@@ -16,28 +16,47 @@ class ProgressionRepository extends ServiceEntityRepository
         parent::__construct($registry, Progression::class);
     }
 
-    //    /**
-    //     * @return Progression[] Returns an array of Progression objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * Compte le nombre d'entrées de progression selon des filtres
+     */
+    public function countFilteredProgressions(array $filters): int
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('count(p.id)')
+            ->leftJoin('p.ressource', 'r')
+            ->leftJoin('r.category', 'c')
+            ->leftJoin('r.relationTypes', 'rt');
 
-    //    public function findOneBySomeField($value): ?Progression
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        // Filtre sur le type d'action (description)
+        if (!empty($filters['action'])) {
+            $qb->andWhere('p.description = :action')
+               ->setParameter('action', $filters['action']);
+        }
+
+        // Filtre par dates
+        if (!empty($filters['date_debut'])) {
+            $qb->andWhere('p.date >= :date_debut')
+               ->setParameter('date_debut', new \DateTime($filters['date_debut']));
+        }
+        if (!empty($filters['date_fin'])) {
+            $qb->andWhere('p.date <= :date_fin')
+               ->setParameter('date_fin', new \DateTime($filters['date_fin'] . ' 23:59:59'));
+        }
+
+        // Filtres liés à la ressource
+        if (!empty($filters['categorie'])) {
+            $qb->andWhere('c.id = :categorie')
+               ->setParameter('categorie', $filters['categorie']);
+        }
+        if (!empty($filters['type_ressource'])) {
+            $qb->andWhere('r.type = :type_ressource')
+               ->setParameter('type_ressource', $filters['type_ressource']);
+        }
+        if (!empty($filters['type_relation'])) {
+            $qb->andWhere('rt.id = :type_relation')
+               ->setParameter('type_relation', $filters['type_relation']);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
 }

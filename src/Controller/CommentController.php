@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/comment')]
 final class CommentController extends AbstractController
@@ -69,13 +70,16 @@ final class CommentController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_comment_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_MODERATOR')]
     public function delete(Request $request, Comment $comment, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($comment);
+            $comment->setContent('[Commentaire supprimé par la modération]');
             $entityManager->flush();
+            $this->addFlash('success', 'Le commentaire a été supprimé.');
         }
 
-        return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
+        $referer = $request->headers->get('referer');
+        return $this->redirect($referer ?: $this->generateUrl('app_home'));
     }
 }

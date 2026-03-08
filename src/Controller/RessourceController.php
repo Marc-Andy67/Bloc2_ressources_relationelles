@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Ressource;
 use App\Form\RessourceType;
 use App\Repository\RessourceRepository;
+use App\Service\ProgressionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -82,10 +83,23 @@ final class RessourceController extends AbstractController
         ]);
     }
 
+    #[Route('/mine', name: 'app_ressource_mine', methods: ['GET'])]
+    public function mine(RessourceRepository $ressourceRepository): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('ressource/mine.html.twig', [
+            'ressources' => $ressourceRepository->findAuthoredByUser($user),
+        ]);
+    }
+
     // ─── Toggle Actions (AJAX) ────────────────────────────────────────────────
 
     #[Route('/{id}/toggle-favorite', name: 'app_ressource_toggle_favorite', methods: ['POST'])]
-    public function toggleFavorite(Ressource $ressource, EntityManagerInterface $em): JsonResponse
+    public function toggleFavorite(Ressource $ressource, EntityManagerInterface $em, ProgressionService $progressionService): JsonResponse
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
@@ -97,8 +111,10 @@ final class RessourceController extends AbstractController
         $active = $collection->contains($user);
         if ($active) {
             $ressource->removeFavoritedBy($user);
+            $progressionService->recordActivity($user, $ressource, ProgressionService::ACTION_UNFAVORITE);
         } else {
             $ressource->addFavoritedBy($user);
+            $progressionService->recordActivity($user, $ressource, ProgressionService::ACTION_FAVORITE);
         }
         $em->flush();
 
@@ -106,7 +122,7 @@ final class RessourceController extends AbstractController
     }
 
     #[Route('/{id}/toggle-save', name: 'app_ressource_toggle_save', methods: ['POST'])]
-    public function toggleSave(Ressource $ressource, EntityManagerInterface $em): JsonResponse
+    public function toggleSave(Ressource $ressource, EntityManagerInterface $em, ProgressionService $progressionService): JsonResponse
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
@@ -118,8 +134,10 @@ final class RessourceController extends AbstractController
         $active = $collection->contains($user);
         if ($active) {
             $ressource->removeSetAsideBy($user);
+            $progressionService->recordActivity($user, $ressource, ProgressionService::ACTION_UNSAVE);
         } else {
             $ressource->addSetAsideBy($user);
+            $progressionService->recordActivity($user, $ressource, ProgressionService::ACTION_SAVE);
         }
         $em->flush();
 
@@ -127,7 +145,7 @@ final class RessourceController extends AbstractController
     }
 
     #[Route('/{id}/toggle-like', name: 'app_ressource_toggle_like', methods: ['POST'])]
-    public function toggleLike(Ressource $ressource, EntityManagerInterface $em): JsonResponse
+    public function toggleLike(Ressource $ressource, EntityManagerInterface $em, ProgressionService $progressionService): JsonResponse
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
@@ -139,8 +157,10 @@ final class RessourceController extends AbstractController
         $active = $collection->contains($user);
         if ($active) {
             $ressource->removeLikedBy($user);
+            $progressionService->recordActivity($user, $ressource, ProgressionService::ACTION_UNLIKE);
         } else {
             $ressource->addLikedBy($user);
+            $progressionService->recordActivity($user, $ressource, ProgressionService::ACTION_LIKE);
         }
         $em->flush();
 
@@ -150,7 +170,7 @@ final class RessourceController extends AbstractController
     // ─── CRUD ────────────────────────────────────────────────────────────────
 
     #[Route('/new', name: 'app_ressource_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, \App\Service\RessourceManagerInterface $ressourceManager, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, \App\Service\RessourceManagerInterface $ressourceManager, EntityManagerInterface $entityManager, ProgressionService $progressionService): Response
     {
         $dto = new \App\DTO\RessourceDTO();
         $form = $this->createForm(RessourceType::class, $dto);
@@ -165,6 +185,10 @@ final class RessourceController extends AbstractController
             $entityManager->persist($ressource);
             $entityManager->flush();
 
+            /** @var \App\Entity\User $user */
+            $user = $this->getUser();
+            $progressionService->recordActivity($user, $ressource, ProgressionService::ACTION_CREATE_RESSOURCE);
+
             return $this->redirectToRoute('app_ressource_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -175,8 +199,15 @@ final class RessourceController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_ressource_show', methods: ['GET', 'POST'])]
-    public function show(Request $request, Ressource $ressource, EntityManagerInterface $entityManager, \App\Repository\CommentRepository $commentRepository): Response
+    public function show(Request $request, Ressource $ressource, EntityManagerInterface $entityManager, \App\Repository\CommentRepository $commentRepository, ProgressionService $progressionService): Response
     {
+        // Enregistrer la consultation de la ressource
+        /** @var \App\Entity\User|null $user */
+        $user = $this->getUser();
+        if ($user) {
+            $progressionService->recordActivity($user, $ressource, ProgressionService::ACTION_VIEW);
+        }
+
         $comment = new \App\Entity\Comment();
         $form = $this->createForm(\App\Form\CommentType::class, $comment);
         $form->handleRequest($request);
@@ -196,6 +227,10 @@ final class RessourceController extends AbstractController
 
             $entityManager->persist($comment);
             $entityManager->flush();
+
+            /** @var \App\Entity\User $user */
+            $user = $this->getUser();
+            $progressionService->recordActivity($user, $ressource, ProgressionService::ACTION_COMMENT);
 
             return $this->redirectToRoute('app_ressource_show', ['id' => $ressource->getId()]);
         }
