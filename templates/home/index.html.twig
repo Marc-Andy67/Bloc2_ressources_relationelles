@@ -15,11 +15,11 @@
             Nouvelle version disponible
         </div>
         
-        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight">
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
             Cultivez des relations <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">riches et durables</span>
         </h1>
         
-        <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+        <p class="text-lg md:text-xl text-slate-900 dark:text-white max-w-2xl mx-auto leading-relaxed">
             Une plateforme moderne et intuitive pour partager, découvrir et échanger autour des ressources qui améliorent la qualité de nos interactions humaines.
         </p>
         
@@ -40,22 +40,22 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto w-full px-4">
         
         <a href="{{ path('app_ressource_index') }}" class="glass-card group flex flex-col items-center text-center gap-4">
-            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center shadow-inner mb-2 group-hover:scale-110 transition-transform duration-300">
-                {{ ux_icon('heroicons:book-open', {class: 'w-8 h-8 text-primary'}) }}
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-50 dark:from-blue-900/40 dark:to-blue-800/20 flex items-center justify-center shadow-inner mb-2 group-hover:scale-110 transition-transform duration-300">
+                {{ ux_icon('heroicons:book-open', {class: 'w-8 h-8 text-primary dark:text-blue-400'}) }}
             </div>
-            <h3 class="text-xl font-bold text-slate-800">Catalogue de Ressources</h3>
-            <p class="text-slate-600 leading-relaxed">
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Catalogue de Ressources</h3>
+            <p class="text-slate-900 dark:text-white leading-relaxed">
                 Plongez dans un espace riche en articles, vidéos et outils pratiques pour nourrir votre réflexion relationnelle.
             </p>
         </a>
 
         {% if app.user %}
             <div class="glass-card flex flex-col items-center text-center gap-4 relative overflow-hidden">
-                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center shadow-inner mb-2">
-                    {{ ux_icon('heroicons:user-circle', {class: 'w-8 h-8 text-emerald-600'}) }}
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-100 to-green-50 dark:from-emerald-900/40 dark:to-emerald-800/20 flex items-center justify-center shadow-inner mb-2">
+                    {{ ux_icon('heroicons:user-circle', {class: 'w-8 h-8 text-emerald-600 dark:text-emerald-400'}) }}
                 </div>
-                <h3 class="text-xl font-bold text-slate-800">Espace Personnel</h3>
-                <p class="text-slate-600 leading-relaxed mb-4">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white">Espace Personnel</h3>
+                <p class="text-slate-900 dark:text-white leading-relaxed mb-4">
                     Gérez vos favoris, participez aux conversations et contribuez à l'intelligence collective.
                 </p>
                 <div class="flex gap-3 mt-auto w-full pt-4 border-t border-slate-100">
@@ -64,11 +64,11 @@
             </div>
         {% else %}
             <a href="{{ path('app_login') }}" class="glass-card group flex flex-col items-center text-center gap-4 border-2 border-transparent hover:border-cta/20">
-                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center shadow-inner mb-2 group-hover:scale-110 transition-transform duration-300">
-                    {{ ux_icon('heroicons:users', {class: 'w-8 h-8 text-cta'}) }}
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-100 to-orange-50 dark:from-orange-900/40 dark:to-orange-800/20 flex items-center justify-center shadow-inner mb-2 group-hover:scale-110 transition-transform duration-300">
+                    {{ ux_icon('heroicons:users', {class: 'w-8 h-8 text-cta dark:text-orange-400'}) }}
                 </div>
-                <h3 class="text-xl font-bold text-slate-800">Mon Compte</h3>
-                <p class="text-slate-600 leading-relaxed">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white">Mon Compte</h3>
+                <p class="text-slate-900 dark:text-white leading-relaxed">
                     Connectez-vous pour débloquer toutes les fonctionnalités sociales, les commentaires et la création de ressources.
                 </p>
                 <div class="mt-4 font-semibold text-cta flex items-center gap-1 group-hover:gap-2 transition-all">

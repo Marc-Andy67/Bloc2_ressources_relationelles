@@ -1,0 +1,47 @@
+<div class="glass-card p-4 rounded-2xl flex flex-col gap-2 sticky top-24">
+    <div class="px-4 pb-4 mb-2 border-b border-slate-200/50 dark:border-slate-700/50">
+        <h2 class="text-xs uppercase font-extrabold tracking-wider text-slate-900 dark:text-white">Navigation Admin</h2>
+    </div>
+
+    <a href="{{ path('app_admin_dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-300 {{ app.request.attributes.get('_route') == 'app_admin_dashboard' ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:translate-x-1' }}">
+        {{ ux_icon('heroicons:queue-list', {class: 'w-5 h-5', 'aria-hidden': 'true'}) }}
+        Ressources en attente
+    </a>
+    
+    {% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('app_admin_resources') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-300 {{ app.request.attributes.get('_route') == 'app_admin_resources' ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:translate-x-1' }}">
+        {{ ux_icon('heroicons:document-text', {class: 'w-5 h-5', 'aria-hidden': 'true'}) }}
+        Toutes les ressources
+    </a>
+    {% endif %}
+    
+    {% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('app_admin_analytics') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-300 {{ app.request.attributes.get('_route') == 'app_admin_analytics' ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:translate-x-1' }}">
+        {{ ux_icon('heroicons:chart-pie', {class: 'w-5 h-5', 'aria-hidden': 'true'}) }}
+        Statistiques
+    </a>
+    {% endif %}
+    
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+    <a href="{{ path('app_admin_users') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-300 {{ app.request.attributes.get('_route') == 'app_admin_users' ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:translate-x-1' }}">
+        {{ ux_icon('heroicons:users', {class: 'w-5 h-5', 'aria-hidden': 'true'}) }}
+        Utilisateurs
+    </a>
+    {% endif %}
+    
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="px-4 pb-2 pt-4 mt-2 border-b border-slate-200/50 dark:border-slate-700/50">
+        <h2 class="text-xs uppercase font-extrabold tracking-wider text-slate-900 dark:text-white">Paramètres</h2>
+    </div>
+
+    <a href="{{ path('app_admin_categories') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-300 {{ app.request.attributes.get('_route') starts with 'app_admin_category' ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:translate-x-1' }}">
+        {{ ux_icon('heroicons:tag', {class: 'w-5 h-5', 'aria-hidden': 'true'}) }}
+        Catégories
+    </a>
+
+    <a href="{{ path('app_admin_relation_types') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-300 {{ app.request.attributes.get('_route') starts with 'app_admin_relation_type' ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:translate-x-1' }}">
+        {{ ux_icon('heroicons:link', {class: 'w-5 h-5', 'aria-hidden': 'true'}) }}
+        Types de relation
+    </a>
+    {% endif %}
+</div>

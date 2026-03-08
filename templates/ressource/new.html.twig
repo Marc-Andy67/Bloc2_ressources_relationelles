@@ -9,14 +9,14 @@
         <div class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <div class="mb-8 relative z-10">
-            <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">Nouvelle Ressource</h1>
-            <p class="text-slate-500 mt-2">Partagez votre document, article, ou média avec la communauté.</p>
+            <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Nouvelle Ressource</h1>
+            <p class="text-slate-900 dark:text-white mt-2">Partagez votre document, article, ou média avec la communauté.</p>
         </div>
 
         {{ include('ressource/_form.html.twig', {'button_label': 'Publier la ressource'}) }}
 
-        <div class="mt-6 pt-6 border-t border-slate-100 relative z-10">
-            <a href="{{ path('app_ressource_index') }}" class="text-slate-500 hover:text-primary transition-colors flex items-center gap-2 text-sm font-medium">
+        <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 relative z-10">
+            <a href="{{ path('app_ressource_index') }}" class="text-slate-900 dark:text-white hover:text-primary dark:hover:text-blue-400 transition-colors flex items-center gap-2 text-sm font-medium">
                 {{ ux_icon('heroicons:arrow-small-left', {class: 'w-5 h-5'}) }}
                 Retour à l'explorateur
             </a>

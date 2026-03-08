@@ -7,11 +7,11 @@
 
     {# Header #}
     <div class="border-b border-slate-200 pb-6">
-        <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight flex items-center gap-3">
+        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3 dark:text-white">
             {{ ux_icon('heroicons:chart-bar', {class: 'w-8 h-8 text-emerald-500'}) }}
             Ma Progression
         </h1>
-        <p class="text-slate-500 mt-2">Votre tableau de bord personnel : statistiques et activité récente.</p>
+        <p class="text-slate-900 mt-2 dark:text-white">Votre tableau de bord personnel : statistiques et activité récente.</p>
     </div>
 
     {# Stats Cards #}
@@ -22,7 +22,7 @@
             </div>
             <div>
                 <div class="text-3xl font-extrabold text-emerald-600">{{ resources_read }}</div>
-                <div class="text-xs font-semibold text-slate-500 mt-1">Ressources consultées</div>
+                <div class="text-xs font-semibold text-slate-900 mt-1 dark:text-white">Ressources consultées</div>
             </div>
         </div>
 
@@ -32,7 +32,7 @@
             </div>
             <div>
                 <div class="text-3xl font-extrabold text-red-500">{{ favorites_count }}</div>
-                <div class="text-xs font-semibold text-slate-500 mt-1">Favoris</div>
+                <div class="text-xs font-semibold text-slate-900 mt-1 dark:text-white">Favoris</div>
             </div>
         </div>
 
@@ -42,7 +42,7 @@
             </div>
             <div>
                 <div class="text-3xl font-extrabold text-amber-500">{{ saved_count }}</div>
-                <div class="text-xs font-semibold text-slate-500 mt-1">Mis de côté</div>
+                <div class="text-xs font-semibold text-slate-900 mt-1 dark:text-white">Mis de côté</div>
             </div>
         </div>
 
@@ -52,24 +52,24 @@
             </div>
             <div>
                 <div class="text-3xl font-extrabold text-violet-500">{{ liked_count }}</div>
-                <div class="text-xs font-semibold text-slate-500 mt-1">Likées</div>
+                <div class="text-xs font-semibold text-slate-900 mt-1 dark:text-white">Likées</div>
             </div>
         </div>
     </div>
 
     {# Activité récente #}
     <div class="glass-card p-6 border border-slate-200/60">
-        <h2 class="text-xl font-bold text-slate-800 mb-5 flex items-center gap-2">
-            {{ ux_icon('heroicons:clock', {class: 'w-5 h-5 text-slate-500'}) }}
+        <h2 class="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2 dark:text-white">
+            {{ ux_icon('heroicons:clock', {class: 'w-5 h-5 text-slate-700'}) }}
             Activité Récente
         </h2>
 
         {% if progressions is empty %}
             <div class="flex flex-col items-center justify-center py-10 text-center">
                 <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-3">
-                    {{ ux_icon('heroicons:inbox', {class: 'w-8 h-8 text-slate-400'}) }}
+                    {{ ux_icon('heroicons:inbox', {class: 'w-8 h-8 text-slate-700'}) }}
                 </div>
-                <p class="text-slate-500 text-sm">Aucune activité enregistrée pour le moment.</p>
+                <p class="text-slate-900 text-sm dark:text-white">Aucune activité enregistrée pour le moment.</p>
                 <a href="{{ path('app_ressource_index') }}" class="mt-4 btn-primary text-sm">Explorer des ressources</a>
             </div>
         {% else %}
@@ -80,18 +80,18 @@
                         {{ ux_icon('heroicons:book-open', {class: 'w-4 h-4 text-primary'}) }}
                     </div>
                     <div class="flex-grow min-w-0">
-                        <p class="font-semibold text-sm text-slate-800 truncate">
+                        <p class="font-semibold text-sm text-slate-900 truncate dark:text-white">
                             {{ progression.ressource ? progression.ressource.title : 'Ressource supprimée' }}
                         </p>
                         {% if progression.description %}
-                        <p class="text-xs text-slate-500 truncate">{{ progression.description }}</p>
+                        <p class="text-xs text-slate-900 truncate dark:text-white">{{ progression.description }}</p>
                         {% endif %}
                     </div>
-                    <div class="text-xs font-medium text-slate-400 shrink-0">
+                    <div class="text-xs font-medium text-slate-900 shrink-0 dark:text-white">
                         {{ progression.date ? progression.date|date('d/m/Y') : '—' }}
                     </div>
                     {% if progression.ressource %}
-                    <a href="{{ path('app_ressource_show', {'id': progression.ressource.id}) }}" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-100 hover:bg-primary/10 hover:text-primary transition-colors text-slate-400 shrink-0">
+                    <a href="{{ path('app_ressource_show', {'id': progression.ressource.id}) }}" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-100 hover:bg-primary/10 hover:text-primary transition-colors text-slate-900 shrink-0 dark:text-white">
                         {{ ux_icon('heroicons:arrow-top-right-on-square', {class: 'w-3.5 h-3.5'}) }}
                     </a>
                     {% endif %}

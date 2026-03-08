@@ -41,6 +41,9 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
+        - { path: ^/admin/users, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/admin/analytics, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_MODERATOR }
         - { path: ^/ressource/new, roles: ROLE_USER }
         - { path: ^/ressource/\d+/edit, roles: ROLE_USER }
         - { path: ^/ressource/favorites, roles: ROLE_USER }

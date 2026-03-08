@@ -1,0 +1,145 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Back Office - Tableau de bord{% endblock %}
+
+{% block body %}
+<div class="flex flex-col md:flex-row gap-8 w-full">
+    <!-- Sidebar Navigation -->
+    <aside class="w-full md:w-64 shrink-0 gsap-stagger-item">
+        {% include 'back_office/_nav.html.twig' %}
+    </aside>
+    
+    <!-- Main Content -->
+    <div class="flex-1 min-w-0 flex flex-col gap-6">
+        <div class="header-section gsap-stagger-item">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Ressources en attente</h1>
+            <p class="text-slate-900 dark:text-white mt-2">Gérez les publications nécessitant une validation avant leur mise en ligne.</p>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="glass-card p-4 rounded-2xl w-full gsap-stagger-item mb-2">
+            <form method="get" action="{{ path('app_admin_dashboard') }}" class="flex flex-col sm:flex-row gap-4 items-end">
+                <div class="flex-1 w-full">
+                    <label for="category" class="block text-xs font-extrabold text-slate-900 dark:text-white uppercase tracking-wider mb-2">Catégorie</label>
+                    <div class="relative">
+                        <select name="category" id="category" class="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-primary focus:border-primary block p-2.5 appearance-none font-medium transition-all">
+                            <option value="">Toutes les catégories</option>
+                            {% for cat in categories %}
+                                <option value="{{ cat.id }}" {% if currentFilters.category|default('') == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-900 dark:text-white">
+                            {{ ux_icon('heroicons:chevron-down', {class: 'w-4 h-4'}) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-1 w-full">
+                    <label for="relation" class="block text-xs font-extrabold text-slate-900 dark:text-white uppercase tracking-wider mb-2">Type de relation</label>
+                    <div class="relative">
+                        <select name="relation" id="relation" class="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-primary focus:border-primary block p-2.5 appearance-none font-medium transition-all">
+                            <option value="">Tous les types</option>
+                            {% for rel in relationTypes %}
+                                <option value="{{ rel.id }}" {% if currentFilters.relation|default('') == rel.id %}selected{% endif %}>{{ rel.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-900 dark:text-white">
+                            {{ ux_icon('heroicons:chevron-down', {class: 'w-4 h-4'}) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-2 w-full sm:w-auto mt-4 sm:mt-0">
+                    <button type="submit" class="btn-primary flex-1 sm:flex-none flex justify-center items-center gap-2 py-2.5">
+                        {{ ux_icon('heroicons:funnel', {class: 'w-5 h-5'}) }} Filtrer
+                    </button>
+                    {% if currentFilters.category is defined or currentFilters.relation is defined %}
+                        <a href="{{ path('app_admin_dashboard') }}" class="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white transition-colors" title="Réinitialiser">
+                            {{ ux_icon('heroicons:x-mark', {class: 'w-5 h-5'}) }}
+                        </a>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+
+        <div class="glass-card overflow-hidden w-full gsap-stagger-item">
+            {% if pending_resources is empty %}
+                <div class="p-12 flex flex-col items-center justify-center text-center">
+                    <div class="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-4">
+                        {{ ux_icon('heroicons:check', {class: 'w-8 h-8'}) }}
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white">Tout est à jour !</h3>
+                    <p class="text-slate-900 dark:text-white mt-2">Aucune ressource en attente de modération.</p>
+                </div>
+            {% else %}
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-slate-900 dark:text-white text-xs font-bold uppercase tracking-wider">
+                                <th class="py-4 px-6">Ressource</th>
+                                <th class="py-4 px-6">Auteur</th>
+                                <th class="py-4 px-6">Date</th>
+                                <th class="py-4 px-6 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60">
+                            {% for ressource in pending_resources %}
+                            <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors group">
+                                <td class="py-4 px-6">
+                                    <a href="{{ path('app_ressource_show', {'id': ressource.id}) }}" target="_blank" class="font-bold text-slate-900 dark:text-white hover:text-primary dark:hover:text-blue-400 transition-colors flex items-center gap-2">
+                                        {{ ressource.title }}
+                                        {{ ux_icon('heroicons:arrow-top-right-on-square', {class: 'w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity'}) }}
+                                    </a>
+                                </td>
+                                <td class="py-4 px-6">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-bold">
+                                            {{ ressource.author.userIdentifier|slice(0,1)|upper }}
+                                        </div>
+                                        <span class="text-sm text-slate-900 dark:text-white">{{ ressource.author.userIdentifier }}</span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-slate-900 dark:text-white">
+                                    {{ ressource.creationDate|date('d/m/Y H:i') }}
+                                </td>
+                                <td class="py-4 px-6 text-right">
+                                    <div class="flex items-center justify-end gap-2">
+                                        <form method="post" action="{{ path('app_admin_ressource_approve', {'id': ressource.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir valider cette ressource ?');">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('approve' ~ ressource.id) }}">
+                                            <button type="submit" class="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20 rounded-lg text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500">
+                                                {{ ux_icon('heroicons:check-circle', {class: 'w-4 h-4'}) }} Valider
+                                            </button>
+                                        </form>
+                                        <form method="post" action="{{ path('app_admin_ressource_reject', {'id': ressource.id}) }}" onsubmit="return confirm('Voulez-vous vraiment refuser cette ressource ?');">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('reject' ~ ressource.id) }}">
+                                            <button type="submit" class="flex items-center gap-1.5 px-3 py-1.5 bg-rose-50 text-rose-700 hover:bg-rose-100 dark:bg-rose-500/10 dark:text-rose-400 dark:hover:bg-rose-500/20 rounded-lg text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500">
+                                                {{ ux_icon('heroicons:x-circle', {class: 'w-4 h-4'}) }} Refuser
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof gsap !== 'undefined') {
+            gsap.from(".gsap-stagger-item", {
+                y: 30,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power3.out",
+                clearProps: "all"
+            });
+        }
+    });
+</script>
+{% endblock %}

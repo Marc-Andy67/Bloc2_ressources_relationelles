@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Back Office - Statistiques{% endblock %}
+
+{% block body %}
+<div class="flex flex-col md:flex-row gap-8 w-full">
+    <!-- Sidebar Navigation -->
+    <aside class="w-full md:w-64 shrink-0 gsap-stagger-item">
+        {% include 'back_office/_nav.html.twig' %}
+    </aside>
+    
+    <!-- Main Content -->
+    <div class="flex-1 min-w-0 flex flex-col gap-6">
+        <div class="header-section gsap-stagger-item">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Statistiques de la plateforme</h1>
+            <p class="text-slate-900 dark:text-white mt-2">Aperçu global de l'activité, des ressources et des utilisateurs.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Total Ressources -->
+            <div class="glass-card p-6 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-2 transition-transform duration-300 md:col-span-2 lg:col-span-4 bg-primary/5 dark:bg-blue-900/10 border-primary/20">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-primary/10 dark:bg-blue-500/20 text-primary dark:text-blue-400 flex items-center justify-center">
+                        {{ ux_icon('heroicons:rectangle-stack', {class: 'w-6 h-6'}) }}
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Total Ressources</h3>
+                </div>
+                <div class="mt-4 flex items-end justify-between">
+                    <span class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tighter">{{ total_resources }}</span>
+                </div>
+            </div>
+
+            <!-- Validated Ressources -->
+            <div class="glass-card p-6 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-2 transition-transform duration-300">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                        {{ ux_icon('heroicons:check-badge', {class: 'w-6 h-6'}) }}
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Validées</h3>
+                </div>
+                <div class="mt-4 flex items-end justify-between">
+                    <span class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tighter">{{ validated_resources }}</span>
+                </div>
+            </div>
+
+            <!-- Pending Ressources -->
+            <div class="glass-card p-6 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-2 transition-transform duration-300">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                        {{ ux_icon('heroicons:clock', {class: 'w-6 h-6'}) }}
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">En attente</h3>
+                </div>
+                <div class="mt-4 flex items-end justify-between">
+                    <span class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tighter">{{ pending_resources }}</span>
+                </div>
+            </div>
+
+            <!-- Rejected Ressources -->
+            <div class="glass-card p-6 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-2 transition-transform duration-300">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+                        {{ ux_icon('heroicons:no-symbol', {class: 'w-6 h-6'}) }}
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Refusées</h3>
+                </div>
+                <div class="mt-4 flex items-end justify-between">
+                    <span class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tighter">{{ rejected_resources }}</span>
+                </div>
+            </div>
+
+            <!-- Total Users -->
+            <div class="glass-card p-6 flex flex-col gap-2 gsap-stagger-item hover:-translate-y-2 transition-transform duration-300">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 flex items-center justify-center">
+                        {{ ux_icon('heroicons:users', {class: 'w-6 h-6'}) }}
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Utilisateurs Inscrits</h3>
+                </div>
+                <div class="mt-4 flex items-end justify-between">
+                    <span class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tighter">{{ total_users }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof gsap !== 'undefined') {
+            gsap.from(".gsap-stagger-item", {
+                y: 40,
+                opacity: 0,
+                scale: 0.95,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "back.out(1.5)",
+                clearProps: "all"
+            });
+        }
+    });
+</script>
+{% endblock %}

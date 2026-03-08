@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Back Office - Types de relation{% endblock %}
+
+{% block body %}
+<div class="flex flex-col md:flex-row gap-8 w-full">
+    <!-- Sidebar Navigation -->
+    <aside class="w-full md:w-64 shrink-0 gsap-stagger-item">
+        {% include 'back_office/_nav.html.twig' %}
+    </aside>
+    
+    <!-- Main Content -->
+    <div class="flex-1 min-w-0 flex flex-col gap-6">
+        <div class="header-section gsap-stagger-item flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Types de relation</h1>
+                <p class="text-slate-900 dark:text-white mt-2">Gérez les différents types de relations associables aux ressources.</p>
+            </div>
+            <a href="{{ path('app_admin_relation_type_new') }}" class="btn-primary flex items-center gap-2">
+                {{ ux_icon('heroicons:plus', {class: 'w-5 h-5'}) }} Nouveau Type
+            </a>
+        </div>
+
+        {% for message in app.flashes('success') %}
+            <div class="gsap-stagger-item p-4 rounded-xl bg-emerald-50 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 flex items-center gap-3 font-medium shadow-sm">
+                {{ ux_icon('heroicons:check-circle', {class: 'w-5 h-5'}) }}
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <div class="glass-card overflow-hidden w-full gsap-stagger-item">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-slate-900 dark:text-white text-xs font-bold uppercase tracking-wider">
+                            <th class="py-4 px-6">ID</th>
+                            <th class="py-4 px-6">Nom</th>
+                            <th class="py-4 px-6 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60">
+                        {% for relation_type in relation_types %}
+                        <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors">
+                            <td class="py-4 px-6 font-medium text-slate-900 dark:text-white">#{{ relation_type.id }}</td>
+                            <td class="py-4 px-6 font-bold text-slate-900 dark:text-white">{{ relation_type.name }}</td>
+                            <td class="py-4 px-6 text-right">
+                                <div class="flex items-center justify-end gap-2">
+                                    <a href="{{ path('app_admin_relation_type_edit', {'id': relation_type.id}) }}" class="p-2 text-slate-900 hover:text-amber-500 transition-colors rounded-lg hover:bg-amber-50 dark:hover:bg-amber-900/40 dark:text-white" title="Modifier">
+                                        {{ ux_icon('heroicons:pencil', {class: 'w-5 h-5'}) }}
+                                    </a>
+                                    <form method="post" action="{{ path('app_admin_relation_type_delete', {'id': relation_type.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce type de relation ?');" class="inline-block m-0">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ relation_type.id) }}">
+                                        <button class="p-2 text-slate-900 hover:text-rose-500 transition-colors rounded-lg hover:bg-rose-50 dark:hover:bg-rose-900/40 dark:text-white" title="Supprimer">
+                                            {{ ux_icon('heroicons:trash', {class: 'w-5 h-5'}) }}
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="3" class="py-12 text-center text-slate-900 dark:text-white font-medium">Aucun type de relation trouvé.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof gsap !== 'undefined') {
+            gsap.from(".gsap-stagger-item", {
+                y: 30,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power3.out",
+                clearProps: "all"
+            });
+        }
+    });
+</script>
+{% endblock %}

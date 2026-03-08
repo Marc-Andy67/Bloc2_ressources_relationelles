@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Back Office - {{ title }}{% endblock %}
+
+{% block body %}
+<div class="flex flex-col md:flex-row gap-8 w-full max-w-4xl mx-auto">
+    <!-- Main Content -->
+    <div class="flex-1 min-w-0 flex flex-col gap-6">
+        <div class="header-section gsap-stagger-item flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <a href="{{ path(back_route) }}" class="inline-flex items-center gap-2 text-sm font-medium text-slate-900 dark:text-white hover:text-slate-900 dark:hover:text-white transition-colors mb-2">
+                    {{ ux_icon('heroicons:arrow-left', {class: 'w-4 h-4'}) }} Retour à la liste
+                </a>
+                <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">{{ title }}</h1>
+            </div>
+        </div>
+
+        <div class="glass-card p-6 md:p-8 w-full gsap-stagger-item">
+            {{ form_start(form, {'attr': {'class': 'space-y-6', 'novalidate': 'novalidate'}}) }}
+            
+                <div>
+                    {{ form_label(form.name, null, {'label_attr': {'class': 'block text-sm font-bold text-slate-900 dark:text-white'}}) }}
+                    {{ form_widget(form.name) }}
+                    {% if form_errors(form.name) %}
+                        <div class="text-rose-600 dark:text-rose-400 text-sm mt-1 font-medium">
+                            {{ form_errors(form.name) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-slate-800">
+                    <a href="{{ path(back_route) }}" class="px-5 py-2.5 rounded-xl font-bold text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                        Annuler
+                    </a>
+                    <button type="submit" class="btn-primary">
+                        Enregistrer
+                    </button>
+                </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof gsap !== 'undefined') {
+            gsap.from(".gsap-stagger-item", {
+                y: 20,
+                opacity: 0,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: "power2.out",
+                clearProps: "all"
+            });
+        }
+    });
+</script>
+{% endblock %}

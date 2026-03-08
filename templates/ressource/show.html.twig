@@ -6,10 +6,10 @@
 <div class="max-w-4xl mx-auto flex flex-col gap-8 pb-12">
 
     {# Fil d'Ariane #}
-    <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">
+    <div class="flex items-center gap-2 text-sm text-slate-900 font-medium dark:text-white">
         <a href="{{ path('app_ressource_index') }}" class="hover:text-primary transition-colors">Explorer</a>
         {{ ux_icon('heroicons:chevron-right', {class: 'w-4 h-4'}) }}
-        <span class="text-slate-800 truncate max-w-xs">{{ ressource.title }}</span>
+        <span class="text-slate-900 truncate max-w-xs dark:text-white">{{ ressource.title }}</span>
     </div>
 
     {# Contenu Principal #}
@@ -26,20 +26,20 @@
                 </span>
             </div>
             {% if app.user and app.user.id == ressource.author.id %}
-            <a href="{{ path('app_ressource_edit', {'id': ressource.id}) }}" class="p-2 text-slate-400 hover:text-amber-500 hover:bg-amber-50 rounded-lg transition-colors" title="Éditer">
+            <a href="{{ path('app_ressource_edit', {'id': ressource.id}) }}" class="p-2 text-slate-900 hover:text-amber-500 hover:bg-amber-50 rounded-lg transition-colors dark:text-white" title="Éditer">
                 {{ ux_icon('heroicons:pencil-square', {class: 'w-5 h-5'}) }}
             </a>
             {% endif %}
         </div>
 
-        <h1 class="text-3xl font-extrabold text-slate-800 mb-4 leading-tight">{{ ressource.title }}</h1>
+        <h1 class="text-3xl font-extrabold text-slate-900 mb-4 leading-tight dark:text-white">{{ ressource.title }}</h1>
 
-        <div class="flex items-center gap-4 text-sm text-slate-500 mb-8 pb-6 border-b border-slate-100">
+        <div class="flex items-center gap-4 text-sm text-slate-900 mb-8 pb-6 border-b border-slate-100 dark:text-white">
             <div class="flex items-center gap-2">
                 <div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xs">
                     {{ ressource.author.email|slice(0,2)|upper }}
                 </div>
-                <span class="font-medium text-slate-700">{{ ressource.author.email|split('@')[0]|capitalize }}</span>
+                <span class="font-medium text-slate-900 dark:text-white">{{ ressource.author.email|split('@')[0]|capitalize }}</span>
             </div>
             {% if ressource.creationDate %}
             <span class="flex items-center gap-1">
@@ -53,7 +53,7 @@
             </span>
         </div>
 
-        <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed">
+        <div class="prose prose-slate max-w-none text-slate-900 leading-relaxed dark:text-white">
             {# Extraction de l'URL du média si elle a été ajoutée à la fin du contenu #}
             {% set content_text = ressource.content %}
             {% set media_url = null %}
@@ -68,7 +68,7 @@
             
             {% if media_url %}
                 <div class="mt-8 pt-6 border-t border-slate-100">
-                    <h3 class="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <h3 class="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2 dark:text-white">
                         {{ ux_icon('heroicons:paper-clip', {class: 'w-4 h-4'}) }}
                         Document joint
                     </h3>
@@ -88,8 +88,8 @@
                                 <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm border border-slate-100 mb-4 text-primary">
                                     {{ ux_icon('heroicons:document', {class: 'w-8 h-8'}) }}
                                 </div>
-                                <p class="text-slate-800 font-medium mb-1">Fichier de type {{ ressource.type }}</p>
-                                <p class="text-slate-500 text-sm mb-4">Ce format de fichier nécessite un logiciel externe ou ne peut pas être prévisualisé directement.</p>
+                                <p class="text-slate-900 font-medium mb-1 dark:text-white">Fichier de type {{ ressource.type }}</p>
+                                <p class="text-slate-900 text-sm mb-4 dark:text-white">Ce format de fichier nécessite un logiciel externe ou ne peut pas être prévisualisé directement.</p>
                                 <a href="{{ media_url }}" target="_blank" class="btn-primary flex items-center gap-2" download>
                                     {{ ux_icon('heroicons:arrow-down-tray', {class: 'w-4 h-4'}) }}
                                     Télécharger le document
@@ -105,7 +105,7 @@
     {# Boutons d'action #}
     {% if app.user %}
     <div class="glass-card p-4 border border-slate-200/60 flex items-center justify-between">
-        <p class="text-sm font-semibold text-slate-600">Votre avis sur cette ressource :</p>
+        <p class="text-sm font-semibold text-slate-900 dark:text-white">Votre avis sur cette ressource :</p>
         <div class="flex items-center gap-3">
             <button
                 class="interaction-btn flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all border border-slate-200 hover:border-red-200 hover:bg-red-50 hover:text-red-600 [&>svg]:transition-all"
@@ -140,7 +140,7 @@
 
     {# Section Commentaires #}
     <div class="mt-8">
-        <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+        <h3 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2 dark:text-white">
             {{ ux_icon('heroicons:chat-bubble-bottom-center-text', {class: 'w-6 h-6 text-primary'}) }}
             Commentaires ({{ comments|length }})
         </h3>
@@ -150,7 +150,7 @@
                 <div id="reply-indicator" class="hidden mb-3 text-sm font-semibold text-primary flex items-center gap-2 bg-primary/5 px-3 py-1.5 rounded-md inline-flex">
                     {{ ux_icon('heroicons:arrow-uturn-left', {class: 'w-4 h-4'}) }}
                     <span>En réponse à un commentaire</span>
-                    <button type="button" class="ml-2 text-slate-400 hover:text-slate-600" onclick="cancelReply()">
+                    <button type="button" class="ml-2 text-slate-900 hover:text-slate-900 dark:text-white" onclick="cancelReply()">
                         {{ ux_icon('heroicons:x-mark', {class: 'w-4 h-4'}) }}
                     </button>
                 </div>
@@ -174,8 +174,8 @@
                 {{ form_end(commentForm) }}
             </div>
         {% else %}
-            <div class="glass-card p-5 border border-slate-200/60 flex items-center gap-4 text-sm text-slate-600 mb-8">
-                {{ ux_icon('heroicons:lock-closed', {class: 'w-5 h-5 text-slate-400 shrink-0'}) }}
+            <div class="glass-card p-5 border border-slate-200/60 flex items-center gap-4 text-sm text-slate-900 mb-8 dark:text-white">
+                {{ ux_icon('heroicons:lock-closed', {class: 'w-5 h-5 text-slate-900 shrink-0'}) }}
                 <p>
                     <a href="{{ path('app_login') }}" class="font-semibold text-primary hover:underline">Connectez-vous</a>
                     ou <a href="{{ path('app_register') }}" class="font-semibold text-primary hover:underline">créez un compte</a>
@@ -189,18 +189,18 @@
         {% macro display_comment(comment, is_child = false) %}
             {% import _self as macros %}
             <div class="flex gap-4 {% if is_child %}mt-4 ml-6 sm:ml-12 border-l-2 border-slate-100 pl-4{% else %}p-4 rounded-xl hover:bg-slate-50 transition-colors{% endif %} relative group/comment">
-                <div class="w-10 h-10 rounded-full bg-slate-200 text-slate-600 flex-shrink-0 flex items-center justify-center font-bold text-sm">
+                <div class="w-10 h-10 rounded-full bg-slate-200 text-slate-900 flex-shrink-0 flex items-center justify-center font-bold text-sm dark:text-white">
                     {{ comment.author.email|slice(0,2)|upper }}
                 </div>
                 <div class="flex-grow">
                     <div class="flex items-baseline gap-2 mb-1">
-                        <span class="font-bold text-slate-800">{{ comment.author.email|split('@')[0]|capitalize }}</span>
-                        <span class="text-xs text-slate-400">{{ comment.creationDate|date('d/m/Y à H:i') }}</span>
+                        <span class="font-bold text-slate-900 dark:text-white">{{ comment.author.email|split('@')[0]|capitalize }}</span>
+                        <span class="text-xs text-slate-900 dark:text-white">{{ comment.creationDate|date('d/m/Y à H:i') }}</span>
                     </div>
-                    <p class="text-slate-700 text-sm leading-relaxed mb-2">{{ comment.content|nl2br }}</p>
+                    <p class="text-slate-900 text-sm leading-relaxed mb-2 dark:text-white">{{ comment.content|nl2br }}</p>
                     
                     {% if app.user %}
-                    <button class="text-xs font-semibold text-slate-400 hover:text-primary transition-colors flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover/comment:opacity-100" onclick="replyTo({{ comment.id }})">
+                    <button class="text-xs font-semibold text-slate-900 hover:text-primary transition-colors flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover/comment:opacity-100 dark:text-white" onclick="replyTo({{ comment.id }})">
                         <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
                         </svg>
@@ -225,14 +225,14 @@
             {% for comment in comments %}
                 {{ macros.display_comment(comment) }}
             {% else %}
-                <div class="text-center py-8 text-slate-500 text-sm">
+                <div class="text-center py-8 text-slate-900 text-sm dark:text-white">
                     Aucun commentaire pour le moment. Soyez le premier à partager votre avis !
                 </div>
             {% endfor %}
         </div>
     </div>
 
-    <a href="{{ path('app_ressource_index') }}" class="text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1 self-start">
+    <a href="{{ path('app_ressource_index') }}" class="text-sm text-slate-900 hover:text-slate-900 flex items-center gap-1 self-start dark:text-white">
         {{ ux_icon('heroicons:arrow-left', {class: 'w-4 h-4'}) }}
         Retour à l'explorateur
     </a>
