@@ -35,7 +35,7 @@ class LoggingRessourceManagerProxy implements RessourceManagerInterface
 
     public function updateFromDTO(RessourceDTO $dto, Ressource $ressource): Ressource
     {
-        $this->logger->info(sprintf('User requested update of ressource ID: %d', $ressource->getId()));
+        $this->logger->info(sprintf('User requested update of ressource ID: %s', $ressource->getId()));
 
         $result = $this->realManager->updateFromDTO($dto, $ressource);
 
