@@ -69,7 +69,8 @@ final class ChatMessageControllerTest extends WebTestCase
         [$user] = $this->createUserAndRoom();
         $this->client->loginUser($user);
 
-        $this->client->request('GET', $this->path);
+        // Use canonical URL without trailing slash to avoid 301
+        $this->client->request('GET', '/chat/message');
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('ChatMessage index');
