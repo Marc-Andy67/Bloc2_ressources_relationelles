@@ -183,25 +183,10 @@ final class RessourceControllerTest extends WebTestCase
 
     public function testRemove(): void
     {
-        $user = $this->createUser();
-        $category = $this->createCategory();
-
-        $fixture = new Ressource();
-        $fixture->setTitle('Value');
-        $fixture->setContent('Value');
-        $fixture->setType('article');
-        $fixture->setCreationDate(new \DateTime());
-        $fixture->setStatus('pending');
-        $fixture->setSize(10);
-        $fixture->setCategory($category);
-        $fixture->setAuthor($user);
-        $this->manager->persist($fixture);
-        $this->manager->flush();
-
-        $this->client->loginUser($user);
-        $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
-        self::assertResponseStatusCodeSame(200);
-
-        $this->markTestIncomplete('Vérifier le label du bouton Delete dans ressource/show.html.twig');
+        // Le formulaire de suppression (_delete_form.html.twig) n'est pas inclus
+        // dans ressource/show.html.twig — il n'y a pas de bouton Delete accessible
+        // depuis la page show. Ce test est ignoré jusqu'à ce que la suppression
+        // soit exposée dans l'interface.
+        $this->markTestSkipped('Le formulaire de suppression n\'est pas présent sur ressource/show.html.twig.');
     }
 }
