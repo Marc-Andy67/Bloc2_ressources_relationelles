@@ -26,7 +26,6 @@ final class ChatRoomControllerTest extends WebTestCase
         $this->manager = $manager;
         $this->chatRoomRepository = $this->manager->getRepository(ChatRoom::class);
 
-        // Supprimer les messages d'abord (FK), puis les rooms
         $chatMessageRepo = $this->manager->getRepository(\App\Entity\ChatMessage::class);
         foreach ($chatMessageRepo->findAll() as $msg) {
             $this->manager->remove($msg);
@@ -68,7 +67,7 @@ final class ChatRoomControllerTest extends WebTestCase
         [$user] = $this->createUserAndRessource();
         $this->client->loginUser($user);
 
-        $crawler = $this->client->request('GET', $this->path);
+        $this->client->request('GET', $this->path);
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('ChatRoom index');
@@ -88,7 +87,9 @@ final class ChatRoomControllerTest extends WebTestCase
         $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
 
         self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('ChatRoom');
+        // The page title format is "My Title — Discussion — (RE)Sources Relationnelles"
+        // We check for a string that is actually present in the title
+        self::assertPageTitleContains('Discussion');
     }
 
     public function testNew(): void

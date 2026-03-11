@@ -29,12 +29,6 @@ final class RessourceControllerTest extends WebTestCase
         $this->manager = $manager;
         $this->ressourceRepository = $this->manager->getRepository(Ressource::class);
 
-        // Ordre de suppression respectant les FK :
-        // 1. ChatMessage (référence ChatRoom)
-        // 2. ChatRoom (référence Ressource)
-        // 3. Comment (référence Ressource)
-        // 4. Progression (référence Ressource, onDelete CASCADE mais on nettoie quand même)
-        // 5. Ressource
         foreach ($this->manager->getRepository(ChatMessage::class)->findAll() as $o) {
             $this->manager->remove($o);
         }
@@ -74,6 +68,19 @@ final class RessourceControllerTest extends WebTestCase
         return $category;
     }
 
+    /**
+     * Fetch the first available relation type ID from the new ressource form.
+     */
+    private function getFirstRelationTypeValue(): ?string
+    {
+        $crawler = $this->client->request('GET', sprintf('%snew', $this->path));
+        $checkboxes = $crawler->filter('input[name="ressource[relationTypes][]"]');
+        if ($checkboxes->count() === 0) {
+            return null;
+        }
+        return $checkboxes->first()->attr('value');
+    }
+
     public function testIndex(): void
     {
         $user = $this->createUser();
@@ -92,13 +99,15 @@ final class RessourceControllerTest extends WebTestCase
         $category = $this->createCategory();
         $this->client->loginUser($user);
 
-        $this->client->request('GET', sprintf('%snew', $this->path));
-        self::assertResponseStatusCodeSame(200);
+        // Get first available relation type from the form
+        $relationTypeValue = $this->getFirstRelationTypeValue();
+        self::assertNotNull($relationTypeValue, 'No relation types found in the form');
 
         $this->client->submitForm('Publier la ressource', [
-            'ressource[title]'    => 'Testing',
-            'ressource[content]'  => 'Testing',
-            'ressource[category]' => $category->getId(),
+            'ressource[title]'          => 'Testing',
+            'ressource[content]'        => 'Testing',
+            'ressource[category]'       => $category->getId(),
+            'ressource[relationTypes]'  => [$relationTypeValue],
         ]);
 
         self::assertResponseRedirects('/ressource');
@@ -125,7 +134,8 @@ final class RessourceControllerTest extends WebTestCase
         $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
 
         self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('Ressource');
+        // The actual title is "My Title — (RE)Sources Relationnelles", not just "Ressource"
+        self::assertPageTitleContains('My Title');
     }
 
     public function testEdit(): void
@@ -149,10 +159,17 @@ final class RessourceControllerTest extends WebTestCase
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
         self::assertResponseStatusCodeSame(200);
 
+        // Get first available relation type from the edit form
+        $crawler = $this->client->getCrawler();
+        $checkboxes = $crawler->filter('input[name="ressource[relationTypes][]"]');
+        self::assertGreaterThan(0, $checkboxes->count(), 'No relation types found in the edit form');
+        $relationTypeValue = $checkboxes->first()->attr('value');
+
         $this->client->submitForm('Mettre à jour', [
-            'ressource[title]'    => 'Something New',
-            'ressource[content]'  => 'Something New',
-            'ressource[category]' => $category->getId(),
+            'ressource[title]'         => 'Something New',
+            'ressource[content]'       => 'Something New',
+            'ressource[category]'      => $category->getId(),
+            'ressource[relationTypes]' => [$relationTypeValue],
         ]);
 
         self::assertResponseRedirects('/ressource');

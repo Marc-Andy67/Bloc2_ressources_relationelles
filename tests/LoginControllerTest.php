@@ -2,6 +2,11 @@
 
 namespace App\Tests;
 
+use App\Entity\ChatMessage;
+use App\Entity\ChatRoom;
+use App\Entity\Comment;
+use App\Entity\Progression;
+use App\Entity\Ressource;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -16,10 +21,24 @@ class LoginControllerTest extends WebTestCase
         $this->client = static::createClient();
         $container = static::getContainer();
         $em = $container->get('doctrine.orm.entity_manager');
-        $userRepository = $em->getRepository(User::class);
 
-        // Remove any existing users from the test database
-        foreach ($userRepository->findAll() as $user) {
+        // Delete FK-dependant entities before users
+        foreach ($em->getRepository(ChatMessage::class)->findAll() as $o) {
+            $em->remove($o);
+        }
+        foreach ($em->getRepository(ChatRoom::class)->findAll() as $o) {
+            $em->remove($o);
+        }
+        foreach ($em->getRepository(Comment::class)->findAll() as $o) {
+            $em->remove($o);
+        }
+        foreach ($em->getRepository(Progression::class)->findAll() as $o) {
+            $em->remove($o);
+        }
+        foreach ($em->getRepository(Ressource::class)->findAll() as $o) {
+            $em->remove($o);
+        }
+        foreach ($em->getRepository(User::class)->findAll() as $user) {
             $em->remove($user);
         }
 
