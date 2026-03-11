@@ -37,9 +37,6 @@ final class CategoryControllerTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Category index');
-
-        // Use the $crawler to perform additional assertions e.g.
-        // self::assertSame('Some text on the page', $crawler->filter('.p')->first()->text());
     }
 
     public function testNew(): void
@@ -55,8 +52,6 @@ final class CategoryControllerTest extends WebTestCase
         self::assertResponseRedirects('/category');
 
         self::assertSame(1, $this->categoryRepository->count([]));
-
-        $this->markTestIncomplete('This test was generated');
     }
 
     public function testShow(): void
@@ -71,9 +66,6 @@ final class CategoryControllerTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Category');
-
-        // Use assertions to check that the properties are properly displayed.
-        $this->markTestIncomplete('This test was generated');
     }
 
     public function testEdit(): void
@@ -95,8 +87,6 @@ final class CategoryControllerTest extends WebTestCase
         $fixture = $this->categoryRepository->findAll();
 
         self::assertSame('Something New', $fixture[0]->getName());
-
-        $this->markTestIncomplete('This test was generated');
     }
 
     public function testRemove(): void
@@ -112,7 +102,5 @@ final class CategoryControllerTest extends WebTestCase
 
         self::assertResponseRedirects('/category');
         self::assertSame(0, $this->categoryRepository->count([]));
-
-        $this->markTestIncomplete('This test was generated');
     }
 }
