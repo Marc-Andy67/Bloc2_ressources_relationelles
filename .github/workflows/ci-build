@@ -1,0 +1,29 @@
+name: 🐳 CI — Build Docker
+
+# Déclenché sur push main et develop.
+# Tourne à chaque push, toutes branches.
+# main  → tag `latest` + `sha-*` (consommé par cd-prod)
+# develop → tag `sha-*` (consommé par cd-staging)
+# autres → tag `sha-*` uniquement
+#
+# Délègue entièrement le build à reusable-docker.yml — pas de duplication.
+
+on:
+  push:
+
+concurrency:
+  group: ci-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: 🐳 Build & Push Docker
+    uses: ./.github/workflows/reusable-docker.yml
+    with:
+      image-name: ${{ github.repository }}
+      target: production
+      push: true
+    secrets: inherit
+    permissions:
+      contents: read
+      packages: write

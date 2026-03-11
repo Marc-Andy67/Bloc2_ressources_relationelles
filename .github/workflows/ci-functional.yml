@@ -1,0 +1,111 @@
+name: 🥒 CI — Tests Fonctionnels (Behat + Panther)
+
+# Ce workflow tourne uniquement sur push main.
+# Panther démarre son propre serveur PHP interne — pas besoin de `php -S`.
+# Behat utilise PantherDriver pour piloter Chrome headless.
+
+on:
+  push:
+    branches: [ "main" ]
+
+concurrency:
+  group: ci-functional-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PHP_VERSION: "8.4"
+  DATABASE_URL: "mysql://root:root@127.0.0.1:3306/resources_relationnelles_test?serverVersion=8.0&charset=utf8mb4"
+  APP_ENV: test
+  # ── Panther / Chrome ──────────────────────────────────────────
+  PANTHER_APP_ENV: test
+  PANTHER_NO_SANDBOX: 1           # Obligatoire dans les runners GitHub
+  PANTHER_CHROME_ARGUMENTS: "--disable-dev-shm-usage"
+
+jobs:
+  behat:
+    name: 🥒 Behat + Panther (Chrome headless)
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      contents: read
+      pull-requests: write
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: resources_relationnelles_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: pdo, pdo_mysql, intl
+          coverage: none
+
+      # Chromium requis par Panther pour le driver Chrome headless
+      - name: Install Chromium & ChromeDriver
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            chromium-browser \
+            chromium-chromedriver
+          echo "PANTHER_CHROME_DRIVER_BINARY=$(which chromedriver)" >> $GITHUB_ENV
+          echo "PANTHER_CHROME_BINARY=$(which chromium-browser)"    >> $GITHUB_ENV
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ env.PHP_VERSION }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ env.PHP_VERSION }}-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-scripts
+
+      - name: Create database & run migrations
+        run: |
+          php bin/console doctrine:database:create --if-not-exists
+          php bin/console doctrine:migrations:migrate --no-interaction
+
+      - name: Load fixtures
+        run: php bin/console doctrine:fixtures:load --no-interaction
+
+      - name: Install importmap assets
+        run: php bin/console importmap:install
+
+      - name: Run Behat
+        run: |
+          vendor/bin/behat \
+            --format=progress \
+            --format=junit \
+            --out=,behat-results \
+            --no-interaction
+
+      - name: Publish Behat results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: behat-results/**/*.xml
+          check_name: "Behat Results"
+
+      # Panther génère des screenshots automatiquement si tu configures
+      # `failure_screenshot_path: '%paths.base%/var/panther'` dans behat.yml
+      - name: Upload screenshots d'échec
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: behat-failure-screenshots
+          path: var/panther/
+          retention-days: 7
