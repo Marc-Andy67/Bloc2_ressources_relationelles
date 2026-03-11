@@ -71,9 +71,15 @@ final class CategoryController extends AbstractController
     #[Route('/{id}', name: 'app_category_delete', methods: ['POST'])]
     public function delete(Request $request, Category $category, EntityManagerInterface $entityManager): Response
     {
+        if (strcasecmp($category->getName(), 'jeu') === 0) {
+            $this->addFlash('error', 'La catégorie "Jeu" est indispensable au fonctionnement des salons de discussion (Chatrooms) et ne peut pas être supprimée.');
+            return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($category);
             $entityManager->flush();
+            $this->addFlash('success', 'Catégorie supprimée avec succès.');
         }
 
         return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);

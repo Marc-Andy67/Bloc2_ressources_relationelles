@@ -10,9 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
 class Progression
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?\Symfony\Component\Uid\Uuid $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
@@ -28,7 +29,7 @@ class Progression
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $user = null;
 
-    public function getId(): ?int
+    public function getId(): ?\Symfony\Component\Uid\Uuid
     {
         return $this->id;
     }

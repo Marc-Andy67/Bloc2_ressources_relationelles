@@ -14,9 +14,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?\Symfony\Component\Uid\Uuid $id = null;
 
     #[ORM\Column(length: 180)]
     private ?string $email = null;
@@ -36,7 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(options: ['default' => true])]
     private ?bool $isActive = true;
 
-    public function getId(): ?int
+    public function getId(): ?\Symfony\Component\Uid\Uuid
     {
         return $this->id;
     }
@@ -107,8 +108,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $data = (array) $this;
         $data["\0".self::class."\0password"] = hash('crc32c', $this->password);
+        
+        // Convert UUID to string for session serialization
+        $idKey = "\0".self::class."\0id";
+        if (isset($data[$idKey]) && $data[$idKey] instanceof \Symfony\Component\Uid\Uuid) {
+            $data[$idKey] = (string) $data[$idKey];
+        }
 
         return $data;
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $idKey = "\0".self::class."\0id";
+        
+        // Re-instantiate UUID from string when unserializing
+        if (isset($data[$idKey]) && is_string($data[$idKey])) {
+            $this->id = \Symfony\Component\Uid\Uuid::fromString($data[$idKey]);
+            unset($data[$idKey]); // Prevent the loop below from overwriting it
+        }
+
+        foreach ($data as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            } elseif (str_starts_with($key, "\0*\0")) {
+                $prop = substr($key, 3);
+                if (property_exists($this, $prop)) {
+                    $this->$prop = $value;
+                }
+            } elseif (str_starts_with($key, "\0".self::class."\0")) {
+                $prop = substr($key, strlen(self::class) + 2);
+                if (property_exists($this, $prop)) {
+                    $this->$prop = $value;
+                }
+            }
+        }
     }
 
     public function isActive(): ?bool

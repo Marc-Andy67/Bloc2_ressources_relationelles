@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20260225093544 extends AbstractMigration
+final class Version20260309193259 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,19 +20,19 @@ final class Version20260225093544 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE category (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE chat_message (id INT AUTO_INCREMENT NOT NULL, content LONGTEXT NOT NULL, creation_date DATE NOT NULL, chat_room_id INT NOT NULL, author_id INT NOT NULL, INDEX IDX_FAB3FC161819BCFA (chat_room_id), INDEX IDX_FAB3FC16F675F31B (author_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE chat_room (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, ressource_id INT DEFAULT NULL, INDEX IDX_D403CCDAFC6CD52A (ressource_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE chat_room_user (chat_room_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_C87A2E561819BCFA (chat_room_id), INDEX IDX_C87A2E56A76ED395 (user_id), PRIMARY KEY (chat_room_id, user_id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE comment (id INT AUTO_INCREMENT NOT NULL, content LONGTEXT NOT NULL, creation_date DATE NOT NULL, parent_id INT DEFAULT NULL, ressource_id INT DEFAULT NULL, author_id INT NOT NULL, INDEX IDX_9474526C727ACA70 (parent_id), INDEX IDX_9474526CFC6CD52A (ressource_id), INDEX IDX_9474526CF675F31B (author_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE progression (id INT AUTO_INCREMENT NOT NULL, description VARCHAR(255) DEFAULT NULL, date DATE DEFAULT NULL, ressource_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_D5B25073FC6CD52A (ressource_id), INDEX IDX_D5B25073A76ED395 (user_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE relation_type (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE ressource (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, content LONGTEXT NOT NULL, type VARCHAR(255) NOT NULL, creation_date DATE NOT NULL, status TINYINT NOT NULL, size INT DEFAULT NULL, category_id INT NOT NULL, author_id INT NOT NULL, INDEX IDX_939F454412469DE2 (category_id), INDEX IDX_939F4544F675F31B (author_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE ressource_relation_type (ressource_id INT NOT NULL, relation_type_id INT NOT NULL, INDEX IDX_32ADC4E0FC6CD52A (ressource_id), INDEX IDX_32ADC4E0DC379EE2 (relation_type_id), PRIMARY KEY (ressource_id, relation_type_id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE ressource_favorite (ressource_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_26743703FC6CD52A (ressource_id), INDEX IDX_26743703A76ED395 (user_id), PRIMARY KEY (ressource_id, user_id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE ressource_set_aside (ressource_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_920C1B5CFC6CD52A (ressource_id), INDEX IDX_920C1B5CA76ED395 (user_id), PRIMARY KEY (ressource_id, user_id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE ressource_liked (ressource_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_5E8D4F3EFC6CD52A (ressource_id), INDEX IDX_5E8D4F3EA76ED395 (user_id), PRIMARY KEY (ressource_id, user_id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL (email), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE category (id BINARY(16) NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE chat_message (id BINARY(16) NOT NULL, content LONGTEXT NOT NULL, creation_date DATE NOT NULL, chat_room_id BINARY(16) NOT NULL, author_id BINARY(16) NOT NULL, INDEX IDX_FAB3FC161819BCFA (chat_room_id), INDEX IDX_FAB3FC16F675F31B (author_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE chat_room (id BINARY(16) NOT NULL, name VARCHAR(255) NOT NULL, ressource_id BINARY(16) DEFAULT NULL, INDEX IDX_D403CCDAFC6CD52A (ressource_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE chat_room_user (chat_room_id BINARY(16) NOT NULL, user_id BINARY(16) NOT NULL, INDEX IDX_C87A2E561819BCFA (chat_room_id), INDEX IDX_C87A2E56A76ED395 (user_id), PRIMARY KEY (chat_room_id, user_id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE comment (id BINARY(16) NOT NULL, content LONGTEXT NOT NULL, creation_date DATE NOT NULL, parent_id BINARY(16) DEFAULT NULL, ressource_id BINARY(16) DEFAULT NULL, author_id BINARY(16) NOT NULL, INDEX IDX_9474526C727ACA70 (parent_id), INDEX IDX_9474526CFC6CD52A (ressource_id), INDEX IDX_9474526CF675F31B (author_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE progression (id BINARY(16) NOT NULL, description VARCHAR(255) DEFAULT NULL, date DATE DEFAULT NULL, ressource_id BINARY(16) NOT NULL, user_id BINARY(16) NOT NULL, INDEX IDX_D5B25073FC6CD52A (ressource_id), INDEX IDX_D5B25073A76ED395 (user_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE relation_type (id BINARY(16) NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE ressource (id BINARY(16) NOT NULL, title VARCHAR(255) NOT NULL, content LONGTEXT NOT NULL, type VARCHAR(255) NOT NULL, creation_date DATE DEFAULT NULL, status VARCHAR(255) NOT NULL, size INT DEFAULT NULL, category_id BINARY(16) NOT NULL, author_id BINARY(16) NOT NULL, INDEX IDX_939F454412469DE2 (category_id), INDEX IDX_939F4544F675F31B (author_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE ressource_relation_type (ressource_id BINARY(16) NOT NULL, relation_type_id BINARY(16) NOT NULL, INDEX IDX_32ADC4E0FC6CD52A (ressource_id), INDEX IDX_32ADC4E0DC379EE2 (relation_type_id), PRIMARY KEY (ressource_id, relation_type_id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE ressource_favorite (ressource_id BINARY(16) NOT NULL, user_id BINARY(16) NOT NULL, INDEX IDX_26743703FC6CD52A (ressource_id), INDEX IDX_26743703A76ED395 (user_id), PRIMARY KEY (ressource_id, user_id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE ressource_set_aside (ressource_id BINARY(16) NOT NULL, user_id BINARY(16) NOT NULL, INDEX IDX_920C1B5CFC6CD52A (ressource_id), INDEX IDX_920C1B5CA76ED395 (user_id), PRIMARY KEY (ressource_id, user_id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE ressource_liked (ressource_id BINARY(16) NOT NULL, user_id BINARY(16) NOT NULL, INDEX IDX_5E8D4F3EFC6CD52A (ressource_id), INDEX IDX_5E8D4F3EA76ED395 (user_id), PRIMARY KEY (ressource_id, user_id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE user (id BINARY(16) NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, is_active TINYINT DEFAULT 1 NOT NULL, UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL (email), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE messenger_messages (id BIGINT AUTO_INCREMENT NOT NULL, body LONGTEXT NOT NULL, headers LONGTEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL, available_at DATETIME NOT NULL, delivered_at DATETIME DEFAULT NULL, INDEX IDX_75EA56E0FB7336F0E3BD61CE16BA31DBBF396750 (queue_name, available_at, delivered_at, id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('ALTER TABLE chat_message ADD CONSTRAINT FK_FAB3FC161819BCFA FOREIGN KEY (chat_room_id) REFERENCES chat_room (id)');
         $this->addSql('ALTER TABLE chat_message ADD CONSTRAINT FK_FAB3FC16F675F31B FOREIGN KEY (author_id) REFERENCES user (id)');
@@ -42,8 +42,8 @@ final class Version20260225093544 extends AbstractMigration
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526C727ACA70 FOREIGN KEY (parent_id) REFERENCES comment (id)');
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526CFC6CD52A FOREIGN KEY (ressource_id) REFERENCES ressource (id)');
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526CF675F31B FOREIGN KEY (author_id) REFERENCES user (id)');
-        $this->addSql('ALTER TABLE progression ADD CONSTRAINT FK_D5B25073FC6CD52A FOREIGN KEY (ressource_id) REFERENCES ressource (id)');
-        $this->addSql('ALTER TABLE progression ADD CONSTRAINT FK_D5B25073A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE progression ADD CONSTRAINT FK_D5B25073FC6CD52A FOREIGN KEY (ressource_id) REFERENCES ressource (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE progression ADD CONSTRAINT FK_D5B25073A76ED395 FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE ressource ADD CONSTRAINT FK_939F454412469DE2 FOREIGN KEY (category_id) REFERENCES category (id)');
         $this->addSql('ALTER TABLE ressource ADD CONSTRAINT FK_939F4544F675F31B FOREIGN KEY (author_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE ressource_relation_type ADD CONSTRAINT FK_32ADC4E0FC6CD52A FOREIGN KEY (ressource_id) REFERENCES ressource (id) ON DELETE CASCADE');

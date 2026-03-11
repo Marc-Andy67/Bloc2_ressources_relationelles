@@ -18,7 +18,9 @@ final class ChatRoomControllerTest extends WebTestCase
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->manager = static::getContainer()->get('doctrine')->getManager();
+        /** @var EntityManagerInterface $manager */
+        $manager = static::getContainer()->get('doctrine')->getManager();
+        $this->manager = $manager;
         $this->chatRoomRepository = $this->manager->getRepository(ChatRoom::class);
 
         foreach ($this->chatRoomRepository->findAll() as $object) {

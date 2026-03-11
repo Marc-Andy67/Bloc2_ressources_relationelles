@@ -1,0 +1,17 @@
+<turbo-stream action="append" target="messages-list">
+    <template>
+        <div class="flex items-start gap-3 {% if app.user and message.author.id == app.user.id %}flex-row-reverse{% endif %} animate-[fade-in-up_0.3s_ease-out]">
+            <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-[0_0_15px_rgba(var(--color-primary),0.3)]">
+                {{ message.author.email|slice(0,2)|upper }}
+            </div>
+            <div class="max-w-[75%] {% if app.user and message.author.id == app.user.id %}items-end{% endif %} flex flex-col gap-1">
+                <div class="{% if app.user and message.author.id == app.user.id %}bg-gradient-to-br from-primary to-primary/80 text-white shadow-[0_4px_10px_rgba(var(--color-primary),0.2)]{% else %}bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-sm dark:bg-slate-800/80 dark:border-slate-700/50{% endif %} rounded-2xl px-5 py-3 transform transition-all hover:-translate-y-0.5">
+                    <p class="text-[0.95rem] leading-relaxed break-words {% if not (app.user and message.author.id == app.user.id) %}text-slate-700 dark:text-slate-200{% endif %}">{{ message.content }}</p>
+                </div>
+                <p class="text-[11px] font-medium text-slate-500 px-2 dark:text-slate-400">
+                    {{ message.author.email|split('@')[0]|capitalize }} · {{ message.creationDate ? message.creationDate|date('d/m H:i') : "À l'instant" }}
+                </p>
+            </div>
+        </div>
+    </template>
+</turbo-stream>

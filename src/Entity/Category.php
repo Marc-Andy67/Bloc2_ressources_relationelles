@@ -11,9 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
 class Category
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?\Symfony\Component\Uid\Uuid $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -29,7 +30,7 @@ class Category
         $this->ressources = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?\Symfony\Component\Uid\Uuid
     {
         return $this->id;
     }

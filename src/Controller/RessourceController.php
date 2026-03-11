@@ -170,7 +170,7 @@ final class RessourceController extends AbstractController
     // ─── CRUD ────────────────────────────────────────────────────────────────
 
     #[Route('/new', name: 'app_ressource_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, \App\Service\RessourceManagerInterface $ressourceManager, EntityManagerInterface $entityManager, ProgressionService $progressionService): Response
+    public function new(Request $request, \App\Service\RessourceManagerInterface $ressourceManager, EntityManagerInterface $entityManager, ProgressionService $progressionService, \App\Service\ChatRoomGenerator $chatRoomGenerator): Response
     {
         $dto = new \App\DTO\RessourceDTO();
         $form = $this->createForm(RessourceType::class, $dto);
@@ -184,6 +184,9 @@ final class RessourceController extends AbstractController
             // Doctrine's EventListener will automatically set Author, Status, and CreationDate (Observer Pattern)
             $entityManager->persist($ressource);
             $entityManager->flush();
+
+            // Génère une chatroom si l'admin/modérateur la publie directement (statut 'validated') et que c'est un jeu
+            $chatRoomGenerator->generateForJeu($ressource);
 
             /** @var \App\Entity\User $user */
             $user = $this->getUser();
@@ -199,7 +202,7 @@ final class RessourceController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_ressource_show', methods: ['GET', 'POST'])]
-    public function show(Request $request, Ressource $ressource, EntityManagerInterface $entityManager, \App\Repository\CommentRepository $commentRepository, ProgressionService $progressionService): Response
+    public function show(Request $request, Ressource $ressource, \App\Service\CommentManager $commentManager, \App\Repository\CommentRepository $commentRepository, ProgressionService $progressionService, \App\Repository\ChatRoomRepository $chatRoomRepository): Response
     {
         // Enregistrer la consultation de la ressource
         /** @var \App\Entity\User|null $user */
@@ -213,34 +216,22 @@ final class RessourceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid() && $this->getUser()) {
-            $comment->setAuthor($this->getUser());
-            $comment->setCreationDate(new \DateTime());
-            $comment->setRessource($ressource);
-
             $parentId = $request->request->get('parent_id');
-            if ($parentId) {
-                $parentComment = $commentRepository->find($parentId);
-                if ($parentComment && $parentComment->getRessource() === $ressource) {
-                    $comment->setParent($parentComment);
-                }
-            }
-
-            $entityManager->persist($comment);
-            $entityManager->flush();
-
-            /** @var \App\Entity\User $user */
+            /** @var \Symfony\Component\Security\Core\User\UserInterface $user */
             $user = $this->getUser();
-            $progressionService->recordActivity($user, $ressource, ProgressionService::ACTION_COMMENT);
+            $commentManager->createComment($comment, $user, $ressource, $parentId);
 
             return $this->redirectToRoute('app_ressource_show', ['id' => $ressource->getId()]);
         }
 
         $comments = $commentRepository->findBy(['ressource' => $ressource, 'parent' => null], ['creationDate' => 'DESC']);
+        $chatRoom = $chatRoomRepository->findOneBy(['Ressource' => $ressource]);
 
         return $this->render('ressource/show.html.twig', [
             'ressource' => $ressource,
             'commentForm' => $form,
             'comments' => $comments,
+            'chat_room' => $chatRoom,
         ]);
     }
 

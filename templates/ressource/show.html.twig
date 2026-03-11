@@ -20,12 +20,12 @@
                     {{ ux_icon('heroicons:tag', {class: 'w-3.5 h-3.5'}) }}
                     {{ ressource.category ? ressource.category.name : 'Général' }}
                 </span>
-                <span class="inline-flex items-center gap-1.5 text-xs font-medium {{ ressource.status ? 'text-emerald-600' : 'text-amber-500' }}">
-                    <span class="w-2 h-2 rounded-full {{ ressource.status ? 'bg-emerald-500' : 'bg-amber-400' }}"></span>
-                    {{ ressource.status ? 'Publié' : 'Brouillon' }}
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold {{ ressource.status == 'validated' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : (ressource.status == 'rejected' ? 'bg-rose-50 text-rose-700 border-rose-100' : 'bg-amber-50 text-amber-700 border-amber-100') }} border">
+                    <span class="w-1.5 h-1.5 rounded-full {{ ressource.status == 'validated' ? 'bg-emerald-500' : (ressource.status == 'rejected' ? 'bg-rose-500' : 'bg-amber-400') }}"></span>
+                    {% if ressource.status == 'validated' %}Publiée{% elseif ressource.status == 'rejected' %}Refusée{% else %}En attente{% endif %}
                 </span>
             </div>
-            {% if app.user and app.user.id == ressource.author.id %}
+            {% if is_granted('RESSOURCE_EDIT', ressource) %}
             <a href="{{ path('app_ressource_edit', {'id': ressource.id}) }}" class="p-2 text-slate-900 hover:text-amber-500 hover:bg-amber-50 rounded-lg transition-colors dark:text-white" title="Éditer">
                 {{ ux_icon('heroicons:pencil-square', {class: 'w-5 h-5'}) }}
             </a>
@@ -58,10 +58,22 @@
             {% set content_text = ressource.content %}
             {% set media_url = null %}
             
-            {% if '[Fichier multimédia attaché : ' in content_text %}
+            {% if '[Fichier multim' in content_text %}
                 {% set parts = content_text|split('[Fichier multimédia attaché : ') %}
-                {% set content_text = parts[0]|trim %}
-                {% set media_url = parts[1]|replace({']': ''})|trim %}
+                {% if parts|length > 1 %}
+                    {% set content_text = parts[0]|trim %}
+                    {% set media_url = parts[1]|replace({']': ''})|trim %}
+                {% else %}
+                    {# Fallback in case the exact string is slightly different (e.g. trailing space) #}
+                    {% set parts_fallback = content_text|split('[Fichier multim') %}
+                    {% set content_text = parts_fallback[0]|trim %}
+                    
+                    {% set remaining = parts_fallback[1]|default('') %}
+                    {% set url_start = remaining|split('/uploads/') %}
+                    {% if url_start|length > 1 %}
+                        {% set media_url = '/uploads/' ~ url_start[1]|replace({']': ''})|trim %}
+                    {% endif %}
+                {% endif %}
             {% endif %}
             
             {{ content_text|nl2br }}
@@ -97,6 +109,23 @@
                             </div>
                         {% endif %}
                     </div>
+                </div>
+            {% endif %}
+
+            {% if chat_room is defined and chat_room %}
+                <div class="mt-10 p-5 bg-gradient-to-br from-indigo-50/80 to-blue-50/50 backdrop-blur-md rounded-2xl border border-indigo-100 dark:from-indigo-900/20 dark:to-blue-900/10 dark:border-indigo-800/50 flex flex-col sm:flex-row items-center justify-between gap-5 transition-all hover:shadow-lg hover:border-indigo-200 group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-white shadow-sm text-indigo-600 flex items-center justify-center dark:bg-indigo-800 dark:text-indigo-200 shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            {{ ux_icon('heroicons:chat-bubble-left-right', {class: 'w-6 h-6'}) }}
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-lg dark:text-indigo-100 leading-tight">Salon de discussion dédié</h3>
+                            <p class="text-sm text-slate-600 dark:text-indigo-300 mt-0.5">Rejoignez les autres membres pour échanger sur ce jeu.</p>
+                        </div>
+                    </div>
+                    <a href="{{ path('app_chat_room_join_or_create', {'id': ressource.id}) }}" class="btn-primary py-2.5 px-6 whitespace-nowrap shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all active:scale-95">
+                        Rejoindre le salon
+                    </a>
                 </div>
             {% endif %}
         </div>

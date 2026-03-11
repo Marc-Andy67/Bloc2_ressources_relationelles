@@ -22,7 +22,6 @@ class RessourceType extends AbstractType
             ->add('content')
             ->add('multimedia', FileType::class, [
                 'label' => 'Fichier multimédia (Max 10Mo, PDF/DOC/IMAGES/MP4)',
-                'mapped' => false,
                 'required' => false,
                 'constraints' => [
                     new File(

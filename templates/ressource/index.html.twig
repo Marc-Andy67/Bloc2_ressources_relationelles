@@ -131,7 +131,7 @@
                             <a href="{{ path('app_ressource_show', {'id': ressource.id}) }}" class="p-2 text-slate-900 hover:text-primary dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-xl transition-all hover:scale-110 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cta dark:text-white" aria-label="Voir les détails de la ressource {{ ressource.title }}">
                                 {{ ux_icon('heroicons:eye', {class: 'w-5 h-5', 'aria-hidden': 'true'}) }}
                             </a>
-                            {% if app.user %}
+                            {% if is_granted('RESSOURCE_EDIT', ressource) %}
                             <a href="{{ path('app_ressource_edit', {'id': ressource.id}) }}" class="p-2 text-slate-900 hover:text-amber-500 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/30 rounded-xl transition-all hover:scale-110 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cta dark:text-white" aria-label="Éditer la ressource {{ ressource.title }}">
                                 {{ ux_icon('heroicons:pencil-square', {class: 'w-5 h-5', 'aria-hidden': 'true'}) }}
                             </a>

@@ -18,7 +18,9 @@ final class CommentControllerTest extends WebTestCase
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->manager = static::getContainer()->get('doctrine')->getManager();
+        /** @var EntityManagerInterface $manager */
+        $manager = static::getContainer()->get('doctrine')->getManager();
+        $this->manager = $manager;
         $this->commentRepository = $this->manager->getRepository(Comment::class);
 
         foreach ($this->commentRepository->findAll() as $object) {

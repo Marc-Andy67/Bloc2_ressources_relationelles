@@ -11,9 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
 class ChatRoom
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?\Symfony\Component\Uid\Uuid $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -27,12 +28,19 @@ class ChatRoom
     #[ORM\ManyToMany(targetEntity: User::class)]
     private Collection $members;
 
+    /**
+     * @var Collection<int, ChatMessage>
+     */
+    #[ORM\OneToMany(mappedBy: 'chatRoom', targetEntity: ChatMessage::class, orphanRemoval: true)]
+    private Collection $messages;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?\Symfony\Component\Uid\Uuid
     {
         return $this->id;
     }
@@ -81,6 +89,36 @@ class ChatRoom
     public function removeMember(User $member): static
     {
         $this->members->removeElement($member);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ChatMessage>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(ChatMessage $message): static
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setChatRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(ChatMessage $message): static
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getChatRoom() === $this) {
+                $message->setChatRoom(null);
+            }
+        }
 
         return $this;
     }
