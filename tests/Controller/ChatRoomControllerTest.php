@@ -71,7 +71,8 @@ final class ChatRoomControllerTest extends WebTestCase
         $this->client->request('GET', '/chat/room');
 
         self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('ChatRoom index');
+        // Actual page title is "Conversations — (RE)Sources Relationnelles"
+        self::assertPageTitleContains('Conversations');
     }
 
     public function testShow(): void
