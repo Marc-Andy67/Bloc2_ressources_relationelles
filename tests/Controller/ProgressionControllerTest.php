@@ -67,7 +67,8 @@ final class ProgressionControllerTest extends WebTestCase
         $this->client->request('GET', '/progression');
 
         self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('Progression index');
+        // Actual page title is "Ma Progression - (RE)Sources Relationnelles"
+        self::assertPageTitleContains('Ma Progression');
     }
 
     /**
