@@ -119,6 +119,9 @@ final class CommentControllerTest extends WebTestCase
     public function testRemove(): void
     {
         [$user, $ressource] = $this->createUserAndRessource();
+        // La suppression de commentaire nécessite ROLE_MODERATOR
+        $user->setRoles(['ROLE_MODERATOR']);
+        $this->manager->flush();
         $this->client->loginUser($user);
 
         $fixture = new Comment();
