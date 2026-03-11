@@ -1,37 +1,31 @@
-# Conception de la Fonctionnalité ChatRoom (Temps Réel)
+# Conception de la Fonctionnalité ChatRoom (Temps Réel & Privée)
 
 **Date :** 11 Mars 2026
 **Architecture retenue :** Symfony UX Turbo + Mercure Hub
-**Objectif :** Rendre les salons de discussion (app_chat_room) dynamiques et temps réel sans rechargement de page, avec une interface utilisateur moderne et épurée.
+**Objectif :** Rendre les salons dynamiques et temps réel, renommer les menus, et implémenter un système de salons privés sur invitation/validation.
 
-## 1. Architecture & Flux de données
-- Lorsqu'un utilisateur poste un message via le formulaire, la requête est envoyée au serveur en POST (Turbo Drive).
-- Le `ChatMessageController` intercepte la requête, persiste le nouveau message en base de données, et retourne une réponse **Turbo Stream**.
-- Cette réponse Turbo Stream ordonne au navigateur de l'expéditeur d'ajouter le message à la fin de la liste des messages.
-- Dès que le message est persisté, Doctrine (ou le Contrôleur) déclenche un événement Mercure pour **broadcaster** le message aux autres utilisateurs actuellement connectés au même salon.
-- Les autres utilisateurs reçoivent le message silencieusement via leur connexion SSE (Server-Sent Events) au Hub Mercure, et Turbo met à jour leur DOM sans Javascript spécifique.
+## 1. Nouveaux Besoins Métier
+1. **Génération automatique pour jeux :** La logique existe via `ChatRoomGenerator`. Nous allons l'optimiser pour que l'auteur de la ressource "Jeu" soit automatiquement ajouté comme premier membre du salon (l'hôte).
+2. **Accès privé et Validation :** Les autres utilisateurs qui tentent de rejoindre verront un écran pour "Demander à rejoindre". Cette action ajoutera l'utilisateur dans une liste d'attente (`pendingMembers`) et enverra un message système automatique dans le chat.
+3. **Renommage :** Tous les termes "Conversations" dans les menus doivent devenir "Chatrooms".
 
-## 2. Composants techniques à modifier
-- **Entités :** Pas de modification du schéma, `ChatRoom` et `ChatMessage` sont déjà prêts.
+## 2. Architecture & Flux de données
+- Le chat reste Propulsé par Turbo Stream + Mercure.
+- Lorsqu'une personne non-membre accède à `/chat/room/join/{id}`, elle ne peut pas voir les messages. Un bouton "Demander l'accès" envoie une requête POST qui la met dans les `pendingMembers` du `ChatRoom`.
+- Le serveur émet alors un `ChatMessage` automatique dans le salon, prévenant les membres : "Jean souhaite rejoindre le salon."  
+- Dans le chat, les membres existants pourront voir une bannière ou un bouton sur ces messages spécifiques pour appeler une route `accept_member` ou `refuse_member`.
+
+## 3. Composants techniques à modifier
+- **Entité ChatRoom :** Ajouter la propriété `pendingMembers` (ManyToMany avec User) pour lister les demandes.
+- **Service ChatRoomGenerator :** Modifier la logique pour ajouter `addMember($ressource->getAuthor())` dès la création du chat pour la ressource jeu.
 - **Templates :**
-  - `show.html.twig` : Ajout du composant `{{ turbo_stream_listen('chat_room_' ~ chat_room.id) }}`. Création de la zone de scroll et de la structure du chat.
-  - `_message.html.twig` : Composant visuel isolé d'un seul message (bulles de chat selon expéditeur).
-  - `_message.stream.html.twig` : Template spécifique pour formater la réponse `turbo-stream` (append au container).
-- **Contrôleur :**
-  - Modification de `ChatRoomController::show` pour s'assurer que le formulaire de message est bien affiché.
-  - Modification de `ChatMessageController::new` (ou ajout d'une action dédiée dans ChatRoom) pour traiter l'ajout de message et retourner le flux Turbo Stream (ainsi que la publication sur le Hub Mercure).
+  - Renommage de `base.html.twig`, `home/index.html.twig`, et `chat_room/index.html.twig` ("Conversations" -> "Chatrooms").
+  - `show.html.twig` : Ajout des écoutes Turbo Stream. S'assurer que le bouton Accepter/Refuser s'affiche correctement pour les `pendingMembers`.
+  - Nouvelle vue "Accès restreint" pour la route `join` ou condition IF dans le `show` si non-membre.
+- **Contrôleur ChatRoomController :**
+  - Modifier le `/join` pour gérer l'ajout aux `pendingMembers` et envoyer le `ChatMessage`.
+  - Ajouter `/accept/{userId}` et `/refuse/{userId}` pour basculer de `pendingMembers` à `members`.
 
-## 3. UX & Interface (Skill Design Expert)
-- **Liste des salons (`/mine`) :** Design "Glassmorphism", cartes épurées avec indicateurs de nouveaux messages.
-- **Vue Salon (`/show`) :** 
-  - En-tête : Nom du salon, Ressource liée, Participants.
-  - Zone de messages : Bulles distinctes (gauche = autres, droite = utilisateur courant). Les bulles utiliseront des dégradés subtils, des ombres douces et une typographie lisible.
-  - Zone de saisie : Input "sticky" en bas, design flottant, bouton d'envoi clair.
-  - Auto-scroll vers le bas assuré par un petit contrôleur Stimulus (ex: `chat-scroll_controller.js`).
-
-## 4. Gestion des erreurs et de la sécurité
-- Autorisations : Vérifier que l'utilisateur participe bien au salon pour publier (`isGranted` ou vérification `getMembers()`).
-- Validation : Formulaire protégé par les contraintes Symfony existantes (CSRF, NotBlank sur le contenu).
-
-## 5. Dépendances requises
-Le projet contient déjà `symfony/ux-turbo` et `symfony/mercure-bundle`. Il faudra s'assurer que le processus Mercure tourne en local lors du développement (via `symfony serve` qui l'intègre souvent, ou via un container Docker).
+## 4. Expérience Temps Réel
+(Conservé de la V1)
+Turbo Drive s'occupe de l'envoi asynchrone, Mercure diffuse en local. Le contrôleur Stimulus `chat-scroll_controller.js` garantira le confort de lecture.
