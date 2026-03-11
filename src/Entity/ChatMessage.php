@@ -10,9 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
 class ChatMessage
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?\Symfony\Component\Uid\Uuid $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $Content = null;
@@ -20,7 +21,7 @@ class ChatMessage
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $creationDate = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'messages')]
     #[ORM\JoinColumn(nullable: false)]
     private ?ChatRoom $chatRoom = null;
 
@@ -28,7 +29,7 @@ class ChatMessage
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
-    public function getId(): ?int
+    public function getId(): ?\Symfony\Component\Uid\Uuid
     {
         return $this->id;
     }

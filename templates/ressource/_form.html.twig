@@ -1,5 +1,9 @@
 {{ form_start(form, {'attr': {'class': 'space-y-6 relative z-10'}}) }}
 
+    <div class="text-red-500 font-bold mb-4">
+        {{ form_errors(form) }}
+    </div>
+
     <div>
         {{ form_label(form.title, 'Titre', {'label_attr': {'class': 'form-label'}}) }}
         {{ form_widget(form.title, {'attr': {'class': 'input-field', 'placeholder': 'Titre accrocheur'}}) }}

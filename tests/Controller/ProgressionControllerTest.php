@@ -18,7 +18,9 @@ final class ProgressionControllerTest extends WebTestCase
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->manager = static::getContainer()->get('doctrine')->getManager();
+        /** @var EntityManagerInterface $manager */
+        $manager = static::getContainer()->get('doctrine')->getManager();
+        $this->manager = $manager;
         $this->progressionRepository = $this->manager->getRepository(Progression::class);
 
         foreach ($this->progressionRepository->findAll() as $object) {

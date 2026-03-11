@@ -43,11 +43,20 @@ class BackOfficeController extends AbstractController
 
     #[Route('/ressource/{id}/approve', name: 'app_admin_ressource_approve', methods: ['POST'])]
     #[IsGranted('ROLE_MODERATOR')]
-    public function approve(Request $request, Ressource $ressource, EntityManagerInterface $em): Response
-    {
+    public function approve(
+        Request $request, 
+        Ressource $ressource, 
+        EntityManagerInterface $em,
+        \Symfony\Component\Routing\Generator\UrlGeneratorInterface $router,
+        \App\Service\ChatRoomGenerator $chatRoomGenerator
+    ): Response {
         if ($this->isCsrfTokenValid('approve' . $ressource->getId(), (string) $request->request->get('_token'))) {
             $ressource->setStatus('validated');
             $em->flush();
+            
+            // Auto-create ChatRoom for 'jeu' resources
+            $chatRoomGenerator->generateForJeu($ressource);
+            
             $this->addFlash('success', 'Ressource approuvée avec succès.');
         }
         return $this->redirectToRoute('app_admin_dashboard');

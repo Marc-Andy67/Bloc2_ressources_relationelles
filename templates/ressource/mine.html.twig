@@ -35,8 +35,12 @@
                                 {{ ux_icon('heroicons:tag', {class: 'w-4 h-4'}) }}
                                 {{ ressource.category ? ressource.category.name : 'Général' }}
                             </span>
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-200/50 dark:border-amber-500/30 shadow-sm transition-transform hover:scale-105">
-                                {{ ux_icon('heroicons:bookmark', {class: 'w-4 h-4 fill-amber-500 dark:fill-amber-400'}) }} Sauvegardée
+                            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold {{ ressource.status == 'validated' ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-500/30' : (ressource.status == 'rejected' ? 'bg-rose-50 dark:bg-rose-500/10 text-rose-700 dark:text-rose-400 border border-rose-200/50 dark:border-rose-500/30' : 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-200/50 dark:border-amber-500/30') }} shadow-sm transition-transform hover:scale-105">
+                                <span class="relative flex h-2 w-2">
+                                    <span class="{{ ressource.status == 'validated' ? 'bg-emerald-500' : (ressource.status == 'rejected' ? 'bg-rose-500' : 'bg-amber-400') }} animate-ping absolute inline-flex h-full w-full rounded-full opacity-50"></span>
+                                    <span class="{{ ressource.status == 'validated' ? 'bg-emerald-500' : (ressource.status == 'rejected' ? 'bg-rose-500' : 'bg-amber-500') }} relative inline-flex rounded-full h-2 w-2"></span>
+                                </span>
+                                {% if ressource.status == 'validated' %}Publiée{% elseif ressource.status == 'rejected' %}Refusée{% else %}En attente{% endif %}
                             </span>
                         </div>
                         

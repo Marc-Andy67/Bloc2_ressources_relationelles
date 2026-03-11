@@ -22,6 +22,23 @@ final class ChatRoomController extends AbstractController
         ]);
     }
 
+    #[Route('/mine', name: 'app_chat_room_mine', methods: ['GET'])]
+    public function myChatRooms(ChatRoomRepository $chatRoomRepository): Response
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $chatRooms = $chatRoomRepository->findUserChatRoomsWithLastMessage($user);
+
+        return $this->render('chat_room/mine.html.twig', [
+            'chat_rooms' => $chatRooms,
+        ]);
+    }
+
     /**
      * Rejoint le salon lié à une ressource (le crée s'il n'existe pas).
      */

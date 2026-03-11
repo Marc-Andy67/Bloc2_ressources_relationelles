@@ -18,7 +18,9 @@ final class ChatMessageControllerTest extends WebTestCase
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->manager = static::getContainer()->get('doctrine')->getManager();
+        /** @var EntityManagerInterface $manager */
+        $manager = static::getContainer()->get('doctrine')->getManager();
+        $this->manager = $manager;
         $this->chatMessageRepository = $this->manager->getRepository(ChatMessage::class);
 
         foreach ($this->chatMessageRepository->findAll() as $object) {

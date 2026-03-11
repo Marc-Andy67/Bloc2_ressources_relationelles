@@ -18,7 +18,9 @@ final class RessourceControllerTest extends WebTestCase
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->manager = static::getContainer()->get('doctrine')->getManager();
+        /** @var EntityManagerInterface $manager */
+        $manager = static::getContainer()->get('doctrine')->getManager();
+        $this->manager = $manager;
         $this->ressourceRepository = $this->manager->getRepository(Ressource::class);
 
         foreach ($this->ressourceRepository->findAll() as $object) {
@@ -87,7 +89,7 @@ final class RessourceControllerTest extends WebTestCase
         $fixture->setContent('My Title');
         $fixture->setType('My Title');
         $fixture->setCreationDate(new \DateTime());
-        $fixture->setStatus(true);
+        $fixture->setStatus('pending');
         $fixture->setSize(10);
         $fixture->setCategory($category);
         $fixture->setAuthor($user);
@@ -120,7 +122,7 @@ final class RessourceControllerTest extends WebTestCase
         $fixture->setContent('Value');
         $fixture->setType('Value');
         $fixture->setCreationDate(new \DateTime());
-        $fixture->setStatus(true);
+        $fixture->setStatus('pending');
         $fixture->setSize(10);
         $fixture->setCategory($category);
         $fixture->setAuthor($user);
@@ -166,7 +168,7 @@ final class RessourceControllerTest extends WebTestCase
         $fixture->setContent('Value');
         $fixture->setType('Value');
         $fixture->setCreationDate(new \DateTime());
-        $fixture->setStatus(true);
+        $fixture->setStatus('pending');
         $fixture->setSize(10);
         $fixture->setCategory($category);
         $fixture->setAuthor($user);

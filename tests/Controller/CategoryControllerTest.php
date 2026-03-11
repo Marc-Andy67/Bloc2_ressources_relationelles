@@ -18,7 +18,9 @@ final class CategoryControllerTest extends WebTestCase
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->manager = static::getContainer()->get('doctrine')->getManager();
+        /** @var EntityManagerInterface $manager */
+        $manager = static::getContainer()->get('doctrine')->getManager();
+        $this->manager = $manager;
         $this->categoryRepository = $this->manager->getRepository(Category::class);
 
         foreach ($this->categoryRepository->findAll() as $object) {

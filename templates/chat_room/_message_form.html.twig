@@ -1,0 +1,13 @@
+<turbo-frame id="chat_message_form_frame">
+    <form method="post" action="{{ path('app_chat_message_new') }}" class="flex items-end gap-3">
+        <input type="hidden" name="chatRoom" value="{{ chat_room.id }}">
+        <div class="flex-grow relative">
+            <textarea name="content" rows="1" placeholder="Écrivez un message..." class="w-full pl-5 pr-12 py-3.5 text-sm border-0 border-t border-slate-200 bg-white/80 backdrop-blur-md focus:outline-none focus:ring-0 transition-all resize-none shadow-[0_-4px_15px_rgba(0,0,0,0.02)] min-h-[52px] max-h-[120px] dark:bg-slate-800/80 dark:border-slate-700 dark:text-white" required oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"></textarea>
+            
+            <button type="submit" class="absolute right-2 bottom-2 w-9 h-9 flex items-center justify-center bg-primary text-white rounded-full hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all shadow-md">
+                <span class="sr-only">Envoyer</span>
+                {{ ux_icon('heroicons:paper-airplane', {class: 'w-4 h-4 ml-0.5'}) }}
+            </button>
+        </div>
+    </form>
+</turbo-frame>

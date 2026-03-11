@@ -28,45 +28,31 @@
     </div>
 
     {# Messages thread #}
-    <div class="glass-card border border-slate-200/60 flex flex-col" style="min-height: 400px;">
-        <div class="p-5 flex-grow flex flex-col gap-4 overflow-y-auto" id="messages-list">
-            {% if chat_room.chatMessages is defined and chat_room.chatMessages|length > 0 %}
-                {% for message in chat_room.chatMessages %}
-                <div class="flex items-start gap-3 {% if app.user and message.author.id == app.user.id %}flex-row-reverse{% endif %}">
-                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-sm">
-                        {{ message.author.email|slice(0,2)|upper }}
-                    </div>
-                    <div class="max-w-[75%] {% if app.user and message.author.id == app.user.id %}items-end{% endif %} flex flex-col gap-1">
-                        <div class="{% if app.user and message.author.id == app.user.id %}bg-primary text-white{% else %}bg-white border border-slate-200{% endif %} rounded-2xl px-4 py-2.5 shadow-sm">
-                            <p class="text-sm leading-relaxed">{{ message.content }}</p>
-                        </div>
-                        <p class="text-xs text-slate-900 px-1 dark:text-white">
-                            {{ message.author.email|split('@')[0]|capitalize }} · {{ message.creationDate ? message.creationDate|date('d/m H:i') : '' }}
-                        </p>
-                    </div>
-                </div>
+    <div class="glass-card border border-slate-200/60 flex flex-col relative overflow-hidden" style="min-height: 400px;">
+        <div class="absolute inset-0 bg-gradient-to-br from-transparent to-primary/5 pointer-events-none"></div>
+        
+        <div {{ turbo_stream_listen('chat_room_' ~ chat_room.id) }}></div>
+        
+        <div class="p-5 flex-grow flex flex-col gap-5 overflow-y-auto relative z-10" id="messages-list">
+            {% if chat_room.messages is defined and chat_room.messages|length > 0 %}
+                {% for message in chat_room.messages %}
+                    {% include 'chat_room/_message.html.twig' %}
                 {% endfor %}
             {% else %}
-                <div class="flex-grow flex flex-col items-center justify-center text-center py-10 text-slate-900 dark:text-white">
-                    {{ ux_icon('heroicons:chat-bubble-left-ellipsis', {class: 'w-12 h-12 mb-3 opacity-50'}) }}
-                    <p class="font-medium">Aucun message pour l'instant.</p>
-                    <p class="text-sm">Soyez le premier à contribuer à cette discussion !</p>
+                <div class="flex-grow flex flex-col items-center justify-center text-center py-10 text-slate-500 dark:text-slate-400">
+                    <div class="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4">
+                        {{ ux_icon('heroicons:chat-bubble-left-ellipsis', {class: 'w-8 h-8 opacity-70'}) }}
+                    </div>
+                    <p class="font-medium text-slate-700 dark:text-slate-300">Aucun message pour l'instant.</p>
+                    <p class="text-sm mt-1">Soyez le premier à contribuer à cette discussion !</p>
                 </div>
             {% endif %}
         </div>
 
         {# Message form #}
         {% if app.user %}
-        <div class="border-t border-slate-100 p-4 bg-white/50 rounded-b-xl">
-            <form method="post" action="{{ path('app_chat_message_new') }}" class="flex items-end gap-3">
-                <input type="hidden" name="chatRoom" value="{{ chat_room.id }}">
-                <div class="flex-grow">
-                    <textarea name="chat_message[content]" rows="2" placeholder="Écrivez un message..." class="w-full px-4 py-3 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all resize-none"></textarea>
-                </div>
-                <button type="submit" class="btn-primary py-3 px-4 shrink-0 flex items-center gap-2">
-                    {{ ux_icon('heroicons:paper-airplane', {class: 'w-5 h-5'}) }}
-                </button>
-            </form>
+        <div class="border-t border-slate-100 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 rounded-b-xl overflow-hidden relative z-20">
+            {% include 'chat_room/_message_form.html.twig' %}
         </div>
         {% else %}
         <div class="border-t border-slate-100 p-4 text-center text-sm text-slate-900 dark:text-white">

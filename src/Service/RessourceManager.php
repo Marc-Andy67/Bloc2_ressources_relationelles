@@ -10,11 +10,13 @@ class RessourceManager implements RessourceManagerInterface
 {
     private FileUploaderInterface $fileUploader;
     private RessourceFactory $factory;
+    private \Symfony\Bundle\SecurityBundle\Security $security;
 
-    public function __construct(FileUploaderInterface $fileUploader, RessourceFactory $factory)
+    public function __construct(FileUploaderInterface $fileUploader, RessourceFactory $factory, \Symfony\Bundle\SecurityBundle\Security $security)
     {
         $this->fileUploader = $fileUploader;
         $this->factory = $factory;
+        $this->security = $security;
     }
 
     /**
@@ -36,6 +38,10 @@ class RessourceManager implements RessourceManagerInterface
         $ressource = $this->factory->updateFromDTO($dto, $ressource);
         $this->handleFileUpload($dto, $ressource);
 
+        if (!$this->security->isGranted('ROLE_MODERATOR') && !$this->security->isGranted('ROLE_ADMIN')) {
+            $ressource->setStatus('pending');
+        }
+
         return $ressource;
     }
 
@@ -45,10 +51,13 @@ class RessourceManager implements RessourceManagerInterface
     private function handleFileUpload(RessourceDTO $dto, Ressource $ressource): void
     {
         if ($dto->multimedia) {
+            $mimeType = $dto->multimedia->getMimeType();
+            $size = $dto->multimedia->getSize();
+
             $fileName = $this->fileUploader->upload($dto->multimedia);
 
-            $ressource->setType($dto->multimedia->getMimeType());
-            $ressource->setSize($dto->multimedia->getSize());
+            $ressource->setType($mimeType);
+            $ressource->setSize($size);
 
             $currentContent = $ressource->getContent() ?? '';
             $ressource->setContent($currentContent . "\n\n[Fichier multimédia attaché : /uploads/multimedia/" . $fileName . "]");
