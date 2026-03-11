@@ -2,6 +2,11 @@
 
 namespace App\Tests;
 
+use App\Entity\ChatMessage;
+use App\Entity\ChatRoom;
+use App\Entity\Comment;
+use App\Entity\Progression;
+use App\Entity\Ressource;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -16,13 +21,28 @@ class RegistrationControllerTest extends WebTestCase
     {
         $this->client = static::createClient();
 
-        // Ensure we have a clean database
         $container = static::getContainer();
 
         /** @var EntityManager $em */
         $em = $container->get('doctrine')->getManager();
         $this->userRepository = $container->get(UserRepository::class);
 
+        // Delete FK-dependant entities before users
+        foreach ($em->getRepository(ChatMessage::class)->findAll() as $o) {
+            $em->remove($o);
+        }
+        foreach ($em->getRepository(ChatRoom::class)->findAll() as $o) {
+            $em->remove($o);
+        }
+        foreach ($em->getRepository(Comment::class)->findAll() as $o) {
+            $em->remove($o);
+        }
+        foreach ($em->getRepository(Progression::class)->findAll() as $o) {
+            $em->remove($o);
+        }
+        foreach ($em->getRepository(Ressource::class)->findAll() as $o) {
+            $em->remove($o);
+        }
         foreach ($this->userRepository->findAll() as $user) {
             $em->remove($user);
         }

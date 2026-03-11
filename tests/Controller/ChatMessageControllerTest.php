@@ -27,7 +27,6 @@ final class ChatMessageControllerTest extends WebTestCase
         $this->manager = $manager;
         $this->chatMessageRepository = $this->manager->getRepository(ChatMessage::class);
 
-        // Supprimer dans le bon ordre pour respecter les FK
         foreach ($this->chatMessageRepository->findAll() as $object) {
             $this->manager->remove($object);
         }
@@ -70,7 +69,7 @@ final class ChatMessageControllerTest extends WebTestCase
         [$user] = $this->createUserAndRoom();
         $this->client->loginUser($user);
 
-        $crawler = $this->client->request('GET', $this->path);
+        $this->client->request('GET', $this->path);
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('ChatMessage index');
@@ -111,7 +110,6 @@ final class ChatMessageControllerTest extends WebTestCase
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
         self::assertResponseStatusCodeSame(200);
 
-        // Le formulaire d'édition existe, on vérifie juste qu'il se charge
         $this->markTestIncomplete('Vérifier les labels des boutons du template chat_message/edit.html.twig');
     }
 

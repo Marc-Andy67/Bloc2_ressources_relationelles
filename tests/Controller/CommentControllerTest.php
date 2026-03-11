@@ -63,7 +63,8 @@ final class CommentControllerTest extends WebTestCase
         [$user] = $this->createUserAndRessource();
         $this->client->loginUser($user);
 
-        $crawler = $this->client->request('GET', $this->path);
+        // Use the canonical URL without trailing slash to avoid 301
+        $this->client->request('GET', '/comment');
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Comment index');
@@ -104,7 +105,6 @@ final class CommentControllerTest extends WebTestCase
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
         self::assertResponseStatusCodeSame(200);
 
-        // creationDate retiré du submit : le champ n'est plus dans le formulaire Twig
         $this->markTestIncomplete('Vérifier les labels des boutons du template comment/edit.html.twig');
     }
 

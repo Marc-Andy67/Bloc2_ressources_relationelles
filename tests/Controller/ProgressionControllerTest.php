@@ -63,7 +63,8 @@ final class ProgressionControllerTest extends WebTestCase
         [$user] = $this->createUserAndRessource();
         $this->client->loginUser($user);
 
-        $crawler = $this->client->request('GET', $this->path);
+        // Use the canonical URL without trailing slash to avoid 301
+        $this->client->request('GET', '/progression');
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Progression index');
