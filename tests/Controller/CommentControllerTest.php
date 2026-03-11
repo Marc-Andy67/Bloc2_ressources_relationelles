@@ -105,7 +105,15 @@ final class CommentControllerTest extends WebTestCase
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
         self::assertResponseStatusCodeSame(200);
 
-        $this->markTestIncomplete('Vérifier les labels des boutons du template comment/edit.html.twig');
+        $this->client->submitForm('Update', [
+            'comment[content]' => 'Something New',
+        ]);
+
+        self::assertResponseRedirects('/comment');
+
+        $this->manager->clear();
+        $fixtures = $this->commentRepository->findAll();
+        self::assertSame('Something New', $fixtures[0]->getContent());
     }
 
     public function testRemove(): void
@@ -122,8 +130,9 @@ final class CommentControllerTest extends WebTestCase
         $this->manager->flush();
 
         $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
-        self::assertResponseStatusCodeSame(200);
+        $this->client->submitForm('Delete');
 
-        $this->markTestIncomplete('Vérifier les labels des boutons du template comment/show.html.twig');
+        self::assertResponseRedirects('/comment');
+        self::assertSame(0, $this->commentRepository->count([]));
     }
 }
