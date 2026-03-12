@@ -135,8 +135,10 @@ final class CommentControllerTest extends WebTestCase
         $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
         $this->client->submitForm('Delete');
 
-        // Le controller redirige vers /comment/{id} après suppression (pas /comment)
+        // Le controller ne supprime pas la ligne — il anonymise le contenu (modération douce)
         self::assertResponseStatusCodeSame(302);
-        self::assertSame(0, $this->commentRepository->count([]));
+        $this->manager->clear();
+        $updated = $this->commentRepository->find($fixture->getId());
+        self::assertSame('[Commentaire supprimé par la modération]', $updated->getContent());
     }
 }
