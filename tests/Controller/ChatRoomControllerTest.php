@@ -71,8 +71,8 @@ final class ChatRoomControllerTest extends WebTestCase
         $this->client->request('GET', '/chat/room');
 
         self::assertResponseStatusCodeSame(200);
-        // Actual page title is "Conversations — (RE)Sources Relationnelles"
-        self::assertPageTitleContains('Conversations');
+        // Actual page title is "Chatrooms"
+        self::assertPageTitleContains('Chatrooms');
     }
 
     public function testShow(): void
@@ -83,6 +83,7 @@ final class ChatRoomControllerTest extends WebTestCase
         $fixture = new ChatRoom();
         $fixture->setName('My Title');
         $fixture->setRessource($ressource);
+        $fixture->addMember($user);
         $this->manager->persist($fixture);
         $this->manager->flush();
 

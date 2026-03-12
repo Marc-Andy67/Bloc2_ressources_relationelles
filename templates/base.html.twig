@@ -56,7 +56,7 @@
                                     <li role="none">
                                         <a role="menuitem" href="{{ path('app_chat_room_index') }}" class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cta {{ app.request.attributes.get('_route') starts with 'app_chat' ? 'bg-primary/10 text-primary dark:bg-blue-500/20 dark:text-blue-300' : 'text-slate-900 dark:text-white hover:bg-slate-100/80 dark:hover:bg-slate-800/80 hover:text-slate-900 dark:hover:text-white' }}" aria-current="{{ app.request.attributes.get('_route') starts with 'app_chat' ? 'page' : 'false' }}">
                                             {{ ux_icon('heroicons:chat-bubble-left-right', {class: 'w-4 h-4', 'aria-hidden': 'true'}) }}
-                                            Conversations
+                                            Chatrooms
                                         </a>
                                     </li>
                                     <li role="none">

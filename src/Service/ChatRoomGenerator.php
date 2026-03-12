@@ -43,6 +43,11 @@ class ChatRoomGenerator
         $chatRoom->setName('Discussion : ' . $ressource->getTitle());
         $chatRoom->setRessource($ressource);
         
+        // The host (author) is automatically added
+        if ($ressource->getAuthor()) {
+            $chatRoom->addMember($ressource->getAuthor());
+        }
+        
         $this->entityManager->persist($chatRoom);
         $this->entityManager->flush();
     }

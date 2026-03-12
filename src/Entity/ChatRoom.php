@@ -34,10 +34,18 @@ class ChatRoom
     #[ORM\OneToMany(mappedBy: 'chatRoom', targetEntity: ChatMessage::class, orphanRemoval: true)]
     private Collection $messages;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class)]
+    #[ORM\JoinTable(name: 'chat_room_pending_members')]
+    private Collection $pendingMembers;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->pendingMembers = new ArrayCollection();
     }
 
     public function getId(): ?\Symfony\Component\Uid\Uuid
@@ -119,6 +127,30 @@ class ChatRoom
                 $message->setChatRoom(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getPendingMembers(): Collection
+    {
+        return $this->pendingMembers;
+    }
+
+    public function addPendingMember(User $pendingMember): static
+    {
+        if (!$this->pendingMembers->contains($pendingMember)) {
+            $this->pendingMembers->add($pendingMember);
+        }
+
+        return $this;
+    }
+
+    public function removePendingMember(User $pendingMember): static
+    {
+        $this->pendingMembers->removeElement($pendingMember);
 
         return $this;
     }
