@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20260309193259 extends AbstractMigration
+final class Version20260312094115 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -24,6 +24,7 @@ final class Version20260309193259 extends AbstractMigration
         $this->addSql('CREATE TABLE chat_message (id BINARY(16) NOT NULL, content LONGTEXT NOT NULL, creation_date DATE NOT NULL, chat_room_id BINARY(16) NOT NULL, author_id BINARY(16) NOT NULL, INDEX IDX_FAB3FC161819BCFA (chat_room_id), INDEX IDX_FAB3FC16F675F31B (author_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE chat_room (id BINARY(16) NOT NULL, name VARCHAR(255) NOT NULL, ressource_id BINARY(16) DEFAULT NULL, INDEX IDX_D403CCDAFC6CD52A (ressource_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE chat_room_user (chat_room_id BINARY(16) NOT NULL, user_id BINARY(16) NOT NULL, INDEX IDX_C87A2E561819BCFA (chat_room_id), INDEX IDX_C87A2E56A76ED395 (user_id), PRIMARY KEY (chat_room_id, user_id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE chat_room_pending_members (chat_room_id BINARY(16) NOT NULL, user_id BINARY(16) NOT NULL, INDEX IDX_47B222371819BCFA (chat_room_id), INDEX IDX_47B22237A76ED395 (user_id), PRIMARY KEY (chat_room_id, user_id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE comment (id BINARY(16) NOT NULL, content LONGTEXT NOT NULL, creation_date DATE NOT NULL, parent_id BINARY(16) DEFAULT NULL, ressource_id BINARY(16) DEFAULT NULL, author_id BINARY(16) NOT NULL, INDEX IDX_9474526C727ACA70 (parent_id), INDEX IDX_9474526CFC6CD52A (ressource_id), INDEX IDX_9474526CF675F31B (author_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE progression (id BINARY(16) NOT NULL, description VARCHAR(255) DEFAULT NULL, date DATE DEFAULT NULL, ressource_id BINARY(16) NOT NULL, user_id BINARY(16) NOT NULL, INDEX IDX_D5B25073FC6CD52A (ressource_id), INDEX IDX_D5B25073A76ED395 (user_id), PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE relation_type (id BINARY(16) NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
@@ -39,6 +40,8 @@ final class Version20260309193259 extends AbstractMigration
         $this->addSql('ALTER TABLE chat_room ADD CONSTRAINT FK_D403CCDAFC6CD52A FOREIGN KEY (ressource_id) REFERENCES ressource (id)');
         $this->addSql('ALTER TABLE chat_room_user ADD CONSTRAINT FK_C87A2E561819BCFA FOREIGN KEY (chat_room_id) REFERENCES chat_room (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE chat_room_user ADD CONSTRAINT FK_C87A2E56A76ED395 FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE chat_room_pending_members ADD CONSTRAINT FK_47B222371819BCFA FOREIGN KEY (chat_room_id) REFERENCES chat_room (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE chat_room_pending_members ADD CONSTRAINT FK_47B22237A76ED395 FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526C727ACA70 FOREIGN KEY (parent_id) REFERENCES comment (id)');
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526CFC6CD52A FOREIGN KEY (ressource_id) REFERENCES ressource (id)');
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526CF675F31B FOREIGN KEY (author_id) REFERENCES user (id)');
@@ -64,6 +67,8 @@ final class Version20260309193259 extends AbstractMigration
         $this->addSql('ALTER TABLE chat_room DROP FOREIGN KEY FK_D403CCDAFC6CD52A');
         $this->addSql('ALTER TABLE chat_room_user DROP FOREIGN KEY FK_C87A2E561819BCFA');
         $this->addSql('ALTER TABLE chat_room_user DROP FOREIGN KEY FK_C87A2E56A76ED395');
+        $this->addSql('ALTER TABLE chat_room_pending_members DROP FOREIGN KEY FK_47B222371819BCFA');
+        $this->addSql('ALTER TABLE chat_room_pending_members DROP FOREIGN KEY FK_47B22237A76ED395');
         $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526C727ACA70');
         $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526CFC6CD52A');
         $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526CF675F31B');
@@ -83,6 +88,7 @@ final class Version20260309193259 extends AbstractMigration
         $this->addSql('DROP TABLE chat_message');
         $this->addSql('DROP TABLE chat_room');
         $this->addSql('DROP TABLE chat_room_user');
+        $this->addSql('DROP TABLE chat_room_pending_members');
         $this->addSql('DROP TABLE comment');
         $this->addSql('DROP TABLE progression');
         $this->addSql('DROP TABLE relation_type');
