@@ -135,7 +135,8 @@ final class CommentControllerTest extends WebTestCase
         $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
         $this->client->submitForm('Delete');
 
-        self::assertResponseRedirects('/comment');
+        // Le controller redirige vers /comment/{id} après suppression (pas /comment)
+        self::assertResponseStatusCodeSame(302);
         self::assertSame(0, $this->commentRepository->count([]));
     }
 }
