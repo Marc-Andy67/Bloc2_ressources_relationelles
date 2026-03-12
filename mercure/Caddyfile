@@ -1,0 +1,14 @@
+{
+    admin off
+}
+
+http://localhost:3002, https://localhost:3001 {
+    tls internal
+    mercure {
+        publisher_jwt !ChangeThisMercureHubJWTSecretKey!
+        subscriber_jwt !ChangeThisMercureHubJWTSecretKey!
+        cors_origins *
+        publish_origins *
+        anonymous 1
+    }
+}

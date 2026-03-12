@@ -37,7 +37,7 @@ final class ChatMessageController extends AbstractController
         $roomId = $request->request->get('chatRoom');
         $content = $request->request->get('content');
 
-        if (!$roomId || !$content) {
+        if (!$roomId) {
             return $this->redirectToRoute('app_chat_room_index');
         }
 
@@ -46,31 +46,29 @@ final class ChatMessageController extends AbstractController
             return $this->redirectToRoute('app_chat_room_index');
         }
 
-        $chatMessage = new ChatMessage();
-        $chatMessage->setContent($content);
-        $chatMessage->setCreationDate(new \DateTime());
-        $chatMessage->setAuthor($user);
-        $chatRoom->addMessage($chatMessage);
+        if (trim((string) $content) !== '') {
+            $chatMessage = new ChatMessage();
+            $chatMessage->setContent($content);
+            $chatMessage->setCreationDate(new \DateTime());
+            $chatMessage->setAuthor($user);
+            $chatRoom->addMessage($chatMessage);
 
-        $entityManager->persist($chatMessage);
-        $entityManager->flush();
+            $entityManager->persist($chatMessage);
+            $entityManager->flush();
 
-        // Broadcast the new message via Mercure
-        $update = new \Symfony\Component\Mercure\Update(
-            'chat_room_' . $chatRoom->getId(),
-            $this->renderView('chat_room/_message.stream.html.twig', [
-                'message' => $chatMessage
-            ])
-        );
-        $hub->publish($update);
-
-        if (\Symfony\UX\Turbo\TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
-            $request->setRequestFormat(\Symfony\UX\Turbo\TurboBundle::STREAM_FORMAT);
-            
-            // Return an empty form to replace the submitted one
-            return $this->render('chat_room/_message_form.html.twig', [
-                'chat_room' => $chatRoom
-            ]);
+            // Broadcast the new message via Mercure
+            try {
+                $update = new \Symfony\Component\Mercure\Update(
+                    'chat_room_' . $chatRoom->getId(),
+                    $this->renderView('chat_room/_message.stream.html.twig', [
+                        'message' => $chatMessage
+                    ])
+                );
+                $hub->publish($update);
+            } catch (\Exception $e) {
+                // Silently ignore if Mercure is not configured or down
+                // The message is still saved in DB and available on reload
+            }
         }
 
         return $this->redirectToRoute('app_chat_room_show', ['id' => $chatRoom->getId()], Response::HTTP_SEE_OTHER);
