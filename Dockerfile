@@ -55,17 +55,17 @@ COPY . .
 RUN composer dump-autoload --optimize
 
 # ─────────────────────────────────────────────────────────────
-# Stage 3 — Builder (install deps prod)
+# Stage 3 — Builder (avec deps dev pour fixtures)
 # ─────────────────────────────────────────────────────────────
 FROM base AS builder
 
 COPY composer.json composer.lock symfony.lock ./
+
+# ⚠️ Sans --no-dev pour inclure DoctrineFixturesBundle dans l'image
 RUN composer install \
-    --no-dev \
     --no-scripts \
     --no-autoloader \
-    --prefer-dist \
-    --optimize-autoloader
+    --prefer-dist
 
 COPY . .
 
