@@ -59,10 +59,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # GHCR/OCI exige des noms d'image en minuscules
+      - name: Set lowercase image name
+        id: lower
+        run: echo "name=$(echo 'ghcr.io/${{ inputs.image-name }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
       - id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ inputs.image-name }}
+          images: ${{ steps.lower.outputs.name }}
           tags: |
             type=ref,event=branch
             type=semver,pattern={{version}}
