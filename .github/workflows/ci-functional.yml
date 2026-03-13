@@ -72,7 +72,7 @@ jobs:
           restore-keys: composer-${{ env.PHP_VERSION }}-
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-scripts
+        run: composer install --prefer-dist --no-progress
 
       - name: Create database & run migrations
         run: |
