@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\Ressource;
 use App\Repository\RessourceRepository;
+use App\Service\ProgressionService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,10 +45,105 @@ class RessourceApiController extends AbstractController
         }
 
         $ressources = $ressourceRepository->findAuthoredByUser($user);
-        
         $data = array_map([$this, 'formatRessource'], $ressources);
-
         return $this->json($data);
+    }
+
+    #[Route('/user/favorites', name: 'favorites', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function favorites(RessourceRepository $ressourceRepository): JsonResponse
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json(['error' => 'Non authentifié'], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        $ressources = $ressourceRepository->findFavoritedByUser($user);
+        $data = array_map([$this, 'formatRessource'], $ressources);
+        return $this->json($data);
+    }
+
+    #[Route('/user/saved', name: 'saved', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function saved(RessourceRepository $ressourceRepository): JsonResponse
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json(['error' => 'Non authentifié'], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        $ressources = $ressourceRepository->findSetAsideByUser($user);
+        $data = array_map([$this, 'formatRessource'], $ressources);
+        return $this->json($data);
+    }
+
+    #[Route('/user/liked', name: 'liked', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function liked(RessourceRepository $ressourceRepository): JsonResponse
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json(['error' => 'Non authentifié'], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        $ressources = $ressourceRepository->findLikedByUser($user);
+        $data = array_map([$this, 'formatRessource'], $ressources);
+        return $this->json($data);
+    }
+
+    #[Route('', name: 'create', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function create(
+        Request $request, 
+        \App\Repository\CategoryRepository $categoryRepository,
+        \App\Repository\RelationTypeRepository $relationTypeRepository,
+        \Doctrine\ORM\EntityManagerInterface $entityManager,
+        \App\Service\ProgressionService $progressionService
+    ): JsonResponse {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json(['error' => 'Non authentifié'], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        $data = json_decode($request->getContent(), true);
+        if (empty($data['title']) || empty($data['content']) || empty($data['category'])) {
+            return $this->json(['error' => 'Titre, contenu et catégorie sont requis.'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $ressource = new Ressource();
+        $ressource->setTitle($data['title']);
+        $ressource->setContent($data['content']);
+        $ressource->setCreationDate(new \DateTime());
+        
+        // Status defaults to 'pending' unless user is admin/moderator
+        $roles = $user->getRoles();
+        if (in_array('ROLE_ADMIN', $roles) || in_array('ROLE_MODERATOR', $roles) || in_array('ROLE_SUPER_ADMIN', $roles)) {
+            $ressource->setStatus('validated');
+        } else {
+            $ressource->setStatus('pending');
+        }
+
+        $ressource->setAuthor($user);
+        
+        $category = $categoryRepository->find($data['category']);
+        if ($category) {
+            $ressource->setCategory($category);
+        }
+
+        if (isset($data['relationTypes']) && is_array($data['relationTypes'])) {
+            foreach ($data['relationTypes'] as $rtId) {
+                $rt = $relationTypeRepository->find($rtId);
+                if ($rt) {
+                    $ressource->addRelationType($rt);
+                }
+            }
+        }
+
+        $entityManager->persist($ressource);
+        $progressionService->recordActivity($user, $ressource, ProgressionService::ACTION_CREATE_RESSOURCE);
+        $entityManager->flush();
+
+        return $this->json($this->formatRessource($ressource), JsonResponse::HTTP_CREATED);
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]
@@ -80,6 +176,7 @@ class RessourceApiController extends AbstractController
             'author' => $ressource->getAuthor() ? [
                 'id' => (string) $ressource->getAuthor()->getId(),
                 'email' => $ressource->getAuthor()->getEmail(),
+                'name' => $ressource->getAuthor()->getName(),
             ] : null,
             'category' => $ressource->getCategory() ? [
                 'id' => (string) $ressource->getCategory()->getId(),

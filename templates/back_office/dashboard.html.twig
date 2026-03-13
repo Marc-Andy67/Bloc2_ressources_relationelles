@@ -88,6 +88,9 @@
                                 <td class="py-4 px-6">
                                     <a href="{{ path('app_ressource_show', {'id': ressource.id}) }}" target="_blank" class="font-bold text-slate-900 dark:text-white hover:text-primary dark:hover:text-blue-400 transition-colors flex items-center gap-2">
                                         {{ ressource.title }}
+                                        {% if ressource.status == 'suspended' %}
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">Suspendue</span>
+                                        {% endif %}
                                         {{ ux_icon('heroicons:arrow-top-right-on-square', {class: 'w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity'}) }}
                                     </a>
                                 </td>
@@ -104,18 +107,27 @@
                                 </td>
                                 <td class="py-4 px-6 text-right">
                                     <div class="flex items-center justify-end gap-2">
-                                        <form method="post" action="{{ path('app_admin_ressource_approve', {'id': ressource.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir valider cette ressource ?');">
-                                            <input type="hidden" name="_token" value="{{ csrf_token('approve' ~ ressource.id) }}">
-                                            <button type="submit" class="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20 rounded-lg text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500">
-                                                {{ ux_icon('heroicons:check-circle', {class: 'w-4 h-4'}) }} Valider
-                                            </button>
-                                        </form>
-                                        <form method="post" action="{{ path('app_admin_ressource_reject', {'id': ressource.id}) }}" onsubmit="return confirm('Voulez-vous vraiment refuser cette ressource ?');">
-                                            <input type="hidden" name="_token" value="{{ csrf_token('reject' ~ ressource.id) }}">
-                                            <button type="submit" class="flex items-center gap-1.5 px-3 py-1.5 bg-rose-50 text-rose-700 hover:bg-rose-100 dark:bg-rose-500/10 dark:text-rose-400 dark:hover:bg-rose-500/20 rounded-lg text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500">
-                                                {{ ux_icon('heroicons:x-circle', {class: 'w-4 h-4'}) }} Refuser
-                                            </button>
-                                        </form>
+                                        {% if ressource.status == 'suspended' %}
+                                            <form method="post" action="{{ path('app_admin_ressource_unsuspend', {'id': ressource.id}) }}" onsubmit="return confirm('Voulez-vous vraiment annuler la suspension de cette ressource ?');">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('unsuspend' ~ ressource.id) }}">
+                                                <button type="submit" class="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 dark:bg-blue-500/10 dark:text-blue-400 dark:hover:bg-blue-500/20 rounded-lg text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+                                                    {{ ux_icon('heroicons:arrow-path', {class: 'w-4 h-4'}) }} Réactiver
+                                                </button>
+                                            </form>
+                                        {% else %}
+                                            <form method="post" action="{{ path('app_admin_ressource_approve', {'id': ressource.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir valider cette ressource ?');">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('approve' ~ ressource.id) }}">
+                                                <button type="submit" class="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20 rounded-lg text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500">
+                                                    {{ ux_icon('heroicons:check-circle', {class: 'w-4 h-4'}) }} Valider
+                                                </button>
+                                            </form>
+                                            <form method="post" action="{{ path('app_admin_ressource_reject', {'id': ressource.id}) }}" onsubmit="return confirm('Voulez-vous vraiment refuser cette ressource ?');">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('reject' ~ ressource.id) }}">
+                                                <button type="submit" class="flex items-center gap-1.5 px-3 py-1.5 bg-rose-50 text-rose-700 hover:bg-rose-100 dark:bg-rose-500/10 dark:text-rose-400 dark:hover:bg-rose-500/20 rounded-lg text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500">
+                                                    {{ ux_icon('heroicons:x-circle', {class: 'w-4 h-4'}) }} Refuser
+                                                </button>
+                                            </form>
+                                        {% endif %}
                                     </div>
                                 </td>
                             </tr>

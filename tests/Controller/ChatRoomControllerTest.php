@@ -38,7 +38,7 @@ final class ChatRoomControllerTest extends WebTestCase
 
     private function createUserAndRessource(): array
     {
-        $user = new User();
+        $user = (new User())->setName('Test User');
         $user->setEmail('test' . uniqid() . '@test.com');
         $user->setPassword('password');
         $this->manager->persist($user);

@@ -39,22 +39,23 @@ class AppFixtures extends Fixture
         // 3. Création des Utilisateurs (Citoyens, Admins, Super Admins)
         $usersData = [
             // Citoyens
-            ['email' => 'marie.dupont@gmail.com', 'password' => 'Marie2024@Paris!', 'roles' => ['ROLE_USER']],
-            ['email' => 'lucas.martin@gmail.com', 'password' => 'Lucas#Foot2024!', 'roles' => ['ROLE_USER']],
-            ['email' => 'sophie.bernard@gmail.com', 'password' => 'Sophie&Chat2024!', 'roles' => ['ROLE_USER']],
+            ['email' => 'marie.dupont@gmail.com', 'name' => 'Marie Dupont', 'password' => 'Marie2024@Paris!', 'roles' => ['ROLE_USER']],
+            ['email' => 'lucas.martin@gmail.com', 'name' => 'Lucas Martin', 'password' => 'Lucas#Foot2024!', 'roles' => ['ROLE_USER']],
+            ['email' => 'sophie.bernard@gmail.com', 'name' => 'Sophie Bernard', 'password' => 'Sophie&Chat2024!', 'roles' => ['ROLE_USER']],
             // Administrateurs
-            ['email' => 'admin.pierre@reseau.fr', 'password' => 'Admin@Pierre2024!', 'roles' => ['ROLE_ADMIN', 'ROLE_MODERATOR']],
-            ['email' => 'admin.claire@reseau.fr', 'password' => 'Claire#Admin2024!', 'roles' => ['ROLE_ADMIN', 'ROLE_MODERATOR']],
-            ['email' => 'admin.thomas@reseau.fr', 'password' => 'Thomas&Admin2024!', 'roles' => ['ROLE_ADMIN', 'ROLE_MODERATOR']],
+            ['email' => 'admin.pierre@reseau.fr', 'name' => 'Pierre Admin', 'password' => 'Admin@Pierre2024!', 'roles' => ['ROLE_ADMIN', 'ROLE_MODERATOR']],
+            ['email' => 'admin.claire@reseau.fr', 'name' => 'Claire Admin', 'password' => 'Claire#Admin2024!', 'roles' => ['ROLE_ADMIN', 'ROLE_MODERATOR']],
+            ['email' => 'admin.thomas@reseau.fr', 'name' => 'Thomas Admin', 'password' => 'Thomas&Admin2024!', 'roles' => ['ROLE_ADMIN', 'ROLE_MODERATOR']],
             // Super Administrateurs
-            ['email' => 'superadmin.jean@reseau.fr', 'password' => 'SuperJean@2024!', 'roles' => ['ROLE_SUPER_ADMIN']],
-            ['email' => 'superadmin.nathalie@reseau.fr', 'password' => 'Nathalie#Super2024!', 'roles' => ['ROLE_SUPER_ADMIN']],
-            ['email' => 'superadmin.paul@reseau.fr', 'password' => 'Paul&SuperAdmin24!', 'roles' => ['ROLE_SUPER_ADMIN']],
+            ['email' => 'superadmin.jean@reseau.fr', 'name' => 'Jean SuperAdmin', 'password' => 'SuperJean@2024!', 'roles' => ['ROLE_SUPER_ADMIN']],
+            ['email' => 'superadmin.nathalie@reseau.fr', 'name' => 'Nathalie SuperAdmin', 'password' => 'Nathalie#Super2024!', 'roles' => ['ROLE_SUPER_ADMIN']],
+            ['email' => 'superadmin.paul@reseau.fr', 'name' => 'Paul SuperAdmin', 'password' => 'Paul&SuperAdmin24!', 'roles' => ['ROLE_SUPER_ADMIN']],
         ];
 
         foreach ($usersData as $data) {
             $user = new User();
             $user->setEmail($data['email']);
+            $user->setName($data['name']);
             $user->setRoles($data['roles']);
             
             // Hash password

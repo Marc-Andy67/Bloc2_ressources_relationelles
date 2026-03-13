@@ -29,7 +29,7 @@ class BackOfficeController extends AbstractController
         \App\Repository\RelationTypeRepository $relationTypeRepository
     ): Response {
         $filters = $request->query->all();
-        $filters['status'] = 'pending'; // Force looking only at pending resources
+        $filters['status'] = ['pending', 'suspended']; // Force looking only at pending or suspended resources
 
         $pendingResources = $ressourceRepository->findByFilters($filters);
 
@@ -103,6 +103,18 @@ class BackOfficeController extends AbstractController
             $this->addFlash('success', 'La ressource a été suspendue. Elle n\'est plus visible publiquement.');
         }
         return $this->redirectToRoute('app_admin_resources');
+    }
+
+    #[Route('/ressource/{id}/unsuspend', name: 'app_admin_ressource_unsuspend', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function unsuspend(Request $request, Ressource $ressource, EntityManagerInterface $em): Response
+    {
+        if ($this->isCsrfTokenValid('unsuspend' . $ressource->getId(), (string) $request->request->get('_token'))) {
+            $ressource->setStatus('validated');
+            $em->flush();
+            $this->addFlash('success', 'La suspension de la ressource a été annulée. Elle est de nouveau visible.');
+        }
+        return $this->redirectToRoute('app_admin_dashboard');
     }
 
     #[Route('/ressource/{id}/delete', name: 'app_admin_ressource_delete', methods: ['POST'])]
