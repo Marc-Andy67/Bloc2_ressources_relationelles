@@ -1,0 +1,30 @@
+<div class="bg-white dark:bg-slate-950 border border-red-200 dark:border-red-900 rounded-2xl p-8 shadow-sm space-y-6">
+
+    <div>
+        <h2 class="text-lg font-semibold text-red-600">
+            Supprimer le compte
+        </h2>
+
+        <p class="text-sm text-slate-500">
+            Cette action est définitive et supprimera toutes vos données.
+        </p>
+    </div>
+
+    {{ form_start(deleteForm) }}
+
+    <div class="space-y-5">
+
+        <div class="flex items-center gap-3">
+            {{ form_widget(deleteForm.confirm) }}
+            {{ form_label(deleteForm.confirm) }}
+        </div>
+
+        <button class="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-black rounded-lg font-semibold transition">
+            Supprimer définitivement
+        </button>
+
+    </div>
+
+    {{ form_end(deleteForm) }}
+
+</div>
