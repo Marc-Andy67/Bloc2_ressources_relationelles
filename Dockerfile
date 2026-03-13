@@ -19,6 +19,8 @@ RUN apk add --no-cache \
     libzip-dev \
     icu-dev \
     oniguruma-dev \
+    nodejs \
+    npm \
     && docker-php-ext-install \
     intl \
     pdo_mysql \
@@ -70,6 +72,9 @@ RUN composer install \
 COPY . .
 
 RUN composer dump-autoload --optimize --classmap-authoritative \
+    && php bin/console tailwind:build --env=prod \
+    && php bin/console importmap:install \
+    && php bin/console asset-map:compile \
     && php bin/console cache:warmup --env=prod
 
 # ─────────────────────────────────────────────────────────────
