@@ -20,6 +20,7 @@ class AccountSettingsController extends AbstractController
         EntityManagerInterface $em
     ): Response {
 
+        /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
         /** FORMULAIRE CHANGEMENT MOT DE PASSE */

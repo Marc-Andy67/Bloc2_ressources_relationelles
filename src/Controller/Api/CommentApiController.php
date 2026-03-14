@@ -85,7 +85,7 @@ class CommentApiController extends AbstractController
             'creationDate' => $comment->getCreationDate()?->format(\DateTime::ATOM),
             'author' => [
                 'id' => (string) $comment->getAuthor()->getId(),
-                'name' => $comment->getAuthor()->getName() ?? clone $comment->getAuthor()->getUserIdentifier(),
+                'name' => $comment->getAuthor()->getName() ?? $comment->getAuthor()->getUserIdentifier(),
             ],
             // On peut mapper les enfants récursivement si besoin
             'repliesCount' => $comment->getChildren()->count(),
@@ -95,7 +95,7 @@ class CommentApiController extends AbstractController
                 'creationDate' => $child->getCreationDate()?->format(\DateTime::ATOM),
                 'author' => [
                     'id' => (string) $child->getAuthor()->getId(),
-                    'name' => $child->getAuthor()->getName() ?? clone $child->getAuthor()->getUserIdentifier(),
+                    'name' => $child->getAuthor()->getName() ?? $child->getAuthor()->getUserIdentifier(),
                 ]
             ])->toArray())
         ];

@@ -33,7 +33,6 @@ class ChatApiController extends AbstractController
             return [
                 'id' => (string) $room->getId(),
                 'name' => $room->getName(),
-                'createdAt' => $room->getCreatedAt()?->format(\DateTime::ATOM),
                 'ressourceId' => $room->getRessource() ? (string) $room->getRessource()->getId() : null,
             ];
         }, $rooms);
@@ -47,14 +46,14 @@ class ChatApiController extends AbstractController
     {
         $messages = $chatMessageRepository->findBy(
             ['chatRoom' => $chatRoom],
-            ['sentAt' => 'ASC'] // Chronological order for chat UI
+            ['creationDate' => 'ASC'] // Chronological order for chat UI
         );
 
         $data = array_map(function ($msg) {
             return [
                 'id' => (string) $msg->getId(),
                 'content' => $msg->getContent(),
-                'sentAt' => $msg->getSentAt()?->format(\DateTime::ATOM),
+                'sentAt' => $msg->getCreationDate()?->format(\DateTime::ATOM),
                 'author' => [
                     'id' => (string) $msg->getAuthor()->getId(),
                     'name' => $msg->getAuthor()->getName() ?? $msg->getAuthor()->getUserIdentifier(),
@@ -87,7 +86,7 @@ class ChatApiController extends AbstractController
         $message->setContent($data['content']);
         $message->setAuthor($user);
         $message->setChatRoom($chatRoom);
-        $message->setSentAt(new \DateTimeImmutable());
+        $message->setCreationDate(new \DateTime());
 
         $entityManager->persist($message);
         $entityManager->flush();
@@ -98,7 +97,7 @@ class ChatApiController extends AbstractController
         return $this->json([
             'id' => (string) $message->getId(),
             'content' => $message->getContent(),
-            'sentAt' => $message->getSentAt()?->format(\DateTime::ATOM),
+            'sentAt' => $message->getCreationDate()?->format(\DateTime::ATOM),
             'author' => [
                 'id' => (string) $user->getId(),
                 'name' => $user->getName() ?? $user->getUserIdentifier(),
