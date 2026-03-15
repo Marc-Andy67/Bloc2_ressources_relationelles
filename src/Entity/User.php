@@ -37,6 +37,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(options: ['default' => true])]
     private ?bool $isActive = true;
 
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $lastConnection = null;
+
+    #[ORM\Column(options: ['default' => 0])]
+    private int $failedAttempts = 0;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $lockedUntil = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
     public function getId(): ?\Symfony\Component\Uid\Uuid
     {
         return $this->id;
@@ -153,6 +173,80 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsActive(bool $isActive): static
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getLastConnection(): ?\DateTimeInterface
+    {
+        return $this->lastConnection;
+    }
+
+    public function setLastConnection(?\DateTimeInterface $lastConnection): static
+    {
+        $this->lastConnection = $lastConnection;
+
+        return $this;
+    }
+
+    public function getFailedAttempts(): int
+    {
+        return $this->failedAttempts;
+    }
+
+    public function setFailedAttempts(int $failedAttempts): static
+    {
+        $this->failedAttempts = $failedAttempts;
+
+        return $this;
+    }
+
+    public function incrementFailedAttempts(): static
+    {
+        $this->failedAttempts++;
+
+        return $this;
+    }
+
+    public function resetFailedAttempts(): static
+    {
+        $this->failedAttempts = 0;
+
+        return $this;
+    }
+
+    public function getLockedUntil(): ?\DateTimeInterface
+    {
+        return $this->lockedUntil;
+    }
+
+    public function setLockedUntil(?\DateTimeInterface $lockedUntil): static
+    {
+        $this->lockedUntil = $lockedUntil;
 
         return $this;
     }

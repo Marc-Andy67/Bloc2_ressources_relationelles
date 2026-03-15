@@ -19,6 +19,10 @@ class UserChecker implements UserCheckerInterface
         if (!$user->isActive()) {
             throw new CustomUserMessageAccountStatusException('Votre compte a été suspendu par un administrateur. Vous ne pouvez plus vous connecter.');
         }
+
+        if ($user->getLockedUntil() && $user->getLockedUntil() > new \DateTime()) {
+            throw new CustomUserMessageAccountStatusException(sprintf('Trop de tentatives de connexion échouées. Veuillez réessayer après %s.', $user->getLockedUntil()->format('d/m/Y H:i')));
+        }
     }
 
     public function checkPostAuth(UserInterface $user, ?TokenInterface $token = null): void

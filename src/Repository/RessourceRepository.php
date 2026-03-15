@@ -26,12 +26,18 @@ class RessourceRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('r')
             ->leftJoin('r.author', 'u')
             ->leftJoin('r.category', 'c')
-            ->leftJoin('r.relationTypes', 'rt')
-            ->andWhere('r.status = :status')
-            ->setParameter('status', $status);
+            ->leftJoin('r.relationTypes', 'rt');
+
+        if (is_array($status)) {
+            $qb->andWhere('r.status IN (:status)')
+                ->setParameter('status', $status);
+        } else {
+            $qb->andWhere('r.status = :status')
+                ->setParameter('status', $status);
+        }
 
         if (!empty($filters['author'])) {
-            $qb->andWhere('u.email LIKE :author')
+            $qb->andWhere('u.email LIKE :author OR u.name LIKE :author')
                 ->setParameter('author', '%' . $filters['author'] . '%');
         }
 

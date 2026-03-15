@@ -9,6 +9,7 @@ use App\Entity\ChatRoom;
 use App\Entity\ChatMessage;
 use App\Entity\Comment;
 use App\Entity\Progression;
+use App\Entity\RelationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -49,7 +50,7 @@ final class RessourceControllerTest extends WebTestCase
 
     private function createUser(): User
     {
-        $user = new User();
+        $user = (new User())->setName('Test User');
         $user->setEmail('test' . uniqid() . '@test.com');
         $user->setPassword('password');
         $this->manager->persist($user);
@@ -66,6 +67,16 @@ final class RessourceControllerTest extends WebTestCase
         $this->manager->flush();
 
         return $category;
+    }
+
+    private function createRelationType(): RelationType
+    {
+        $relationType = new RelationType();
+        $relationType->setName('Test Relation Type');
+        $this->manager->persist($relationType);
+        $this->manager->flush();
+
+        return $relationType;
     }
 
     /**
@@ -97,6 +108,7 @@ final class RessourceControllerTest extends WebTestCase
     {
         $user = $this->createUser();
         $category = $this->createCategory();
+        $this->createRelationType();
         $this->client->loginUser($user);
 
         // Get first available relation type from the form
@@ -142,6 +154,7 @@ final class RessourceControllerTest extends WebTestCase
     {
         $user = $this->createUser();
         $category = $this->createCategory();
+        $relationType = $this->createRelationType();
 
         $fixture = new Ressource();
         $fixture->setTitle('Value');
@@ -151,6 +164,7 @@ final class RessourceControllerTest extends WebTestCase
         $fixture->setStatus('pending');
         $fixture->setSize(10);
         $fixture->setCategory($category);
+        $fixture->addRelationType($relationType);
         $fixture->setAuthor($user);
         $this->manager->persist($fixture);
         $this->manager->flush();

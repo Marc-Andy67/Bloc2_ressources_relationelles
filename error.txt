@@ -1,0 +1,27 @@
+
+In ArrayNode.php line 312:
+                       
+  Unrecognized option  
+   "user_identity_fie  
+  ld" under "lexik_jw  
+  t_authentication".   
+  Available options a  
+  re "access_token_is  
+  suance", "access_to  
+  ken_verification",   
+  "additional_public_  
+  keys", "allow_no_ex  
+  piration", "api_pla  
+  tform", "blocklist_  
+  token", "clock_skew  
+  ", "encoder", "pass  
+  _phrase", "public_k  
+  ey", "remove_token_  
+  from_body_when_cook  
+  ies_used", "secret_  
+  key", "set_cookies"  
+  , "token_extractors  
+  ", "token_ttl", "us  
+  er_id_claim".        
+                       
+

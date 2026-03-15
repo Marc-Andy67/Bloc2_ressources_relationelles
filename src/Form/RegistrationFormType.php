@@ -29,6 +29,12 @@ class RegistrationFormType extends AbstractType
                     )
                 ],
             ])
+            ->add('name', null, [
+                'constraints' => [
+                    new NotBlank(message: 'Veuillez renseigner un nom.'),
+                    new Length(min: 2, max: 255, minMessage: 'Votre nom doit faire au moins {{ limit }} caractères.')
+                ],
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

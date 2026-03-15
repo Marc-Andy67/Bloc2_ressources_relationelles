@@ -59,4 +59,18 @@ class ProgressionRepository extends ServiceEntityRepository
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
+
+    public function findRecentByUser(\App\Entity\User $user, int $days = 30): array
+    {
+        $since = new \DateTime("-{$days} days");
+        return $this->createQueryBuilder('p')
+            ->where('p.user = :user')
+            ->andWhere('p.date >= :since')
+            ->setParameter('user', $user)
+            ->setParameter('since', $since)
+            ->orderBy('p.date', 'DESC')
+            ->setMaxResults(50)
+            ->getQuery()
+            ->getResult();
+    }
 }
