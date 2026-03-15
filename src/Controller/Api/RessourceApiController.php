@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Entity\Ressource;
 use App\Repository\RessourceRepository;
 use App\Service\ProgressionService;
+use App\Service\ChatRoomGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,8 @@ class RessourceApiController extends AbstractController
     #[Route('', name: 'index', methods: ['GET'])]
     public function index(Request $request, RessourceRepository $ressourceRepository): JsonResponse
     {
+        $user = $this->getUser();
+        
         $filters = [
             'status' => 'validated',
             'author' => $request->query->get('author'),
@@ -29,6 +32,21 @@ class RessourceApiController extends AbstractController
         $filters = array_filter($filters, fn($value) => $value !== null && $value !== '');
 
         $ressources = $ressourceRepository->findByFilters($filters);
+        
+        // Ajoute les ressources pending de l'auteur connecté
+        if ($user) {
+            $pendingOwn = $ressourceRepository->findBy([
+                'author' => $user,
+                'status' => 'pending',
+            ]);
+            // Fusionne sans doublons
+            $allIds = array_map(fn($r) => (string) $r->getId(), $ressources);
+            foreach ($pendingOwn as $pending) {
+                if (!in_array((string) $pending->getId(), $allIds)) {
+                    $ressources[] = $pending;
+                }
+            }
+        }
         
         $data = array_map([$this, 'formatRessource'], $ressources);
 
@@ -47,6 +65,57 @@ class RessourceApiController extends AbstractController
         $ressources = $ressourceRepository->findAuthoredByUser($user);
         $data = array_map([$this, 'formatRessource'], $ressources);
         return $this->json($data);
+    }
+
+    #[Route('/admin/all', name: 'admin_all', methods: ['GET'])]
+    #[IsGranted('ROLE_MODERATOR')]
+    public function adminAll(Request $request, RessourceRepository $ressourceRepository): JsonResponse
+    {
+        $status = $request->query->get('status');
+        $criteria = [];
+        if ($status) {
+            $criteria['status'] = $status;
+        }
+
+        $ressources = $ressourceRepository->findBy($criteria, ['creationDate' => 'DESC']);
+        $data = array_map([$this, 'formatRessource'], $ressources);
+        return $this->json($data);
+    }
+
+    #[Route('/{id}/status', name: 'patch_status', methods: ['PATCH'])]
+    #[IsGranted('ROLE_MODERATOR')]
+    public function patchStatus(
+        Request $request,
+        string $id,
+        RessourceRepository $ressourceRepository,
+        \Doctrine\ORM\EntityManagerInterface $em,
+        ChatRoomGenerator $chatRoomGenerator
+    ): JsonResponse {
+        try {
+            $uuid = new \Symfony\Component\Uid\Uuid($id);
+            $ressource = $ressourceRepository->find($uuid);
+        } catch (\InvalidArgumentException $e) {
+            return $this->json(['error' => 'Format d\'ID invalide'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        if (!$ressource) {
+            return $this->json(['error' => 'Ressource non trouvée'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $data = json_decode($request->getContent(), true);
+        $newStatus = $data['status'] ?? null;
+        if (!in_array($newStatus, ['validated', 'rejected', 'suspended'])) {
+            return $this->json(['error' => 'Statut invalide.'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $ressource->setStatus($newStatus);
+        $em->flush();
+
+        if ($newStatus === 'validated') {
+            $chatRoomGenerator->generateForJeu($ressource);
+        }
+
+        return $this->json($this->formatRessource($ressource));
     }
 
     #[Route('/user/favorites', name: 'favorites', methods: ['GET'])]
@@ -113,6 +182,7 @@ class RessourceApiController extends AbstractController
         $ressource = new Ressource();
         $ressource->setTitle($data['title']);
         $ressource->setContent($data['content']);
+        $ressource->setType($data['type'] ?? 'article');
         $ressource->setCreationDate(new \DateTime());
         
         // Status defaults to 'pending' unless user is admin/moderator
@@ -125,16 +195,31 @@ class RessourceApiController extends AbstractController
 
         $ressource->setAuthor($user);
         
-        $category = $categoryRepository->find($data['category']);
-        if ($category) {
-            $ressource->setCategory($category);
+        try {
+            $categoryId = new \Symfony\Component\Uid\Uuid($data['category']);
+            $category = $categoryRepository->find($categoryId);
+        } catch (\InvalidArgumentException $e) {
+            $category = null;
         }
+
+        if (!$category) {
+            return $this->json(
+                ['error' => 'Catégorie introuvable avec l\'id : ' . $data['category']],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+        $ressource->setCategory($category);
 
         if (isset($data['relationTypes']) && is_array($data['relationTypes'])) {
             foreach ($data['relationTypes'] as $rtId) {
-                $rt = $relationTypeRepository->find($rtId);
-                if ($rt) {
-                    $ressource->addRelationType($rt);
+                try {
+                    $rtUuid = new \Symfony\Component\Uid\Uuid($rtId);
+                    $rt = $relationTypeRepository->find($rtUuid);
+                    if ($rt) {
+                        $ressource->addRelationType($rt);
+                    }
+                } catch (\InvalidArgumentException $e) {
+                    // Ignore invalid UUID silently
                 }
             }
         }

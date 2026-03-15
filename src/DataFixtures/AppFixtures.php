@@ -50,11 +50,23 @@ class AppFixtures extends Fixture
             ['email' => 'superadmin.jean@reseau.fr', 'name' => 'Jean SuperAdmin', 'password' => 'SuperJean@2024!', 'roles' => ['ROLE_SUPER_ADMIN']],
             ['email' => 'superadmin.nathalie@reseau.fr', 'name' => 'Nathalie SuperAdmin', 'password' => 'Nathalie#Super2024!', 'roles' => ['ROLE_SUPER_ADMIN']],
             ['email' => 'superadmin.paul@reseau.fr', 'name' => 'Paul SuperAdmin', 'password' => 'Paul&SuperAdmin24!', 'roles' => ['ROLE_SUPER_ADMIN']],
+            
+            // Comptes pour tests d'intégration Flutter
+            ['email' => 'user@test.com', 'name' => 'Test User', 'password' => 'password', 'roles' => ['ROLE_USER']],
+            ['email' => 'moderator@test.com', 'name' => 'Test Mod', 'password' => 'password', 'roles' => ['ROLE_MODERATOR']],
+            ['email' => 'admin@test.com', 'name' => 'Test Admin', 'password' => 'password', 'roles' => ['ROLE_ADMIN']],
         ];
 
         foreach ($usersData as $data) {
-            $user = new User();
-            $user->setEmail($data['email']);
+            $user = $manager->getRepository(User::class)->findOneBy(['email' => $data['email']]);
+            
+            if (!$user) {
+                $user = new User();
+                $user->setEmail($data['email']);
+                $manager->persist($user);
+            }
+
+            // Toujours appliquer les modifications, même si l'utilisateur existait déjà
             $user->setName($data['name']);
             $user->setRoles($data['roles']);
             
@@ -62,8 +74,6 @@ class AppFixtures extends Fixture
             $hashedPassword = $this->passwordHasher->hashPassword($user, $data['password']);
             $user->setPassword($hashedPassword);
             $user->setIsActive(true);
-            
-            $manager->persist($user);
         }
 
         $manager->flush();

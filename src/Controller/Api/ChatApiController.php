@@ -25,9 +25,9 @@ class ChatApiController extends AbstractController
             return $this->json(['error' => 'Non authentifié'], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        // Return all active chat rooms accessible by the user (or public ones)
+        // Return all chat rooms accessible by the user (or public ones)
         // Here we just pull all to match the web logic, or customize it if there's user-specific logic
-        $rooms = $chatRoomRepository->findBy(['isActive' => true], ['createdAt' => 'DESC']);
+        $rooms = $chatRoomRepository->findAll();
         
         $data = array_map(function ($room) {
             return [

@@ -21,6 +21,19 @@ security:
             # Ensure dev tools and static assets are always allowed
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
+        api_register:
+            pattern: ^/api/register$
+            stateless: true
+            security: false
+        api_relation_types:
+            pattern: ^/api/relation-types$
+            stateless: true
+            security: false
+        api_ressources_public:
+            pattern: ^/api/ressources
+            stateless: true
+            security: false
+            methods: [GET]
         login:
             pattern: ^/api/login
             stateless: true
@@ -31,7 +44,7 @@ security:
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
         api:
-            pattern:   ^/api
+            pattern: ^/api
             stateless: true
             jwt: ~
         main:
@@ -55,8 +68,13 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
+        - { path: ^/api/ressources$, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/api/ressources/, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api/register, roles: PUBLIC_ACCESS }
+        - { path: ^/api/categories$, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/api/register$, roles: PUBLIC_ACCESS }
+        - { path: ^/api/relation-types$, roles: PUBLIC_ACCESS }
+        - { path: ^/api/user/progression, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/admin/users, roles: ROLE_SUPER_ADMIN }
         - { path: ^/admin/analytics, roles: ROLE_ADMIN }

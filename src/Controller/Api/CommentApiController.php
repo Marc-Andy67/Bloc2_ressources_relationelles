@@ -70,7 +70,11 @@ class CommentApiController extends AbstractController
         $entityManager->persist($comment);
         
         // Historique d'activité
-        $progressionService->recordActivity($user, $ressource, ProgressionService::ACTION_COMMENT);
+        try {
+            $progressionService->recordActivity($user, $ressource, ProgressionService::ACTION_COMMENT);
+        } catch (\Exception $e) {
+            // Erreur non bloquante — le commentaire est créé même si l'historique échoue
+        }
         
         $entityManager->flush();
 

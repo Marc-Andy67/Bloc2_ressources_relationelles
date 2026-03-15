@@ -107,4 +107,5 @@ class ProgressionApiController extends AbstractController
             ProgressionService::ACTION_SAVE => $ressource->getSetAsideBy()->contains($user),
         ]);
     }
+
 }
