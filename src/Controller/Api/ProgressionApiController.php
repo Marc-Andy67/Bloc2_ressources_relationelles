@@ -27,7 +27,17 @@ class ProgressionApiController extends AbstractController
         }
 
         $data = json_decode($request->getContent(), true);
-        $action = $data['action'] ?? null;
+        $actionRaw = $data['action'] ?? null;
+
+        // Mapping des actions courtes Flutter vers les constantes métier
+        $actionMap = [
+            'like'     => ProgressionService::ACTION_LIKE,
+            'favorite' => ProgressionService::ACTION_FAVORITE,
+            'save'     => ProgressionService::ACTION_SAVE,
+            'view'     => ProgressionService::ACTION_VIEW,
+        ];
+
+        $action = $actionMap[$actionRaw] ?? null;
 
         $validActions = [
             ProgressionService::ACTION_LIKE,

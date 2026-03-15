@@ -37,7 +37,7 @@ class RessourceRepository extends ServiceEntityRepository
         }
 
         if (!empty($filters['author'])) {
-            $qb->andWhere('u.email LIKE :author')
+            $qb->andWhere('u.email LIKE :author OR u.name LIKE :author')
                 ->setParameter('author', '%' . $filters['author'] . '%');
         }
 

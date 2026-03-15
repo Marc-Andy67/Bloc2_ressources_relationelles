@@ -30,7 +30,12 @@ security:
             stateless: true
             security: false
         api_ressources_public:
-            pattern: ^/api/ressources
+            pattern: ^/api/ressources$
+            stateless: true
+            security: false
+            methods: [GET]
+        api_ressource_detail_public:
+            pattern: ^/api/ressources/[0-9a-f-]{36}$
             stateless: true
             security: false
             methods: [GET]

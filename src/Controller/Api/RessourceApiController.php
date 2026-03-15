@@ -248,6 +248,69 @@ class RessourceApiController extends AbstractController
         return $this->json($this->formatRessource($ressource));
     }
 
+    #[Route('/{id}', name: 'update', methods: ['PATCH', 'PUT'])]
+    #[IsGranted('ROLE_USER')]
+    public function update(
+        string $id,
+        Request $request,
+        RessourceRepository $ressourceRepository,
+        \App\Repository\CategoryRepository $categoryRepository,
+        \App\Repository\RelationTypeRepository $relationTypeRepository,
+        \Doctrine\ORM\EntityManagerInterface $entityManager
+    ): JsonResponse {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json(['error' => 'Non authentifié'], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        try {
+            $uuid = new \Symfony\Component\Uid\Uuid($id);
+            $ressource = $ressourceRepository->find($uuid);
+        } catch (\InvalidArgumentException $e) {
+            return $this->json(['error' => 'Format d\'ID invalide'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        if (!$ressource) {
+            return $this->json(['error' => 'Ressource non trouvée'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        // Vérifier que l'utilisateur est bien l'auteur
+        if ($ressource->getAuthor() !== $user) {
+            return $this->json(['error' => 'Vous n\'êtes pas l\'auteur de cette ressource'], JsonResponse::HTTP_FORBIDDEN);
+        }
+
+        $data = json_decode($request->getContent(), true);
+
+        if (isset($data['title']) && !empty($data['title'])) {
+            $ressource->setTitle($data['title']);
+        }
+        if (isset($data['content']) && !empty($data['content'])) {
+            $ressource->setContent($data['content']);
+        }
+        if (isset($data['category']) && !empty($data['category'])) {
+            try {
+                $category = $categoryRepository->find(new \Symfony\Component\Uid\Uuid($data['category']));
+                if ($category) $ressource->setCategory($category);
+            } catch (\InvalidArgumentException $e) {}
+        }
+        if (isset($data['relationTypes']) && is_array($data['relationTypes'])) {
+            // Retire tous les types existants
+            foreach ($ressource->getRelationTypes() as $rt) {
+                $ressource->removeRelationType($rt);
+            }
+            // Ajoute les nouveaux
+            foreach ($data['relationTypes'] as $rtId) {
+                try {
+                    $rt = $relationTypeRepository->find(new \Symfony\Component\Uid\Uuid($rtId));
+                    if ($rt) $ressource->addRelationType($rt);
+                } catch (\InvalidArgumentException $e) {}
+            }
+        }
+
+        $entityManager->flush();
+        return $this->json($this->formatRessource($ressource));
+    }
+
     private function formatRessource(Ressource $ressource): array
     {
         return [
