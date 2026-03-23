@@ -311,6 +311,63 @@ class RessourceApiController extends AbstractController
         return $this->json($this->formatRessource($ressource));
     }
 
+    #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
+    #[IsGranted('ROLE_USER')]
+    public function delete(
+        string $id,
+        RessourceRepository $ressourceRepository,
+        \Doctrine\ORM\EntityManagerInterface $entityManager
+    ): JsonResponse {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json(['error' => 'Non authentifié'], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        try {
+            $uuid = new \Symfony\Component\Uid\Uuid($id);
+            $ressource = $ressourceRepository->find($uuid);
+        } catch (\InvalidArgumentException $e) {
+            return $this->json(['error' => 'Format d\'ID invalide'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        if (!$ressource) {
+            return $this->json(['error' => 'Ressource non trouvée'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        // Vérifier que l'utilisateur est bien l'auteur ou un modérateur/admin
+        $roles = $user->getRoles();
+        $isAdminOrMod = in_array('ROLE_ADMIN', $roles) || in_array('ROLE_MODERATOR', $roles) || in_array('ROLE_SUPER_ADMIN', $roles);
+        
+        if ($ressource->getAuthor() !== $user && !$isAdminOrMod) {
+            return $this->json(['error' => 'Vous n\'êtes pas autorisé à supprimer cette ressource'], JsonResponse::HTTP_FORBIDDEN);
+        }
+
+        // Suppression manuelle des entités liées pour éviter les contraintes de clés étrangères (FK Constraints)
+        
+        // 1. Progressions (historique)
+        $progressions = $entityManager->getRepository(\App\Entity\Progression::class)->findBy(['ressource' => $ressource]);
+        foreach ($progressions as $p) {
+            $entityManager->remove($p);
+        }
+        
+        // 2. Commentaires
+        $comments = $entityManager->getRepository(\App\Entity\Comment::class)->findBy(['ressource' => $ressource]);
+        foreach ($comments as $c) {
+            $entityManager->remove($c);
+        }
+        
+        // 3. ChatRoom éventuelle
+        $chatRoom = $entityManager->getRepository(\App\Entity\ChatRoom::class)->findOneBy(['Ressource' => $ressource]);
+        if ($chatRoom) {
+            $entityManager->remove($chatRoom);
+        }
+
+        $entityManager->remove($ressource);
+        $entityManager->flush();
+
+        return $this->json(['message' => 'Ressource supprimée avec succès'], JsonResponse::HTTP_OK);
+    }
+
     private function formatRessource(Ressource $ressource): array
     {
         return [

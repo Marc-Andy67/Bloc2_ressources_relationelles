@@ -263,11 +263,31 @@ final class RessourceController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_ressource_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_ressource_delete', methods: ['POST'])]
     #[\Symfony\Component\Security\Http\Attribute\IsGranted(\App\Security\Voter\RessourceVoter::DELETE, subject: 'ressource')]
     public function delete(Request $request, Ressource $ressource, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $ressource->getId(), $request->getPayload()->getString('_token'))) {
+            // Suppression manuelle des entités liées pour éviter les contraintes de clés étrangères (FK Constraints)
+            
+            // 1. Progressions (historique)
+            $progressions = $entityManager->getRepository(\App\Entity\Progression::class)->findBy(['ressource' => $ressource]);
+            foreach ($progressions as $p) {
+                $entityManager->remove($p);
+            }
+            
+            // 2. Commentaires
+            $comments = $entityManager->getRepository(\App\Entity\Comment::class)->findBy(['ressource' => $ressource]);
+            foreach ($comments as $c) {
+                $entityManager->remove($c);
+            }
+            
+            // 3. ChatRoom éventuelle
+            $chatRoom = $entityManager->getRepository(\App\Entity\ChatRoom::class)->findOneBy(['Ressource' => $ressource]);
+            if ($chatRoom) {
+                $entityManager->remove($chatRoom);
+            }
+
             $entityManager->remove($ressource);
             $entityManager->flush();
         }
