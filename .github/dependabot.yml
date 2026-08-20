@@ -1,5 +1,5 @@
 # .github/dependabot.yml
-# Dependabot version updates — Composer (PHP), Docker et GitHub Actions
+# Dependabot version updates — Composer (PHP), Docker et GitHub Actions 
 # Doc : https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
 version: 2
