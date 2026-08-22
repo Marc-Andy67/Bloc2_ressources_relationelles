@@ -68,7 +68,7 @@ jobs:
 
       # ── Archive le rapport HTML ZAP (téléchargeable depuis l'UI Actions) ─
       - name: Upload rapport HTML ZAP
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: zap-report-${{ github.event.inputs.scan_type }}

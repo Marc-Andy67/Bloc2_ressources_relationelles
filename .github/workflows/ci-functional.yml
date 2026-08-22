@@ -120,7 +120,7 @@ jobs:
       # Panther génère des screenshots automatiquement si tu configures
       # `failure_screenshot_path` dans phpunit.xml ou bootstrap
       - name: Upload screenshots d'échec
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: panther-failure-screenshots
