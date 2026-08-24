@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Politique de confidentialité - (RE)Sources Relationnelles{% endblock %}
+
+{% block body %}
+<div class="max-w-4xl mx-auto p-4 md:p-8">
+    <div class="glass-card p-8 md:p-10">
+        <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-2">Politique de confidentialité</h1>
+        <p class="text-slate-700 dark:text-slate-300 mb-8">Dernière mise à jour : {{ 'now'|date('d/m/Y') }}</p>
+
+        <div class="space-y-8 text-slate-800 dark:text-slate-200">
+
+            <section>
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-3">1. Données collectées</h2>
+                <p class="mb-4">Dans le cadre de la création et de l'utilisation de votre compte, nous collectons les données suivantes :</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm border-collapse">
+                        <thead>
+                            <tr class="border-b-2 border-slate-300 dark:border-slate-700">
+                                <th class="text-left py-2 pr-4 font-bold">Donnée</th>
+                                <th class="text-left py-2 pr-4 font-bold">Finalité</th>
+                                <th class="text-left py-2 font-bold">Conservation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-slate-200 dark:border-slate-800">
+                                <td class="py-2 pr-4">Adresse email</td>
+                                <td class="py-2 pr-4">Identification et connexion à votre compte</td>
+                                <td class="py-2">Durée de vie du compte + 3 ans après dernière activité</td>
+                            </tr>
+                            <tr class="border-b border-slate-200 dark:border-slate-800">
+                                <td class="py-2 pr-4">Mot de passe</td>
+                                <td class="py-2 pr-4">Authentification sécurisée (stocké sous forme hashée, jamais en clair)</td>
+                                <td class="py-2">Durée de vie du compte</td>
+                            </tr>
+                            <tr class="border-b border-slate-200 dark:border-slate-800">
+                                <td class="py-2 pr-4">Nom</td>
+                                <td class="py-2 pr-4">Affichage de votre identité dans l'application (publications, commentaires, chat)</td>
+                                <td class="py-2">Durée de vie du compte</td>
+                            </tr>
+                            <tr class="border-b border-slate-200 dark:border-slate-800">
+                                <td class="py-2 pr-4">Date de création du compte</td>
+                                <td class="py-2 pr-4">Traçabilité et ancienneté du compte</td>
+                                <td class="py-2">Durée de vie du compte</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 pr-4">Dernière connexion</td>
+                                <td class="py-2 pr-4">Sécurité (détection de comptes inactifs ou compromis)</td>
+                                <td class="py-2">12 mois glissants</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-3">2. Base légale du traitement</h2>
+                <p>Le traitement de vos données repose sur l'exécution du contrat qui vous lie à (RE)Sources Relationnelles lors de la création de votre compte, ainsi que sur notre intérêt légitime à assurer la sécurité de la plateforme (prévention des tentatives de connexion frauduleuses).</p>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-3">3. Vos droits</h2>
+                <p class="mb-2">Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez des droits suivants :</p>
+                <ul class="list-disc list-inside space-y-1 ml-2">
+                    <li>Droit d'accès à vos données personnelles</li>
+                    <li>Droit de rectification en cas de données inexactes</li>
+                    <li>Droit à l'effacement ("droit à l'oubli")</li>
+                    <li>Droit à la portabilité de vos données</li>
+                    <li>Droit d'opposition au traitement</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-3">4. Suppression et anonymisation</h2>
+                <p>En cas de suppression de votre compte, vos données personnelles (email, mot de passe, nom) sont définitivement effacées. Les contenus que vous avez publiés (ressources, commentaires) et qui doivent être conservés pour l'intégrité de la plateforme peuvent être anonymisés plutôt que supprimés (remplacement de votre identifiant par "Utilisateur supprimé").</p>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-3">5. Sécurité des données</h2>
+                <p>Vos mots de passe sont hashés (jamais stockés en clair). L'accès à votre compte est protégé contre les tentatives de connexion frauduleuses par un mécanisme de verrouillage temporaire après plusieurs échecs. Toutes les communications avec le serveur sont chiffrées.</p>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-3">6. Contact</h2>
+                <p>Pour exercer vos droits ou pour toute question relative à cette politique, vous pouvez nous contacter via les moyens mis à disposition sur la plateforme.</p>
+            </section>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

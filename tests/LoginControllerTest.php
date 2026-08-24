@@ -96,6 +96,6 @@ class LoginControllerTest extends WebTestCase
         self::assertResponseRedirects('/');
         $this->client->followRedirect();
 
-        self::assertSelectorNotExists('.bg-red-50.text-red-700');
+        self::assertSelectorNotExists('.p-4.rounded-lg.bg-red-50.border-red-200');
     }
 }
