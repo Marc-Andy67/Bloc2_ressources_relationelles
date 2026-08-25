@@ -92,7 +92,9 @@ COPY --from=builder /var/www/html .
 
 # Permissions
 RUN chown -R www-data:www-data var \
-    && chmod -R 755 var
+    && chmod -R 755 var  \
+    && mkdir -p config/jwt \
+    && chown -R www-data:www-data config/jwt
 
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
