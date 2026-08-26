@@ -217,7 +217,6 @@ jobs:
           build-args: |
             APP_ENV=prod
             REPOSITORY=${{ github.repository }}
-
   deploy:
     name: 🚀 Déploiement (${{ needs.resolve-env.outputs.environment }})
     runs-on: ubuntu-latest
