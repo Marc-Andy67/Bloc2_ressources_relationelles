@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ ticket.title }} - (RE)Sources Relationnelles{% endblock %}
+
+{% block body %}
+<div class="max-w-3xl mx-auto w-full">
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">{{ ticket.title }}</h1>
+        {% if ticket.estCloture %}
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200">Clôturé</span>
+        {% else %}
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">Ouvert</span>
+        {% endif %}
+    </div>
+
+    <div class="space-y-4 mb-6">
+        <div class="glass-card p-5">
+            <div class="flex items-center justify-between mb-2">
+                <span class="font-bold text-slate-900 dark:text-white">
+                    {{ ticket.user.name|default(ticket.user.email) }}
+                </span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">{{ ticket.createdAt|date('d/m/Y à H:i') }}</span>
+            </div>
+            <p class="text-slate-700 dark:text-slate-300 whitespace-pre-line">{{ ticket.message }}</p>
+        </div>
+
+        {% for reply in ticket.replies %}
+            <div class="glass-card p-5 {{ reply.fromAdmin ? 'border-2 border-primary/30' : '' }}">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="font-bold text-slate-900 dark:text-white">
+                        {{ reply.fromAdmin ? 'Support' : reply.author.name|default(reply.author.email) }}
+                    </span>
+                    <span class="text-xs text-slate-500 dark:text-slate-400">{{ reply.createdAt|date('d/m/Y à H:i') }}</span>
+                </div>
+                <p class="text-slate-700 dark:text-slate-300 whitespace-pre-line">{{ reply.content }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if not ticket.estCloture %}
+        <div class="glass-card p-6 mb-4">
+            {{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+                {{ form_label(form.content, 'Votre réponse', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.content, {'attr': {'class': 'input-field'}}) }}
+                <div class="text-red-500 text-xs mt-1">{{ form_errors(form.content) }}</div>
+
+                <div class="flex justify-end">
+                    <button class="btn-primary flex items-center gap-2">
+                        Répondre
+                        {{ ux_icon('heroicons:paper-airplane', {class: 'w-5 h-5'}) }}
+                    </button>
+                </div>
+            {{ form_end(form) }}
+        </div>
+
+        {% if is_admin %}
+            <form method="post" action="{{ path('app_ticket_close', {id: ticket.id}) }}"
+                  onsubmit="return confirm('Clôturer ce ticket ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('close_ticket_' ~ ticket.id) }}">
+                <button type="submit" class="btn-secondary flex items-center gap-2">
+                    {{ ux_icon('heroicons:check-circle', {class: 'w-5 h-5'}) }}
+                    Clôturer ce ticket
+                </button>
+            </form>
+        {% endif %}
+    {% else %}
+        <p class="text-slate-500 dark:text-slate-400 text-sm">Ce ticket est clôturé{% if ticket.closedAt %}, le {{ ticket.closedAt|date('d/m/Y à H:i') }}{% endif %}.</p>
+    {% endif %}
+
+    <div class="mt-6">
+        <a href="{{ path('app_ticket_index') }}" class="text-slate-900 dark:text-white hover:text-primary dark:hover:text-blue-400 transition-colors flex items-center gap-2 text-sm font-medium">
+            {{ ux_icon('heroicons:arrow-small-left', {class: 'w-5 h-5'}) }}
+            Retour aux tickets
+        </a>
+    </div>
+</div>
+{% endblock %}
