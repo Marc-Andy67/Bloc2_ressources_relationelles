@@ -28,7 +28,7 @@ class AppFixtures extends Fixture
             $manager->persist($category);
         }
 
-        // 2. Création des Types de Relations Concernées
+        // 2. Création des Types de Relations Concernéess
         $relations = ['Soi', 'Conjoints', 'Famille', 'Amis', 'Collègues', 'Inconnus'];
         foreach ($relations as $relName) {
             $relation = new RelationType();
@@ -62,7 +62,7 @@ class AppFixtures extends Fixture
 
         foreach ($usersData as $data) {
             $user = $manager->getRepository(User::class)->findOneBy(['email' => $data['email']]);
-            
+
             if (!$user) {
                 $user = new User();
                 $user->setEmail($data['email']);
@@ -72,7 +72,7 @@ class AppFixtures extends Fixture
             // Toujours appliquer les modifications, même si l'utilisateur existait déjà
             $user->setName($data['name']);
             $user->setRoles($data['roles']);
-            
+
             // Hash password
             $hashedPassword = $this->passwordHasher->hashPassword($user, $data['password']);
             $user->setPassword($hashedPassword);
