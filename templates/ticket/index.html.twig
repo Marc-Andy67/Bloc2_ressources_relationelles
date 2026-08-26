@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ is_granted('ROLE_ADMIN') ? 'Tous les tickets' : 'Mes tickets' }} - (RE)Sources Relationnelles{% endblock %}
+
+{% block body %}
+<div class="flex items-center justify-between mb-8">
+    <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        {{ is_granted('ROLE_ADMIN') ? 'Tous les tickets' : 'Mes tickets' }}
+    </h1>
+    <a href="{{ path('app_ticket_new') }}" class="btn-primary">
+        {{ ux_icon('heroicons:plus-circle', {class: 'w-5 h-5'}) }}
+        Nouveau ticket
+    </a>
+</div>
+
+{% if tickets is empty %}
+    <div class="glass-card p-8 text-center">
+        <p class="text-slate-900 dark:text-white">
+            {{ is_granted('ROLE_ADMIN') ? 'Aucun ticket pour le moment.' : "Vous n'avez aucun ticket pour le moment." }}
+        </p>
+    </div>
+{% else %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% for ticket in tickets %}
+            <a href="{{ path('app_ticket_show', {id: ticket.id}) }}" class="glass-card p-5 block">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white">{{ ticket.title }}</h2>
+                    {% if ticket.estCloture %}
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200">Clôturé</span>
+                    {% else %}
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">Ouvert</span>
+                    {% endif %}
+                </div>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-2">Par {{ ticket.user.name|default(ticket.user.email) }}</p>
+                {% endif %}
+                <p class="text-sm text-slate-700 dark:text-slate-300 line-clamp-2">
+                    {{ ticket.message|length > 120 ? ticket.message|slice(0, 120) ~ '…' : ticket.message }}
+                </p>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-3">
+                    Créé le {{ ticket.createdAt|date('d/m/Y à H:i') }}
+                </p>
+            </a>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

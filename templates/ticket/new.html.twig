@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau ticket - (RE)Sources Relationnelles{% endblock %}
+
+{% block body %}
+<div class="flex-grow flex items-center justify-center p-4">
+    <div class="glass-card w-full max-w-2xl p-8 md:p-10 relative overflow-hidden">
+
+        <div class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="mb-8 relative z-10">
+            <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Nouveau ticket</h1>
+            <p class="text-slate-900 dark:text-white mt-2">Une question, un problème ? Décrivez-le, l'équipe vous répondra.</p>
+        </div>
+
+        {{ form_start(form, {'attr': {'class': 'space-y-6 relative z-10'}}) }}
+            <div class="text-red-500 font-bold mb-4">
+                {{ form_errors(form) }}
+            </div>
+
+            <div>
+                {{ form_label(form.message, 'Votre demande', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.message, {'attr': {'class': 'input-field'}}) }}
+                <div class="text-red-500 text-xs mt-1">{{ form_errors(form.message) }}</div>
+            </div>
+
+            <div class="pt-4 flex justify-end">
+                <button class="btn-primary flex items-center gap-2">
+                    Envoyer le ticket
+                    {{ ux_icon('heroicons:paper-airplane', {class: 'w-5 h-5'}) }}
+                </button>
+            </div>
+        {{ form_end(form) }}
+
+        <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 relative z-10">
+            <a href="{{ path('app_ticket_index') }}" class="text-slate-900 dark:text-white hover:text-primary dark:hover:text-blue-400 transition-colors flex items-center gap-2 text-sm font-medium">
+                {{ ux_icon('heroicons:arrow-small-left', {class: 'w-5 h-5'}) }}
+                Retour à mes tickets
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
