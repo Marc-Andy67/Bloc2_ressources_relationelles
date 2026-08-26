@@ -1,0 +1,10 @@
+services:
+  app:
+    image: bloc2-app-local:dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+  mercure:
+    ports: !override
+      - "3005:3000"
