@@ -70,7 +70,7 @@ class LoginControllerTest extends WebTestCase
         $this->client->followRedirect();
 
         // Ensure we do not reveal if the user exists or not.
-        self::assertSelectorExists('.bg-red-50');
+        self::assertSelectorExists('.bg-red-50.text-red-700');
 
         // Denied - Can't login with invalid password.
         $this->client->request('GET', '/login');
@@ -85,7 +85,7 @@ class LoginControllerTest extends WebTestCase
         $this->client->followRedirect();
 
         // Ensure we do not reveal the user exists but the password is wrong.
-        self::assertSelectorExists('.bg-red-50');
+        self::assertSelectorExists('.bg-red-50.text-red-700');
 
         // Success - Login with valid credentials is allowed.
         $this->client->submitForm('Se connecter', [
