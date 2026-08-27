@@ -52,14 +52,21 @@ jobs:
           coverage: none
 
       # Chromium requis par Panther pour le driver Chrome headless
-      - name: Install Chromium & ChromeDriver
+      - name: Install Chrome
+        id: setup-chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
+      - name: Install ChromeDriver
+        uses: nanasess/setup-chromedriver@v2
+        with:
+          chromedriver-version: ${{ steps.setup-chrome.outputs.chrome-version }}
+
+      - name: Export Panther env vars
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            chromium-browser \
-            chromium-chromedriver
+          echo "PANTHER_CHROME_BINARY=${{ steps.setup-chrome.outputs.chrome-path }}" >> $GITHUB_ENV
           echo "PANTHER_CHROME_DRIVER_BINARY=$(which chromedriver)" >> $GITHUB_ENV
-          echo "PANTHER_CHROME_BINARY=$(which chromium-browser)"    >> $GITHUB_ENV
 
       - name: Cache Composer
         uses: actions/cache@v4
