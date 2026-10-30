@@ -112,7 +112,7 @@
         "phpunit/phpunit": "*",
         "symfony/browser-kit": "8.0.*",
         "symfony/css-selector": "8.0.*",
-        "symfony/debug-bundle": "8.0.*",
+        "symfony/debug-bundle": "8.1.*",
         "symfony/maker-bundle": "^1.66",
         "symfony/panther": "^2.4",
         "symfony/stopwatch": "8.0.*",
